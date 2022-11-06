@@ -31,7 +31,7 @@ itemBuffs = [
     #!!! Decide if it doesnt have another affect to keep null or 
     #Need to make methods to figure out what each one does
     #(TO DO) IF drop bomb and shoot, explode!
-    #utilities
+    #utilities ya
     {"Stone" : ["0","Stepping Stone"], "Gun Powder" : ["0", "Fire Starter"], "Flint" : ["0", "Striker"], "Furnace" : ["0", "Cooker"]}, 
     #wearbles (Number is how much damage can potentially be decreased per someones attack])
     {"Cloth Tunic" : ["3", "Wearable"], "Iron Armor" : ["5", "Wearable"], "Weathered Tunic" : ["2", "Wearable"], "Flippers" : ["3","Wearable", "Swim"]},
