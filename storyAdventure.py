@@ -12,17 +12,17 @@ import math; import random
 #     ["*", "*","*","*","*","*","*","*","*","*"],
 #     ["►", "*","*","*","*","*","*","*","*","*"]
 #     ] 
-gl = setMap("Greenland",0, 10, 0, 10)
-gl.setStuffPos(9, 0, "►")
-for x in range(4, 7): gl.setStuffPos(x,4, "Ⅱ")
+# gl = setMap("Greenland",0, 10, 0, 10)
+mapGreenland.setStuffPos(9, 0, "►")
+# for x in range(4, 7): gl.setStuffPos(x,4, "Ⅱ")
 #Create new maps for each biome and can world build from there
 #can create individual items on island
 
 #create each new map as new map
-map = gl.getMap()#Change whole system of cordinates to just spots on map and now i can add and destroy stuff on map
-nMap = setMap("Greenland",0, 10, 0, 10)
-for x in range(4, 7): nMap.setStuffPos(random.randint(0, nMap.getLength()-1
-),4, "Ⅱ")
+map = mapGreenland.getMap()#Change whole system of cordinates to just spots on map and now i can add and destroy stuff on map
+# nMap = setMap("Greenland",0, 10, 0, 10)
+# for x in range(4, 7): nMap.setStuffPos(random.randint(0, nMap.getLength()-1
+# ),4, "Ⅱ")
 #newMap = nMap.getMap()
 #change so there is random terrain generation and when you go to new spot it creates a 
 #new setMap object 
