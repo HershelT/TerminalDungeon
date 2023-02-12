@@ -1,0 +1,5 @@
+colorama
+keyboard
+pip
+setuptools
+six

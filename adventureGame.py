@@ -1,7 +1,7 @@
 from json import load
 import turtle; from tkinter import *
 from Data import *; from itemsList import *; from storyAdventure import *; from monsterList import *
-import random; import os; import array; import keyboard; import time; import copy; import msvcrt
+import random; import os; import array; import keyboard; import time; import copy; 
 from gameNounsandWords import *; import string; from animationDepartment import *; 
 import sys; from colorama import init; from colorama import Fore, Back, Style
 def mapErase(i=1):    
@@ -1002,7 +1002,8 @@ def Call():
         else: print("\033[A\033[A"," "*63, end = "\r")
     checkStoryComplete()
     Input()        
-def Input():   
+def Input(): 
+    print("WorkingQ!!!!@\nfljdsfdfhdsfhskfsh")  
     if findItem.skip != True:         
         Input.choice = input("\nAdventurer Input: ")
     findItem.skip = False    
@@ -1014,13 +1015,13 @@ try:
     # numList = ["⓪","➀","➁","➂","➃","➄","➅","➆","➇","➈","➉","⑪","⑫","⑬","⑭","⑮","⑯","⑰","⑱","⑲","⑳,"㉑","㉒","㉓","㉔","㉕","㉖","㉗","㉘","㉙","㉚","㉛","㉜","㉝","㉞","㉟","㊱","㊲","㊳","㊴","㊵","㊶","㊷","㊸","㊹","㊺","㊻","㊼","㊽","㊾","㊿"]
     # print(numList)
     Call.inits = False
-    while True:
-        os.system('cls')
-        type = input("\nAre you running this on Command Prompt or similar?\n(Windows CMD or Mac OS)\nBreaks game if given incorrect answer!!!!\n->")
-        mess = type.lower()
-        if "y" == mess or "yes" in mess: inits = True; Call.inits = True; break
-        elif "n" == mess or "no" in mess: inits = False; break
-    if Call.inits == True: print("Running init")
+    #while True:
+    #    os.system('cls')
+    #    type = input("\nAre you running this on Command Prompt or similar?\n(Windows CMD or Mac OS)\nBreaks game if given incorrect answer!!!!\n->")
+    #    mess = type.lower()
+    #    if "y" == mess or "yes" in mess: inits = True; Call.inits = True; break
+    #    elif "n" == mess or "no" in mess: inits = False; break
+    #if Call.inits == True: print("Running init")
 
     os.system('cls'); storyLevel.skip = False; Movement.userImage = "►"; help.ran = False; dropItem.count = 1
     Call.level = "Beginning"; Call.thing = True; Call.direction = True; Call.message = False; Input.f = True
