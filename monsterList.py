@@ -28,7 +28,7 @@ monMDandHP = { #Gives [Max damage, health, ["Award"], max drop count, Should add
     "LeGoat" : [30, 70, ["Flint", "Iron Ingot"], [6, 9], 0],
     "Brick Master" : [35, 45, ["Iron Armor", "Iron Ore", "Flint"], [2, 8, 5], 0],
     "EGGxcelent" : [40, 20, ["Pine Sap", "Raw Egg", "Iron Ore", "Gun Powder"], [3, 4, 4, 5], 0],
-    "Like a Boss" : [45, 150, ["Aragon's Blade", "Bomb"], [0, 5], 1],
+    "Like a Boss" : [45, 150, ["Aragon's Blade", "Bomb"], [1, 5], 1],
     #(TO DO) Change it so monsters arent as hard to kill, or if they are make drops better
 }
 monsterAward = { #Gives awards based on destorying bosses, however 

@@ -51,15 +51,77 @@ mapWaterloo = setMap("Waterloo",0, 10, -10, 0)
 mapGreenland = setMap("Greenland",0, 10, 0, 10)
 mapPineForest = setMap("Pine Forest", 0, 10, 10, 20)         
 #Chacrters to use: ※ Ω ₡ Ⅲ Ⅷ Ⅱ [░-Change to walls or path][
-mapGreenland.setStuffPos(4,5, "🪨")
-mapGreenland.setStuffPos(3,5,"🪨")
-mapGreenland.setStuffPos(6,8, "\033[32m※\033[0m")
-mapGreenland.setStuffPos(1, 6, "🪦")
+
+# mapGreenland.setStuffPos(4,5, "🪨")
+# mapGreenland.setStuffPos(3,5,"🪨")
+# mapGreenland.setStuffPos(6,8, "\033[32m※\033[0m")
+# mapGreenland.setStuffPos(6,8, "\033[32m※\033[0m")
+# mapGreenland.setStuffPos(1, 6, "🪦")
+
+
+
+#Assigns number to texture
+#USe A MEthod to fetch what each one is
+def loadingMap(map : setMap, mapPulledFrom : list):
+    row = 0
+    col = 0
+    for r in mapPulledFrom:
+        col = 0
+        for c in r:
+            if c == " " or c == "P":
+                map.setStuffPos(row,col,str('\033[31m' + "*" + '\033[39m'))
+            else:
+                block = itemToNumber[int(c)]
+                
+                map.setStuffPos(row,col,block)
+                
+            col += 1
+        row += 1
+
+
+blankMap = [
+     [" ", " "," "," "," "," "," "," "," "," "],
+     [" ", " "," "," "," "," "," "," "," "," "],
+     [" ", " "," "," "," "," "," "," "," "," "],
+     [" ", " "," "," "," "," "," "," "," "," "],
+     [" ", " "," "," "," "," "," "," "," "," "],
+     [" ", " "," "," "," "," "," "," "," "," "],
+     [" ", " "," "," "," "," "," "," "," "," "],
+     [" ", " "," "," "," "," "," "," "," "," "],
+     [" ", " "," "," "," "," "," "," "," "," "],
+     [" ", " "," "," "," "," "," "," "," "," "]
+]
+itemToNumber =  {
+    0 : "🪨", # Stone
+    1 : "\033[32m※\033[0m", # Tree
+    2 : "🪦", #Graveyard
+    3 : "\033[38;2;218;165;32mⅡ\033[0m", #Wood Wall
+}
+#create maps and write a program that cycles through setting position of map to that if spot not empty
+#Create a list with blocks and there (DONEEE)
+  
+#MapForGreenland
+MapG = [
+    [" ","0"," ","1","1"," "," "," "," "," "],
+    [" ","0","0"," ","1"," ","2","2","2"," "],
+    [" ","0"," "," "," "," ","2","2","2"," "],
+    [" "," ","3"," "," ","3"," "," "," "," "],
+    [" ","1","3"," ","P","3"," ","0","0"," "],
+    ["1","1","1"," "," ","1","0","0","0"," "],
+    [" "," ","3"," "," ","3","0","0"," "," "],
+    [" "," ","3","1","3","3"," "," "," "," "],
+    [" "," "," "," "," "," ","1","1"," "," "],
+    [" "," ","1"," "," "," "," ","1"," "," "],
+]
+
+
+loadingMap(mapGreenland, MapG)
+
 
 
 buildList = PythonAdventure.getWorld() #list of all terrain on world
 #System of classes of worlds allow me to have different world or planets. Will allow me to get to different world
 
-blockedItems = ["※", "Ω", "₡", "Ⅲ", "Ⅷ", "Ⅱ", "\033[32m※\033[0m","\033[38;2;218;165;32m" + "Ⅱ" + "\033[0m", "🪨", "|", "🪦"]
+# blockedItems = ["※", "Ω", "₡", "Ⅲ", "Ⅷ", "Ⅱ", "\033[32m※\033[0m","\033[38;2;218;165;32m" + "Ⅱ" + "\033[0m", "🪨", "|", "🪦"]
 #[mapMeadows, mapVolcano, mapCliffs, mapLavaPlains, mapIcePlains, mapFrostedPlains, mapWaterPlains, mapWaterloo, mapGreenland, mapPineForest]
 #Call.biMap fixes prolem

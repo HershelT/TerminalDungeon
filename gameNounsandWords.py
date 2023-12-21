@@ -14,6 +14,7 @@ words = {
     "inv" : ["inv", "storage", "storing", "bag", "on me", "pocket"],
     "shoot" : ["shoot", "blast", "rocket", "bam", "fire", "gun", "bang"],
     "building" : ["build", "place"],
+    "breaking" : ["break", "destroy"],
     "insults" : ["fuck", "shit", "ass"]
 }    #make series of key words that can only tirgger cetrain key events like when you write 'check'
 
