@@ -136,7 +136,10 @@ itemCraft = { #Works now just add whatever I want. However, make sure to then ad
     "Wood Plank" : [["Stick"],[2],[4]],
     "Stick" : [["Wood Plank"],[1],[2]],
     "Crafting Table": [["Wood Plank"],[2],[1]],
+    
     "Furnace" : [["Stone"],[2],[1]],
+    "Rock" : [["Stone"],[1],[2]],
+    
     
     # "Iron Ingot": [["Iron Ore"],[2],[1]], #Comment out later for smelting
     

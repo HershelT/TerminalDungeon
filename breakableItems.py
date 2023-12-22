@@ -16,7 +16,6 @@ itemDrops = {
     "\033[90mΩ\033[0m" : [["Iron Ore"],[1], "Iron Ore Deposit", "Stone"] #Can pass through if not on blocked items
 }
 def getItemList(item : str):
-
     itemsList = itemDrops[item]
     return itemsList
 
