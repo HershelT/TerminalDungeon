@@ -1,4 +1,4 @@
-blockedItems = ["🪵", "\033[32m※\033[0m","\033[38;2;218;165;32mⅡ\033[0m", "🪨", "|", "🪦","※", "Ω", "₡", "Ⅲ", "Ⅷ", "Ⅱ"]
+blockedItems = ["🪵", "\033[32m※\033[0m","\033[38;2;218;165;32mⅡ\033[0m", "🪨", "|", "🪦","💎", "※", "Ω","\033[90mΩ\033[0m", "₡", "Ⅲ", "Ⅷ", "Ⅱ"]
 
 
 
@@ -12,7 +12,8 @@ itemDrops = {
     "🪦" : [["Stone", "Flint"],[1,1], "Grave Yard", "Stone"],
     "🪵" : [["Crafting Table"],[1],"Crafting Table", "Nothing"],
     "\033[38;2;218;165;32mⅡ\033[0m" : [["Wood Wall"],[1],"Wood Wall", "Nothing"],
-    "∏" : [["Wood Door"],[1], "Wood Door", "Nothing"], #Can pass through if not on blocked items
+    "∏" : [["Wood Door"],[1], "Wood Door", "Nothing"],
+    "\033[90mΩ\033[0m" : [["Iron Ore"],[1], "Iron Ore Deposit", "Stone"] #Can pass through if not on blocked items
 }
 def getItemList(item : str):
 

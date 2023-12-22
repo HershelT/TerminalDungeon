@@ -22,6 +22,7 @@ itemInfo = [
     "Furnace" : ": Used to cook food and ore. Needs Fuel Possibly dpening on how i feel", 
     "Wood Wall" : ": Cannot be walked on, used as decoration or defense",
     "Wood Door" : ": Used for decroation, can be walked through by player", 
+    "Wood Board" : ": Used for building materials and consutruction",
     "Crafting Table" : ": Used for crafting complex items",
     },
     #wearbles
@@ -132,17 +133,16 @@ itemBuffs = [
 itemCraft = { #Works now just add whatever I want. However, make sure to then add it to item list and category
     #Make it so i do same thing as spawning in items where i write amount of items
     #Like: [["Flint", "Gun Powder"], [1, 1]] or [["Stick", "String", "Pine Sap"],[3,2,2]] can even make it so you get it this many times
+    "Wood Plank" : [["Stick"],[2],[4]],
+    "Stick" : [["Wood Plank"],[1],[2]],
     "Crafting Table": [["Wood Plank"],[2],[1]],
     "Furnace" : [["Stone"],[2],[1]],
-    "Iron Ingot": [["Iron Ore"],[2],[1]],
-
-    "Wood Plank" : [["Stick"],[2],[4]],
-    "Wood Wall" : [["Wood Plank"],[3], [4]],    
-    "Wood Door" : [["Wood Wall", "Wood Plank", "Stick"],[1, 2, 2],[4]],
     
-    "Wood Sword" : [["Stick", "Stone"],[1, 2],[1]],
-    "Wood Pickaxe" : [["Stone", "Stick"], [3, 2],[1]],
-    "Wood Axe" : [["Stick", "Stone"],[2, 3],[1]],
+    # "Iron Ingot": [["Iron Ore"],[2],[1]], #Comment out later for smelting
+    
+    "Wood Sword" : [["Stick", "Wood Plank"],[1, 2],[1]],
+    "Wood Pickaxe" : [["Stick", "Wood Plank"], [2, 3],[1]],
+    "Wood Axe" : [["Stick", "Wood Plank"],[2, 3],[1]],
 
     "Stone Sword" : [["Stick", "Stone"],[1, 2],[1]],
     "Stone Pickaxe" : [["Stick", "Stone"], [2, 3],[1]],
@@ -151,6 +151,10 @@ itemCraft = { #Works now just add whatever I want. However, make sure to then ad
     "Iron Sword" : [["Stick", "Iron Ingot"], [1, 2],[1]],
     "Iron Pickaxe" : [["Stick", "Iron Ingot"], [2, 3],[1]],
     "Iron Axe": [["Stick", "Iron Ingot"],[2, 3],[1]],
+
+    "Wood Board" : [["Wood Plank"], [1],[2]],
+    "Wood Wall" : [["Wood Plank"],[3],[4]],    
+    "Wood Door" : [["Wood Wall", "Wood Plank", "Stick"],[1, 2, 2],[4]],
 
     "Bomb" : [["Flint", "Gun Powder"],[1, 1],[1]],
     "Pine Bow" : [["Stick", "String", "Pine Sap"],[3, 3, 2],[1]],
@@ -171,6 +175,7 @@ itemCook = {
     #however, when not on it they cannot. the cooking device is portable 
     #person just has to drop it
     #[[items],[count]]
+    "Iron Ingot" : [["Iron Ore"],[2], [1]],
     "Omelet" : [["Raw Egg"],[2], [1]], #Turn into cooking for later and not craftable
     "Crisp Apple" :[["Apple"],[1], [1]],
     "Steak" : [["Frozen Cow"],[1], [1]],
