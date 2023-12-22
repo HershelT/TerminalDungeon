@@ -1,4 +1,4 @@
-
+import traceback
 from json import load
 import turtle; from tkinter import *; import re
 from Data import *; from itemsList import *; from storyAdventure import *; from monsterList import *
@@ -68,108 +68,146 @@ def anys(choice ,inputCase: list):
 def location():
     print("Biome: {}".format(User["Current Biome"]))
     print("Location: ")
-    print("North: {}".format(space[0]))
-    print("East: {}".format(space[1]))
+    print(f"North: {space[0]}:{Movement.spotN}")
+    print(f"East: {space[1]}:{Movement.spotE}")
 
-def Movement():
-    direct = words["direction"]; t = Input.choice; BoundryLine = ""
-    if (("move" or "step" in t) and any(word in t.lower() for word in direct[7: 9])) or "w" == t.lower(): BoundryLine = "West"; Movement.userImage = "◄"#ᐊ▲►▼◄◀֎֎֎֎
-    elif (("move" or "step" in t) and any(word in t.lower() for word in direct[0:2])) or "n" == t.lower(): BoundryLine = "North"; Movement.userImage = "▲"#ᐃ▲/3456
-    elif (("move" or "step" in t) and any(word in t.lower() for word in direct[2:4])) or "e" == t.lower(): BoundryLine = "East"; Movement.userImage = "►"#ᐅ☻        elif (("move" or "step" in t) and any(word in t.lower() for word in direct[4:7])) or "s" == t.lower(): t = "s"; Movement.userImage = "▼"#ᐁ ▼▼◄
-    elif (("move" or "step" in t) and any(word in t.lower() for word in direct[4:7])) or "s" == t.lower():  BoundryLine = "South"; Movement.userImage = "▼"#ᐁ ▼▼◄
-    moving = lookAhead()
-    if moving == False:
-        Call.biMap.setStuffPos(moving[0],moving[1], Movement.userImage)
-        mapErase(1);loadMap();mapErase(1)
-        print("The " + BoundryLine + "ern Boundry Line blocks your path")
-    elif moving[2] in blockedItems:
-        Call.biMap.setStuffPos(space[0],space[1], Movement.userImage)
-        mapErase(1);loadMap();mapErase(1)
-        print(f"A ({moving[2]}) blocks your path") #Add To display name as well using itemDrops[ (23/22/2023)]
-    else:
-        #Sets previous spot before moving to what you were standing on
-        Call.biMap.setStuffPos(space[0], space[1], Movement.pre)
-        #updates user space
-        space[0] = moving[0]
-        space[1] = moving[1]
-        Movement.spotN = moving[0]
-        Movement.spotE = moving[1]
-        #tests if user went to new biome (Maybe fix for speed but not noticable but probably using more ram)
-        biome = testForNewEnv()
-        Movement.pre = biome.getStuffPos(moving[0],moving[1]) #gets place before user steps there
-        biome.setStuffPos(moving[0],moving[1], Movement.userImage) #Updates user position
-        #Goes through game loop
-        loadMap()
-        findEnv()
-        findMonster()
-        findItem()
+def lookAhead():
+    #looks ahead one spot depending on direction of player
+   directionN = Movement.spotN;directionE = Movement.spotE
+   # floor = '\033[31m' + "*" + '\033[39m'
+   if Movement.userImage == "▼" :newAdd = 1
+   elif Movement.userImage == "▲":newAdd = -1
+   if Movement.userImage == "◄" :newAdd = -1
+   elif Movement.userImage == "►":newAdd = 1
+   if Movement.userImage == "▼"or Movement.userImage == "▲":
+       directionN += newAdd
+   else: 
+       directionE += newAdd
+   #Gets the object at the spot one ahead
+   # space[0] = directionN
+   # space[1] = directionE
+   # #tests if user went to new biome (Maybe fix for speed but not noticable but probably using more ram)
+   # biome = Call.biMap
+   # newBiome = testForNewEnv()
+   # print("Debuging 1")
+   # time.sleep(1)
+   # objectAtSpot = newBiome.getStuffPos(directionN%newBiome.length,directionE)
+   # print("Debuging 2")
+   # time.sleep(1)
+   # space[0],space[1] = Movement.spotN,Movement.spotE
+   # if biome != newBiome:
+   #     return [directionN,directionE,objectAtSpot]
+   # else:
+   #     return [directionN,directionE,objectAtSpot]
+   # # Movement.pre = biome.getStuffPos(space[0],space[1])
+   try:
+       objectAtSpot = Call.biMap.getStuffPos(directionN,directionE)
+   except:
+       objectAtSpot = False
+   #returns an array of[northernLocation,EasternLocation,ObjectAtSpot]
+   return [directionN,directionE,objectAtSpot]
 
 # def Movement():
-#     direct = words["direction"]; t = Input.choice #have to check if they said move
-#     Movement.saveN = Movement.spotN
-#     Movement.saveE = Movement.spotE #Fix boundry as boundry gets larger
-    
-#     if (("move" or "step" in t) and any(word in t.lower() for word in direct[7: 9])) or "w" == t.lower(): space[1] -= 1; t = "w"; Movement.userImage = "◄"#ᐊ▲►▼◄◀֎֎֎֎
-#     elif (("move" or "step" in t) and any(word in t.lower() for word in direct[0:2])) or "n" == t.lower(): space[0] += 1; t = "n"; Movement.userImage = "▲"#ᐃ▲/3456
-#     elif (("move" or "step" in t) and any(word in t.lower() for word in direct[2:4])) or "e" == t.lower(): space[1] += 1; t = "e"; Movement.userImage = "►"#ᐅ☻
-#     elif (("move" or "step" in t) and any(word in t.lower() for word in direct[4:7])) or "s" == t.lower(): space[0] -= 1; t = "s"; Movement.userImage = "▼"#ᐁ ▼▼◄
-#     #(TO DO) Make world randomyl generate biomes with items located in 
-#     bMap = Call.biMap.getMap()
-#     leMap = Call.biMap.getLength()
-#     wiMap = Call.biMap.getWidth()
-#     if bMap[(leMap-1)-(space[0]) % leMap][space[1] % wiMap] in blockedItems:
-#         if t == "n": space[0] -= 1 
-#         elif t == "s": space[0] += 1
-#         elif t == "e": space[1] -= 1 #Change maps to use object maps (Done mostly)
-#         elif t == "w": space[1] += 1
-#         Call.biMap.setStuffPos((leMap-1)-(space[0]) % leMap,space[1] % wiMap, Movement.userImage)
+#     direct = words["direction"]; t = Input.choice; BoundryLine = ""
+#     if (("move" or "step" in t) and any(word in t.lower() for word in direct[7: 9])) or "w" == t.lower(): BoundryLine = "West"; Movement.userImage = "◄"#ᐊ▲►▼◄◀֎֎֎֎
+#     elif (("move" or "step" in t) and any(word in t.lower() for word in direct[0:2])) or "n" == t.lower(): BoundryLine = "North"; Movement.userImage = "▲"#ᐃ▲/3456
+#     elif (("move" or "step" in t) and any(word in t.lower() for word in direct[2:4])) or "e" == t.lower(): BoundryLine = "East"; Movement.userImage = "►"#ᐅ☻        elif (("move" or "step" in t) and any(word in t.lower() for word in direct[4:7])) or "s" == t.lower(): t = "s"; Movement.userImage = "▼"#ᐁ ▼▼◄
+#     elif (("move" or "step" in t) and any(word in t.lower() for word in direct[4:7])) or "s" == t.lower():  BoundryLine = "South"; Movement.userImage = "▼"#ᐁ ▼▼◄
+#     moving = lookAhead()
+#     if (((moving[0] >= 10) or (moving[0] <= -10)) or ((moving[1] < -10) or (moving[1] >= 20))):
+#         print("WERWERRWE")
+#         time.sleep(2)
+#         Call.biMap.setStuffPos(space[0],space[1], Movement.userImage)
 #         mapErase(1);loadMap();mapErase(1)
-#         print("A Wall Blocks your Path");  return False
-#     if (space[0]< 0) or (space[0] >= 30): 
-#         if t == "n": space[0] -= 1 
-#         elif t == "s": space[0] += 1
-#         Call.biMap.setStuffPos((leMap-1)-(space[0]) % leMap, space[1] % wiMap, Movement.userImage)
+#         print("The " + BoundryLine + "ern Boundry Line blocks your path")
+#     elif moving[2] in blockedItems:
+#         Call.biMap.setStuffPos(space[0],space[1], Movement.userImage)
 #         mapErase(1);loadMap();mapErase(1)
-#         print("Cannot go past boundry on north side");  return False
-#     elif (space[1] < -10) or (space[1] >= 20): 
-#         if t == "e": space[1] -= 1
-#         elif t == "w": space[1] += 1
-#         Call.biMap.setStuffPos((leMap-1)-(space[0]) % leMap, space[1] % wiMap,  Movement.userImage )
-#         mapErase(1);loadMap();mapErase(1)
-#         print("Cannot go past boundry on east side");  return False
-#     #Add checks to check if chacrter is on special block or wall
-#     #USE LOOK AHEAD FUNCTION (12/22/2023)
-#     #Checks if new positon is unicode value then trigger that specific command for that unicode value
-#     #can make dictionaries where it is named after the unicode value
-#     #dont run certain things if that happens make it so it returns at the end:
-#     n = (space[0]) % leMap
-#     e = space[1] % wiMap
-#     Movement.spotN = (leMap-1) - n
-#     Movement.spotE = e
-#     try: Call.biMap.setStuffPos(Movement.saveN, Movement.saveE, Movement.pre)
-#     except: 1 == 1
-#     map[Movement.saveN][Movement.saveE] = Movement.pre #change for whatever was the previous spot
-#     #Works but cannot see user because map doesnt reload. 
-#     #cannot make it reload because texts gets overwritten
-#     biome = testForNewEnv() #might be problem here with what biome it is
-#     n = (space[0]) % biome.getLength()
-#     e = (space[1]) % biome.getWidth()
-#     #(TO DO-Done) Game charces when going to different sized maps like froxen lakes
-#     #I believe problem is that the caluclualtion is off because my location is past 15 for second 5 
-#     #width map and needs to compensate but figure out
-#     Movement.spotN = (biome.getLength()-1) - n
-#     Movement.spotE = e
-#     north = Movement.spotN
-#     east = Movement.spotE
-#     Movement.pre = biome.getStuffPos(north, east)
-#     #(newProblem is droped items get displayed in all places) - fixeD(12/22/2023)
-#     biome.setStuffPos(north, east, Movement.userImage) #(Problem might be here when putting charcter on meadows)
-#     loadMap()
-#     findEnv()
-#     findMonster()
-#     findItem()
+#         print(f"A ({moving[2]}) blocks your path") #Add To display name as well using itemDrops[ (23/22/2023)]
+#     else:
+#         #Sets previous spot before moving to what you were standing on
+#         Call.biMap.setStuffPos(space[0], space[1], Movement.pre)
+#         #updates user space
+#         space[0] = moving[0]
+#         space[1] = moving[1]
+#         Movement.spotN = moving[0]
+#         Movement.spotE = moving[1]
+#         #tests if user went to new biome (Maybe fix for speed but not noticable but probably using more ram)
+#         biome = testForNewEnv()
+#         print(f"{moving[0]} : {moving[1]}")
+#         time.sleep(1)
+#         Movement.pre = biome.getStuffPos(moving[0],moving[1]) #gets place before user steps there
+#         biome.setStuffPos(moving[0],moving[1], Movement.userImage) #Updates user position
+#         #Goes through game loop
+#         loadMap()
+#         findEnv()
+#         findMonster()
+#         findItem()
 
-#working on building so doesnt drop (TO DO 12/22/2023)
+def Movement():
+    direct = words["direction"]; t = Input.choice #have to check if they said move
+    Movement.saveN = Movement.spotN
+    Movement.saveE = Movement.spotE #Fix boundry as boundry gets larger
+  
+    if (("move" or "step" in t) and any(word in t.lower() for word in direct[7: 9])) or "w" == t.lower(): space[1] -= 1; t = "w"; Movement.userImage = "◄"#ᐊ▲►▼◄◀֎֎֎֎
+    elif (("move" or "step" in t) and any(word in t.lower() for word in direct[0:2])) or "n" == t.lower(): space[0] += 1; t = "n"; Movement.userImage = "▲"#ᐃ▲/3456
+    elif (("move" or "step" in t) and any(word in t.lower() for word in direct[2:4])) or "e" == t.lower(): space[1] += 1; t = "e"; Movement.userImage = "►"#ᐅ☻
+    elif (("move" or "step" in t) and any(word in t.lower() for word in direct[4:7])) or "s" == t.lower(): space[0] -= 1; t = "s"; Movement.userImage = "▼"#ᐁ ▼▼◄
+    #(TO DO) Make world randomyl generate biomes with items located in 
+    bMap = Call.biMap.getMap()
+    leMap = Call.biMap.getLength()
+    wiMap = Call.biMap.getWidth()
+    if bMap[(leMap-1)-(space[0]) % leMap][space[1] % wiMap] in blockedItems:
+        if t == "n": space[0] -= 1 
+        elif t == "s": space[0] += 1
+        elif t == "e": space[1] -= 1 #Change maps to use object maps (Done mostly)
+        elif t == "w": space[1] += 1
+        Call.biMap.setStuffPos((leMap-1)-(space[0]) % leMap,space[1] % wiMap, Movement.userImage)
+        mapErase(1);loadMap();mapErase(1)
+        print("A Wall Blocks your Path");  return False
+    if (space[0]< 0) or (space[0] >= 30): 
+        if t == "n": space[0] -= 1 
+        elif t == "s": space[0] += 1
+        Call.biMap.setStuffPos((leMap-1)-(space[0]) % leMap, space[1] % wiMap, Movement.userImage)
+        mapErase(1);loadMap();mapErase(1)
+        print("Cannot go past boundry on north side");  return False
+    elif (space[1] < -10) or (space[1] >= 20): 
+        if t == "e": space[1] -= 1
+        elif t == "w": space[1] += 1
+        Call.biMap.setStuffPos((leMap-1)-(space[0]) % leMap, space[1] % wiMap,  Movement.userImage )
+        mapErase(1);loadMap();mapErase(1)
+        print("Cannot go past boundry on east side");  return False
+    #Add checks to check if chacrter is on special block or wall
+    #USE LOOK AHEAD FUNCTION (12/22/2023)
+    #Checks if new positon is unicode value then trigger that specific command for that unicode value
+    #can make dictionaries where it is named after the unicode value
+    #dont run certain things if that happens make it so it returns at the end:
+    n = (space[0]) % leMap
+    e = space[1] % wiMap
+    Movement.spotN = (leMap-1) - n
+    Movement.spotE = e
+    try: Call.biMap.setStuffPos(Movement.saveN, Movement.saveE, Movement.pre)
+    except: 1 == 1
+    map[Movement.saveN][Movement.saveE] = Movement.pre #change for whatever was the previous spot
+    #Works but cannot see user because map doesnt reload. 
+    #cannot make it reload because texts gets overwritten
+    biome = testForNewEnv() #might be problem here with what biome it is
+    n = (space[0]) % biome.getLength()
+    e = (space[1]) % biome.getWidth()
+    #(TO DO-Done) Game charces when going to different sized maps like froxen lakes
+    #I believe problem is that the caluclualtion is off because my location is past 15 for second 5 
+    #width map and needs to compensate but figure out
+    Movement.spotN = (biome.getLength()-1) - n
+    Movement.spotE = e
+    north = Movement.spotN
+    east = Movement.spotE
+    Movement.pre = biome.getStuffPos(north, east)
+    #(newProblem is droped items get displayed in all places) - fixeD(12/22/2023)
+    biome.setStuffPos(north, east, Movement.userImage) #(Problem might be here when putting charcter on meadows)
+    loadMap()
+    findEnv()
+    findMonster()
+    findItem()#working on building so doesnt drop (TO DO 12/22/2023)
 def build(item):
     Call.biMap.setStuffPos(Movement.spotN, Movement.spotE, shoot.pre)
 
@@ -229,16 +267,35 @@ def shoot():
         print("Cant Shoot there") 
 def teleport():
     try:
-        tp = [0, 0]
+        tp = [space[0], space[1]] #cordinate at spot
         tpStr = Input.choice[11:-1]
+        #sets spots and movement to new cordinate
         for x in range(0, 2):
-            tp[x] = int(tpStr.partition(',')[x*2])
-            space[x] = tp[x]
-        
+            space[x] = int(tpStr.partition(',')[x*2])
         mapErase(1)
-        print("Wrwerwe")
         Movement()
         print(f"teleporting...{space}")
+        # Movement.spotN,Movement.spotE = space[0],space[1]
+        # if lookAhead != False:
+        #     Call.biMap.setStuffPos(tp[0],tp[1], Movement.pre)
+        #     #checks if going to neew biome and changes and loads chacrter accordingly
+        #     biome = testForNewEnv()
+        #     Movement.pre = biome.getStuffPos(Movement.spotN,Movement.spotE)
+        #     biome.setStuffPos(space[0],space[1], Movement.userImage)
+            
+        #      #gets place before user steps there
+            
+        #     # mapErase(1)
+        #     loadMap()
+        #     findEnv()
+        #     findMonster()
+        #     findItem()
+        #     print(f"teleporting...{space}")
+        # else:
+        #     Movement.spotN = space[0]
+        #     Movement.spotE = space[1]
+        #     print("Cant teleport out of bounds")
+        
     except:
         print("Command Input wrong")
 def specItemInfo(item):
@@ -684,29 +741,11 @@ def recipeBook(type): #make it so you can change to different recipe book and jo
             if (keyboard.is_pressed("Enter")): erases(1)
             return 0
         else: erase = False
-def lookAhead():
-    try: #looks ahead one spot depending on direction of player
-        directionN = Movement.spotN;directionE = Movement.spotE
-        floor = '\033[31m' + "*" + '\033[39m'
-        if Movement.userImage == "▼" :newAdd = 1
-        elif Movement.userImage == "▲":newAdd = -1
-        if Movement.userImage == "◄" :newAdd = -1
-        elif Movement.userImage == "►":newAdd = 1
-        if Movement.userImage == "▼"or Movement.userImage == "▲":
-            directionN += newAdd
-        else: 
-            directionE += newAdd
-        #Gets the object at the spot one ahead
-        objectAtSpot = Call.biMap.getStuffPos(directionN,directionE)
-        #returns an array of[northernLocation,EasternLocation,ObjectAtSpot]
-        return [directionN,directionE,objectAtSpot]
-    except:
-        #returns false if at wall or unable to find anything in fromt
-        return False
+
 
 def breakItem():
     NorthEastAndObjectAtSpot = lookAhead()
-    if NorthEastAndObjectAtSpot != False:
+    if NorthEastAndObjectAtSpot[2] != False:
         # add ability to check for material and give user item broken or drop it
         #destroy item and grab it (TO-DO)
         # directionN = Movement.spotN;directionE = Movement.spotE
@@ -1127,7 +1166,7 @@ try:
     os.system('cls'); storyLevel.skip = False;  help.ran = False; dropItem.count = 1
     Call.level = "Beginning"; Call.thing = True; Call.direction = True; Call.message = False; Input.f = True
     storyLevel.level = 0;findMonster.list = []; findMonster.HP = 0; findMonster.DG = 0; findItem.era  = 0
-    space = [4, 4]; Movement.spotN = 4; Movement.spotE = 4; Movement.saveN = 4; Movement.saveE = 4; 
+    space = [9,9]; Movement.spotN = 9; Movement.spotE = 9; Movement.saveN = 9; Movement.saveE = 9; 
     findItem.ItemMemory = ""; takeItem.s = True; findEnv.yes = False
     storyBC["Beginning"] = storyBoard["Beginning"][:]; Call.skipe = False
     recipeBook.choice = 1; findItem.skip = False; Call.first = True; 
@@ -1147,4 +1186,8 @@ try:
 except:
     print(" ")
     print("End of the Most Glorious Adventure")
+    exc_type, exc_value, exc_tb = sys.exc_info()
+    # print the error message and line number
+    print(exc_type, exc_value, exc_tb.tb_lineno)
+    traceback.print_exc()
    
