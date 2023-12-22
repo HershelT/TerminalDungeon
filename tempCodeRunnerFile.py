@@ -1,1 +1,1 @@
-lookAhead
+Input()

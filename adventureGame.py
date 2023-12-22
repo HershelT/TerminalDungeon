@@ -107,14 +107,14 @@ def lookAhead():
    #returns an array of[northernLocation,EasternLocation,ObjectAtSpot]
    return [directionN,directionE,objectAtSpot]
 
-# def Movement():
+# def MovementTwo():
 #     direct = words["direction"]; t = Input.choice; BoundryLine = ""
 #     if (("move" or "step" in t) and any(word in t.lower() for word in direct[7: 9])) or "w" == t.lower(): BoundryLine = "West"; Movement.userImage = "◄"#ᐊ▲►▼◄◀֎֎֎֎
 #     elif (("move" or "step" in t) and any(word in t.lower() for word in direct[0:2])) or "n" == t.lower(): BoundryLine = "North"; Movement.userImage = "▲"#ᐃ▲/3456
 #     elif (("move" or "step" in t) and any(word in t.lower() for word in direct[2:4])) or "e" == t.lower(): BoundryLine = "East"; Movement.userImage = "►"#ᐅ☻        elif (("move" or "step" in t) and any(word in t.lower() for word in direct[4:7])) or "s" == t.lower(): t = "s"; Movement.userImage = "▼"#ᐁ ▼▼◄
 #     elif (("move" or "step" in t) and any(word in t.lower() for word in direct[4:7])) or "s" == t.lower():  BoundryLine = "South"; Movement.userImage = "▼"#ᐁ ▼▼◄
 #     moving = lookAhead()
-#     if (((moving[0] >= 10) or (moving[0] <= -10)) or ((moving[1] < -10) or (moving[1] >= 20))):
+#     if (((moving[0]< 0) or (moving[0] >= 30)) or ((moving[1] < -10) or (moving[1] >= 20))):
 #         print("WERWERRWE")
 #         time.sleep(2)
 #         Call.biMap.setStuffPos(space[0],space[1], Movement.userImage)
@@ -130,14 +130,24 @@ def lookAhead():
 #         #updates user space
 #         space[0] = moving[0]
 #         space[1] = moving[1]
-#         Movement.spotN = moving[0]
-#         Movement.spotE = moving[1]
+        
+#         # Movement.spotN = moving[0]
+#         # Movement.spotE = moving[1]
 #         #tests if user went to new biome (Maybe fix for speed but not noticable but probably using more ram)
-#         biome = testForNewEnv()
-#         print(f"{moving[0]} : {moving[1]}")
-#         time.sleep(1)
-#         Movement.pre = biome.getStuffPos(moving[0],moving[1]) #gets place before user steps there
-#         biome.setStuffPos(moving[0],moving[1], Movement.userImage) #Updates user position
+#         biome = testForNewEnv() #might be problem here with what biome it is
+#         n = (space[0]) % biome.getLength()
+#         e = (space[1]) % biome.getWidth()
+#         #(TO DO-Done) Game charces when going to different sized maps like froxen lakes
+#         #I believe problem is that the caluclualtion is off because my location is past 15 for second 5 
+#         #width map and needs to compensate but figure out 
+#         Movement.spotN = ((biome.getLength()-1) - n)
+#         Movement.spotE = e
+#         north,east = Movement.spotN, Movement.spotE
+#         # biome = testForNewEnv()
+#         print(f"{moving[0]},{north} : {moving[1]},{east}")
+#         time.sleep(2)
+#         Movement.pre = biome.getStuffPos(north,east) #gets place before user steps there
+#         biome.setStuffPos(north,east, Movement.userImage) #Updates user position
 #         #Goes through game loop
 #         loadMap()
 #         findEnv()
@@ -146,13 +156,12 @@ def lookAhead():
 
 def Movement():
     direct = words["direction"]; t = Input.choice #have to check if they said move
-    Movement.saveN = Movement.spotN
-    Movement.saveE = Movement.spotE #Fix boundry as boundry gets larger
-  
+    #Fix boundry as boundry gets larger
     if (("move" or "step" in t) and any(word in t.lower() for word in direct[7: 9])) or "w" == t.lower(): space[1] -= 1; t = "w"; Movement.userImage = "◄"#ᐊ▲►▼◄◀֎֎֎֎
     elif (("move" or "step" in t) and any(word in t.lower() for word in direct[0:2])) or "n" == t.lower(): space[0] += 1; t = "n"; Movement.userImage = "▲"#ᐃ▲/3456
     elif (("move" or "step" in t) and any(word in t.lower() for word in direct[2:4])) or "e" == t.lower(): space[1] += 1; t = "e"; Movement.userImage = "►"#ᐅ☻
     elif (("move" or "step" in t) and any(word in t.lower() for word in direct[4:7])) or "s" == t.lower(): space[0] -= 1; t = "s"; Movement.userImage = "▼"#ᐁ ▼▼◄
+    elif t == "start": Movement.userImage = "▲"
     #(TO DO) Make world randomyl generate biomes with items located in 
     bMap = Call.biMap.getMap()
     leMap = Call.biMap.getLength()
@@ -182,19 +191,20 @@ def Movement():
     #Checks if new positon is unicode value then trigger that specific command for that unicode value
     #can make dictionaries where it is named after the unicode value
     #dont run certain things if that happens make it so it returns at the end:
-    n = (space[0]) % leMap
-    e = space[1] % wiMap
-    Movement.spotN = (leMap-1) - n
-    Movement.spotE = e
-    try: Call.biMap.setStuffPos(Movement.saveN, Movement.saveE, Movement.pre)
-    except: 1 == 1
-    map[Movement.saveN][Movement.saveE] = Movement.pre #change for whatever was the previous spot
+    # n = (space[0]) % leMap
+    # e = space[1] % wiMap
+    # Movement.spotN = (leMap-1) - n
+    # Movement.spotE = e
+    # try: Call.biMap.setStuffPos(Movement.saveN, Movement.saveE, Movement.pre) (deprecated 12/22/2023)
+    # except: 1 == 1
+    #change for whatever was the previous spot
     #Works but cannot see user because map doesnt reload. 
     #cannot make it reload because texts gets overwritten
+    Call.biMap.setStuffPos(Movement.spotN, Movement.spotE, Movement.pre)
     biome = testForNewEnv() #might be problem here with what biome it is
     n = (space[0]) % biome.getLength()
     e = (space[1]) % biome.getWidth()
-    #(TO DO-Done) Game charces when going to different sized maps like froxen lakes
+    #(TO DO-Done(12/22/2023)) Game charces when going to different sized maps like froxen lakes
     #I believe problem is that the caluclualtion is off because my location is past 15 for second 5 
     #width map and needs to compensate but figure out
     Movement.spotN = (biome.getLength()-1) - n
@@ -208,8 +218,7 @@ def Movement():
     findEnv()
     findMonster()
     findItem()#working on building so doesnt drop (TO DO 12/22/2023)
-def build(item):
-    Call.biMap.setStuffPos(Movement.spotN, Movement.spotE, shoot.pre)
+
 
 def shoot():
     #(TO DO) - Make it so different weapons can shoot faster so change time speed
@@ -242,11 +251,10 @@ def shoot():
                 directionE += newAdd;minusEast = directionE - newAdd 
             if firstTry == False: 
                 Call.biMap.setStuffPos(minusNorth, minusEast, shoot.pre)
-                map[minusNorth][minusEast] = shoot.pre       
+                # map[minusNorth][minusEast] = shoot.pre   (Deprecated not needed 12/22/2023)    
             shoot.pre = Call.biMap.getStuffPos(directionN, directionE)
             if shoot.pre in blockedItems: #tests if wall to block
                 break  
-            map[directionN][directionE] = "֎"
             Call.biMap.setStuffPos(directionN,directionE, "֎")
             firstTry = False 
             if Movement.userImage == "▼": compare = directionN < (leMap-1)
@@ -257,7 +265,6 @@ def shoot():
             time.sleep(0.2)
             counter+=1
         if test:
-            map[directionN][directionE] = shoot.pre
             Call.biMap.setStuffPos(directionN,directionE, shoot.pre)
         else: print("Shot can't leave biome"); return False
         if counter>0: User["Inventory"].remove(isArrow)
@@ -449,6 +456,9 @@ def mainhand(type,item):
     elif item not in User["Inventory"]: print(f"Dont have {item} in inventory")
     elif ch == 1: print(f"Can't equip {item}")
     elif ch == 2: print(f"Can't put {item} in Mainhand")  
+
+
+
 def findItem(): #cut it into multiple definitions so its easier with new noun system
     #Checks if location has item, then puts item in inventory and deletes item from dictionary and biome items
     #if findItem.skip == True and findItem.c != True: erases(3)
@@ -551,17 +561,14 @@ def scatterItem(t, envir, nS, nE, eS, eE, scatter : bool):
                     itemLoc[drops] = spot[0]
                     n = (spotList[0]) % leMap
                     e = spotList[1] % wiMap
-                    if "Wall" in drops: Call.biMap.setStuffPos((leMap-1)-n,e,"\033[38;2;218;165;32m" + "Ⅱ" + "\033[0m")
-                                                               #Add mechanic to destory walls. Make it so instead
-                    elif "Door" in drops: Call.biMap.setStuffPos((leMap-1)-n,e,"∏") #OF checking with each name make an array with all the names
-                                                            #then make it so theres another array or in same 2d array it has picyure to place down
-                    elif "Crafting Table" in drops: Call.biMap.setStuffPos((leMap-1)-n,e,"🪵")
-                    else: Call.biMap.setStuffPos((leMap-1)-n,e,str(drops[0]))
+                    # if "Wall" in drops: Call.biMap.setStuffPos((leMap-1)-n,e,"\033[38;2;218;165;32m" + "Ⅱ" + "\033[0m")
+                    #                                            #Add mechanic to destory walls. Make it so instead
+                    # elif "Door" in drops: Call.biMap.setStuffPos((leMap-1)-n,e,"∏") #OF checking with each name make an array with all the names
+                    #                                         #then make it so theres another array or in same 2d array it has picyure to place down
+                    # elif "Crafting Table" in drops: Call.biMap.setStuffPos((leMap-1)-n,e,"🪵")
+                    Call.biMap.setStuffPos((leMap-1)-n,e,str(drops[0]))
                     if spotList == space:
-                        if "Wall" in drops: Movement.pre = "\033[38;2;218;165;32m" + "Ⅱ" + "\033[0m"
-                        elif "Crafting Table" in drops: Movement.pre = "🪵"
-                        elif "Door" in drops: Movement.pre = "∏"
-                        else:Movement.pre = str(drops[0])      
+                        Movement.pre = str(drops[0])      
         
     except:
         print("Did not run")
@@ -742,30 +749,18 @@ def recipeBook(type): #make it so you can change to different recipe book and jo
             return 0
         else: erase = False
 
-
 def breakItem():
     NorthEastAndObjectAtSpot = lookAhead()
     if NorthEastAndObjectAtSpot[2] != False:
         # add ability to check for material and give user item broken or drop it
         #destroy item and grab it (TO-DO)
-        # directionN = Movement.spotN;directionE = Movement.spotE
         floor = '\033[31m' + "*" + '\033[39m'
-        # if Movement.userImage == "▼" :newAdd = 1
-        # elif Movement.userImage == "▲":newAdd = -1
-        # if Movement.userImage == "◄" :newAdd = -1
-        # elif Movement.userImage == "►":newAdd = 1
-        # if Movement.userImage == "▼"or Movement.userImage == "▲":
-        #     directionN += newAdd
-        # else: 
-        #     directionE += newAdd
-        
         directionN = NorthEastAndObjectAtSpot[0]
         directionE = NorthEastAndObjectAtSpot[1]
         objectAtSpot = NorthEastAndObjectAtSpot[2]
         if objectAtSpot == floor:
             print("Nothing to break")
         else:
-            map[directionN][directionE] = floor
             Call.biMap.setStuffPos(directionN,directionE, floor)
             mapErase(1);loadMap();mapErase(1)
             print("Broke " + objectAtSpot)
@@ -784,6 +779,26 @@ def breakItem():
             print(sorts)
     else: 
         print("Cant break there") 
+
+def build(item):
+    if item == "nothing":
+        print("Not a collectable item in the game")
+        return False
+    elif item not in User["Inventory"]:
+        print("Item not in Inventory")
+        return False
+    else:
+        for key in itemDrops.keys():
+            if item == itemDrops[key][2]:
+                Call.biMap.setStuffPos(Movement.spotN, Movement.spotE, key)
+                loadMap()
+                print(f"Building {item} on {space}")
+                User["Inventory"].remove(item)
+                Movement.pre = Call.biMap.getStuffPos(Movement.spotN, Movement.spotE)
+                return True
+        print("Nothing to build or place")
+        return False
+
 def dropItem(said):
     it = checkItemInfo(said)
     if it == "nothing":
@@ -811,17 +826,16 @@ def dropItem(said):
     leMap = Call.biMap.getLength()
     wiMap = Call.biMap.getWidth()
 
-    if "Wall" in it: Movement.pre = "\033[38;2;218;165;32m" + "Ⅱ" + "\033[0m"
-     #Add mechanic to destory walls (░♀▒▓█▄▀▐▌)
-                                        #DO the array thing so each specialty item has a special object font,
-                                        #like walls and doors and EVEN ANY ITem has its unique texture
-    elif "Door" in it: Movement.pre = "∏"
-    elif "Crafting Table" in it: Movement.pre = "🪵"
-    else: Movement.pre = it[0]
+    # if "Wall" in it: Movement.pre = "\033[38;2;218;165;32m" + "Ⅱ" + "\033[0m"
+    #  #Add mechanic to destory walls (░♀▒▓█▄▀▐▌)
+    #                                     #DO the array thing so each specialty item has a special object font,
+    #                                     #like walls and doors and EVEN ANY ITem has its unique texture
+    # elif "Door" in it: Movement.pre = "∏"
+    # elif "Crafting Table" in it: Movement.pre = "🪵"
+    Movement.pre = it[0]
     n = (space[0]) % leMap
     e = space[1] % wiMap
-    Call.biMap.setStuffPos((leMap-1)-n,e, Movement.userImage)
-    map[(leMap-1)-n][e] = Movement.userImage #Fix so correct letter is displayed when you pick up
+    Call.biMap.setStuffPos((leMap-1)-n,e, Movement.userImage) #(Fixed) Fix so correct letter is displayed when you pick up
     print(f"~~~Dropping {it.rpartition('-')[0].rpartition('DROP')[0]} at [{space[0]}, {space[1]}]~~~")
     return True
 def addItem(item, num :int):
@@ -1088,6 +1102,8 @@ def Call():
     elif "help" in Input.choice: help()
     elif Input.choice == "info": Info()
     elif Input.choice == "item info": itemDesc()
+    elif "build" in com:
+        build(checkItemInfo(com))
     elif "drop" in com: dropItem(string.capwords(com))
     elif Input.choice == "exit": 
         while True:
@@ -1166,7 +1182,8 @@ try:
     os.system('cls'); storyLevel.skip = False;  help.ran = False; dropItem.count = 1
     Call.level = "Beginning"; Call.thing = True; Call.direction = True; Call.message = False; Input.f = True
     storyLevel.level = 0;findMonster.list = []; findMonster.HP = 0; findMonster.DG = 0; findItem.era  = 0
-    space = [9,9]; Movement.spotN = 9; Movement.spotE = 9; Movement.saveN = 9; Movement.saveE = 9; 
+    space = [4,4]; Movement.spotN = 4; Movement.spotE = 4; 
+    # Movement.saveN = 9; Movement.saveE = 9; 
     findItem.ItemMemory = ""; takeItem.s = True; findEnv.yes = False
     storyBC["Beginning"] = storyBoard["Beginning"][:]; Call.skipe = False
     recipeBook.choice = 1; findItem.skip = False; Call.first = True; 
@@ -1181,8 +1198,19 @@ try:
     time.sleep(0.8)
     print("Type 'help' for help")
     time.sleep(0.2)
+    Input.choice = "start"
+    Movement()
+    os.system('cls')
+    print("<-","-"*40,"->")
+    animation(Call.level, True, Call.thing, mess)    
+    input("")
+    erases(1)
+    mapErase(1)
+    loadMap()
+    mapErase(1)
+    Call()
     # loadMap()
-    Input()
+    # Input()
 except:
     print(" ")
     print("End of the Most Glorious Adventure")

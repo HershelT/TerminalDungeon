@@ -11,7 +11,8 @@ itemDrops = {
     "\033[38;2;218;165;32m" + "Ⅱ" + "\033[0m" : [["Wood Wall"],[1], "Wood Wall", "Nothing"],
     "🪦" : [["Stone", "Flint"],[1,1], "Grave Yard", "Stone"],
     "🪵" : [["Crafting Table"],[1],"Crafting Table", "Nothing"],
-    "\033[38;2;218;165;32mⅡ\033[0m" : [["Wood Wall"],[1],"Wood Wall", "Nothing"]
+    "\033[38;2;218;165;32mⅡ\033[0m" : [["Wood Wall"],[1],"Wood Wall", "Nothing"],
+    "∏" : [["Wood Door"],[1], "Wood Door", "Nothing"], #Can pass through if not on blocked items
 }
 def getItemList(item : str):
 
