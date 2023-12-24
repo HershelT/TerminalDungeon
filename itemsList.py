@@ -38,6 +38,7 @@ itemInfo = [
     "Wood Sword" : ": Provides minimal attack damage", 
     "Wood Pickaxe" : ": Breaks stone",
     "Wood Axe" : ": Breaks trees",
+    "Wood Hoe" : ": Used to till soil and plant seeds",
     
     "Iron Sword" : ": The shinest blade in the east creates fear in enemies" ,
     "Stone Pickaxe" : ": Can break ore deposits",
@@ -94,19 +95,21 @@ itemBuffs = [
     {
     "Rock" : ["2", ["Projectile-5 (Squares)", "Speed-0.5 (Milliseconds)"]], 
     
-    "Wood Sword" : ["4", ["Nothing"]], 
+    "Wood Sword" : ["5", ["Nothing"]], 
     "Wood Pickaxe" : ["2", ["Stone"]],
     "Wood Axe" : ["3", ["Wood"]],
+    "Wood Hoe" : ["1", ["Grass"]],
     
-    "Stone Sword" : ["7", ["Nothing"]], 
-    "Stone Pickaxe" : ["4", ["Wood","Stone"]],
+    "Stone Sword" : ["8", ["Nothing"]], 
+    "Stone Pickaxe" : ["3", ["Wood","Stone"]],
     "Stone Axe" : ["5", ["Wood"]], 
-    
-    "Iron Sword" : ["10", ["Nothing"]],
-    "Iron Axe" : ["7", ["Wood","Stone"]],
-    "Iron Pickaxe" : ["4", ["Wood","Stone","Iron"]],
 
-    "Aragon's Blade" : ["9", "Fire Damage"], 
+    
+    "Iron Sword" : ["11", ["Nothing"]],
+    "Iron Axe" : ["8", ["Wood","Stone"]],
+    "Iron Pickaxe" : ["5", ["Wood","Stone","Iron"]],
+
+    "Aragon's Blade" : ["14", "Fire Damage"], 
     
     "Pine Bow" : ["10", "Range-10", "Speed-0.3"], 
     "Pine Arrow" : ["2", "Projectile"],
@@ -137,6 +140,7 @@ itemCraft = { #Works now just add whatever I want. However, make sure to then ad
     "Stick" : [["Wood Plank"],[1],[2]],
     "Crafting Table": [["Wood Plank"],[2],[1]],
     
+    "Wood Pickaxe" : [["Stick", "Wood Plank"], [2, 3],[1]],
     "Furnace" : [["Stone"],[2],[1]],
     "Rock" : [["Stone"],[1],[2]],
     
@@ -144,8 +148,9 @@ itemCraft = { #Works now just add whatever I want. However, make sure to then ad
     # "Iron Ingot": [["Iron Ore"],[2],[1]], #Comment out later for smelting
     
     "Wood Sword" : [["Stick", "Wood Plank"],[1, 2],[1]],
-    "Wood Pickaxe" : [["Stick", "Wood Plank"], [2, 3],[1]],
+    "Wood Hoe" : [["Stick", "Wood Plank"], [3, 1],[1]],
     "Wood Axe" : [["Stick", "Wood Plank"],[2, 3],[1]],
+
 
     "Stone Sword" : [["Stick", "Stone"],[1, 2],[1]],
     "Stone Pickaxe" : [["Stick", "Stone"], [2, 3],[1]],
@@ -181,6 +186,8 @@ itemCook = {
     "Iron Ingot" : [["Iron Ore"],[2], [1]],
     "Omelet" : [["Raw Egg"],[2], [1]], #Turn into cooking for later and not craftable
     "Crisp Apple" :[["Apple"],[1], [1]],
+    
     "Steak" : [["Frozen Cow"],[1], [1]],
     "Iron Ore" :[["Iron Axe"],[1], [4]] #Maybe change book for smelting
+
 }

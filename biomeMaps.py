@@ -69,7 +69,7 @@ def loadingMap(map : setMap, mapPulledFrom : list):
         col = 0
         for c in r:
             if c == " " or c == "P":
-                map.setStuffPos(row,col,str('\033[31m' + "*" + '\033[39m'))
+                map.setStuffPos(row,col,str('\033[31m' + " " + '\033[39m'))
             else:
                 block = itemToNumber[int(c)]
                 
@@ -92,12 +92,13 @@ blankMap = [
      [" ", " "," "," "," "," "," "," "," "," "]
 ]
 itemToNumber =  {
-    0 : "🪨", # Stone
+    0 : "\033[37m¤\033[0m", # Stone
     1 : "\033[32m※\033[0m", # Tree
     2 : "🪦", #Graveyard
     3 : "\033[38;2;218;165;32mⅡ\033[0m", #Wood Wall
     4 : "∏", # Door
-    5 : "\033[90mΩ\033[0m" # Iron Ore deposit
+    5 : "\033[90mΩ\033[0m", # Iron Ore deposit
+    6 : '\033[31m▓\033[39m' #portal
 }
 #create maps and write a program that cycles through setting position of map to that if spot not empty
 #Create a list with blocks and there (DONEEE)
