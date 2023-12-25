@@ -1,11 +1,11 @@
 #Data Bank for all nouns in game to make it transition smoother and make the game feel more natural
 words = {
     "recipeCraft" : ["building", "crafting", "recipe"], #Can make it seperate so we know which book
-    "recipeCook" : ["ingredient", "chef", "meal", "baker"],
+    "recipeCook" : ["ingredient", "chef", "meal", "baker","smelting"],
     "direction" : ["north", "forward", "east", "right", "south", "back", "down", "west", "left", "n", "e", "s", "w"], 
     "wasd" : ["w", "a", "s", "d"],
     "itemFind" : ["describe", "descript", "what", "take", "pick", "up", "grab", "get"], #MAybe no 'up'
-    "hand" : ["hold", "main", "hand", "wield"],
+    "hand" : ["hold", "main", "hand", "wield", "equip"],
     "wear" : ["wear", "equip", "armor"],
     "craft" : ["create", "craft", "make", "construct"],
     "smelt" : ["smelt", "oven", "forge", "cook"],

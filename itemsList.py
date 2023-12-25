@@ -30,6 +30,7 @@ itemInfo = [
     "Iron Armor" : ": Provides mid defense", 
     "Weathered Tunic" : ": Player Starts Journey with Cloths that have tested time",
     "Flippers" : ": These little webs boost your speed in water",
+    "God Armor" : ": The power of thyself compels you!"
     },
     #damage items
     {
@@ -49,6 +50,7 @@ itemInfo = [
     "Iron Axe" : ": Attack Boost of 2 and Breaks Doors",
     
     "Aragon's Blade" : ": A fiery blade forged from the notorious half-born eating dragon, Aragon", 
+    "God Sword" : ": The power of thyself compels you!",
     "Pine Bow" : ": Lightweight low attack bow", 
     "Pine Arrow" : ": lightwieght arrow made from flimsy wood",
     "Bomb" : ": Craftable weapon that can blow up doors and walls, as well as damage others", 
@@ -83,10 +85,11 @@ itemBuffs = [
     }, 
     #wearbles (Number is how much damage can potentially be decreased per someones attack])
     {
-    "Cloth Tunic" : ["3", "Wearable"], 
-    "Iron Armor" : ["5", "Wearable"], 
-    "Weathered Tunic" : ["2", "Wearable"], 
-    "Flippers" : ["3","Wearable", "Swim"]
+    "Cloth Tunic" : [3, "Wearable"], 
+    "Iron Armor" : [10, "Wearable"], 
+    "Weathered Tunic" : [2, "Wearable"], 
+    "Flippers" : [3,"Wearable", "Swim"],
+    "God Armor" : [100, "Wearable"]
     },
     #damage items (Number is how much damage can be done) Array [damage, buff/power] Element damge leaves a lingering affect during fight
     #(TO DO) Make it so range weapons have certain range and speed of shot (Just decrease time.sleep in shoot function)
@@ -110,6 +113,7 @@ itemBuffs = [
     "Iron Pickaxe" : ["5", ["Wood","Stone","Iron"]],
 
     "Aragon's Blade" : ["14", "Fire Damage"], 
+    "God Sword" : ["100", "Death Touch"],
     
     "Pine Bow" : ["10", "Range-10", "Speed-0.3"], 
     "Pine Arrow" : ["2", "Projectile"],
@@ -122,13 +126,13 @@ itemBuffs = [
     #consumbales (Food, potions, posion)
     #(TO DO) Add a cookable feature 'cookable' and then what it turns into after cooking
     #Dont need to do turn into just to do that in crafting book for cooking
-    {"Pine Sap" : ["5", "Consumable"], 
-    "Apple" : ["3", "Consumable"], 
-    "Raw Egg": ["1", "Consumable", "Poison"], 
-    "Omelet" : ["8", "Consumable"],
-    "Frozen Cow" : ["3", "Consumable", "Poison"],
-    "Crisp Apple" : ["7", "Consumable"], 
-    "Steak" : ["15", "Consumable"]
+    {"Pine Sap" : [5, "Consumable"], 
+    "Apple" : [3, "Consumable"], 
+    "Raw Egg": [1, "Consumable", "Poison"], 
+    "Omelet" : [8, "Consumable"],
+    "Frozen Cow" : [3, "Consumable", "Poison"],
+    "Crisp Apple" : [7, "Consumable"], 
+    "Steak" : [15, "Consumable"]
     }
 ]   
 ####ADD craftable items, but make sure not to put those items in fields, only craftable. 

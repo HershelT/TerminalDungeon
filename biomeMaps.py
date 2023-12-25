@@ -14,11 +14,13 @@ PythonAdventure = world()
 #add ability so using setMap you put in what world you wnat biome screated in
 #this allows person to have overworlds and underworlds
 class setMap:#add location on map (n, n, e, e)
-    def __init__(self, name, cord1, cord2, cord3, cord4):
+    def __init__(self, name, cord1, cord2, cord3, cord4): 
+        #Add a floor color that can be set in init or changed later to make that the base floor color on map
+        
         self.name = name
         self.length = cord2-cord1
         self.width = cord4-cord3
-        self.mapType = [['\033[31m' + "*" + '\033[39m']*self.width for i in range(self.length)]
+        self.mapType = [['\033[31m' + " " + '\033[39m']*self.width for i in range(self.length)]
         self.cord1 = cord1
         self.cord2 = cord2
         self.cord3 = cord3

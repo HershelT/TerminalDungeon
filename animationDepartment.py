@@ -65,13 +65,13 @@ def storyList(type, talk, animationEyeBrow, animationEyes, animationChin, animat
     keyboard.press("Enter")
 
 Jeffery_AnimationHair =       """    \33[93m/////////\033[0m"""
-Jeffery_AnimationBrow =       """    |-\033[30m\33[1m~~\033[0m-\033[30m\33[1m~~\033[0m-|"""
-Jeffery_AnimationEye =        """    |-\33[36m[]\033[39m-\33[36m[]\033[39m-|"""
+Jeffery_AnimationBrow =       """    \033[0m|-\033[30m\33[1m~~\033[0m-\033[30m\33[1m~~\033[0m-|"""
+Jeffery_AnimationEye =        """    \033[0m|-\33[36m[]\033[39m-\33[36m[]\033[39m-|"""
 
-Jeffery_AnimationCloseMouth = """    |--\033[31m( )\033[0m--|"""
-Jeffery_AnimationMouthMove =  """    |--\033[31m< >\033[0m--|"""
+Jeffery_AnimationCloseMouth = """    \033[0m|--\033[31m( )\033[0m--|"""
+Jeffery_AnimationMouthMove =  """    \033[0m|--\033[31m< >\033[0m--|"""
 
-Jeffery_AnimationChin =       """    \_______/"""
+Jeffery_AnimationChin =       """    \033[0m\_______/"""
 questsJ = storyQuests["Jeffery"]
 questsJ = questsJ[0]
 def animation(part, bools: bool, waitTime, stringorNot):
