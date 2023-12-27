@@ -26,11 +26,14 @@ def loadMap(biome = False):
     if User["Health"] >= 100: multiply = 1.7 #size of line on top
     elif User["Health"] >= 10: multiply = 1.8
     else: multiply = 2.0
-    if itemBuffs[1][User['Wearing']][0] < 10: multiply -= 0.05
-    elif itemBuffs[1][User['Wearing']][0] < 100: multiply -= 0.2
-    else: multiply -= 0.3
+    if itemBuffs[1][User['Wearing']][0] < 10: multiply -= 0.4
+    elif itemBuffs[1][User['Wearing']][0] < 100: multiply -= 0.65
+    else: multiply -= 0.8
+    if int(itemBuffs[2][User['Main Hand']][0]) < 10: multiply -= 0.2
+    elif int(itemBuffs[2][User['Main Hand']][0]) < 100: multiply -= 0.3
+    else: multiply -= 0.5
     counterM = 0; ends = " "; starts = " "*65; lineMark = "\33[94m|\033[K\33[0m" #2.8 is distance without health display
-    print(" "*65,(f"\033[31m{User['Health']}|{User['Max Health']}\33[94m__\033[37mP:{monsterAttacks.armor}|{itemBuffs[1][User['Wearing']][0]}\033[31m__D:{takeItem.mainhand}"+ "\33[94m"+"_"*(int(biome.getWidth()*multiply))) + "\33[0m", "\033[K", flush= True)
+    print(" "*65,(f"\033[31m{User['Health']}|{User['Max Health']}\33[94m__\033[90mP:{monsterAttacks.armor}|{itemBuffs[1][User['Wearing']][0]}\033[94m__\033[35mD:{takeItem.mainhand}"+ "\33[94m"+"_"*(int(biome.getWidth()*multiply))) + "\33[0m", "\033[K", flush= True)
     for row in biome.getMap():
         if lengthC > biome.getLength(): break
         for col in row:
