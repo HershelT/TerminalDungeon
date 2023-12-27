@@ -10,7 +10,7 @@
 #Or make it so you roll a dice the amount of max damage for creatures or items
 #makes fights longer and more intresting and chance to miss shots, unique when shooting to 
 #have lower shot chance depending on distance.
-#Boss Fights-----> 
+#Boss Fights----->  
 #Make it so when you are fighting boss you get sent to location with certain size.
 #Can move around and boss tries to kill you after every movement or attack
 #This works when you use bow and stuff
