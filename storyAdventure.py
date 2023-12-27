@@ -13,18 +13,17 @@ import math; import random
 #     ["►", "*","*","*","*","*","*","*","*","*"]
 #     ] 
 # gl = setMap("Greenland",0, 10, 0, 10)
-mapGreenland.setStuffPos(9, 0, "►")
+# gl.setStuffPos(9, 0, "►")
 # for x in range(4, 7): gl.setStuffPos(x,4, "Ⅱ")
-#Create new maps for each biome and can world build from there
-#can create individual items on island
+# #Create new maps for each biome and can world build from there
+# #can create individual items on island
 
-#create each new map as new map
-map = mapGreenland.getMap()#Change whole system of cordinates to just spots on map and now i can add and destroy stuff on map
+# #create each new map as new map
+# map = gl.getMap()#Change whole system of cordinates to just spots on map and now i can add and destroy stuff on map
 # nMap = setMap("Greenland",0, 10, 0, 10)
 # for x in range(4, 7): nMap.setStuffPos(random.randint(0, nMap.getLength()-1
 # ),4, "Ⅱ")
 #newMap = nMap.getMap()
-#change so there is random terrain generation and when you go to new spot it creates a 
 #new setMap object 
 
 OGMap = [  #MAKE Walls Randomly generate and make sure there is always an opening
@@ -96,6 +95,10 @@ storyQuests = { #Other quests from missions from people you come across
 # Those items for player just for quests so you can pikc up random stuff.    
     "Jeffery" : (f""""#OH Dearest ME!\n$I have lost my dearest sheep and cant cope without them\n$Please I beg you to collect 5 of my lost sheep """)
 
+#{NEW 2023 OCtober}
+#Can MAke it so when handed a quest you get a public variable that now adds a check each turn to see if you 
+#Did quest. like every ove it will check if oyu got certain items or killed monsters from that point on
+#will check whats in storyObj,
 
 }
 storyObj = {

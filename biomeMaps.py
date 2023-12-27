@@ -14,11 +14,13 @@ PythonAdventure = world()
 #add ability so using setMap you put in what world you wnat biome screated in
 #this allows person to have overworlds and underworlds
 class setMap:#add location on map (n, n, e, e)
-    def __init__(self, name, cord1, cord2, cord3, cord4):
+    def __init__(self, name, cord1, cord2, cord3, cord4): 
+        #Add a floor color that can be set in init or changed later to make that the base floor color on map
+        
         self.name = name
         self.length = cord2-cord1
         self.width = cord4-cord3
-        self.mapType = [['\033[31m' + "*" + '\033[39m']*self.width for i in range(self.length)]
+        self.mapType = [['\033[31m' + " " + '\033[39m']*self.width for i in range(self.length)]
         self.cord1 = cord1
         self.cord2 = cord2
         self.cord3 = cord3
@@ -51,13 +53,80 @@ mapWaterloo = setMap("Waterloo",0, 10, -10, 0)
 mapGreenland = setMap("Greenland",0, 10, 0, 10)
 mapPineForest = setMap("Pine Forest", 0, 10, 10, 20)         
 #Chacrters to use: ※ Ω ₡ Ⅲ Ⅷ Ⅱ [░-Change to walls or path][
-mapGreenland.setStuffPos(2, 5, "░")
-mapGreenland.setStuffPos(1, 6, "🪦")
-mapWaterloo.setStuffPos(1, 7, "Ⅱ")
+
+# mapGreenland.setStuffPos(4,5, "🪨")
+# mapGreenland.setStuffPos(3,5,"🪨")
+# mapGreenland.setStuffPos(6,8, "\033[32m※\033[0m")
+# mapGreenland.setStuffPos(6,8, "\033[32m※\033[0m")
+# mapGreenland.setStuffPos(1, 6, "🪦")
+
+
+
+#Assigns number to texture
+#USe A MEthod to fetch what each one is
+def loadingMap(map : setMap, mapPulledFrom : list):
+    row = 0
+    col = 0
+    for r in mapPulledFrom:
+        col = 0
+        for c in r:
+            if c == " " or c == "P":
+                map.setStuffPos(row,col,str('\033[31m' + " " + '\033[39m'))
+            else:
+                block = itemToNumber[int(c)]
+                
+                map.setStuffPos(row,col,block)
+                
+            col += 1
+        row += 1
+
+
+blankMap = [
+     [" ", " "," "," "," "," "," "," "," "," "],
+     [" ", " "," "," "," "," "," "," "," "," "],
+     [" ", " "," "," "," "," "," "," "," "," "],
+     [" ", " "," "," "," "," "," "," "," "," "],
+     [" ", " "," "," "," "," "," "," "," "," "],
+     [" ", " "," "," "," "," "," "," "," "," "],
+     [" ", " "," "," "," "," "," "," "," "," "],
+     [" ", " "," "," "," "," "," "," "," "," "],
+     [" ", " "," "," "," "," "," "," "," "," "],
+     [" ", " "," "," "," "," "," "," "," "," "]
+]
+itemToNumber =  {
+    0 : "\033[37m¤\033[0m", # Stone
+    1 : "\033[32m※\033[0m", # Tree
+    2 : "🪦", #Graveyard
+    3 : "\033[38;2;218;165;32mⅡ\033[0m", #Wood Wall
+    4 : "∏", # Door
+    5 : "\033[90mΩ\033[0m", # Iron Ore deposit
+    6 : '\033[31m▓\033[39m' #portal
+}
+#create maps and write a program that cycles through setting position of map to that if spot not empty
+#Create a list with blocks and there (DONEEE)
+  
+#MapForGreenland
+MapG = [
+     ["0", "0"," "," ","1"," "," "," "," "," "],
+     ["0", " "," ","1","1"," ","1","1"," "," "],
+     [" ", " ","1"," "," "," ","1"," "," "," "],
+     [" ", "1","1"," "," "," "," "," "," "," "],
+     [" ", " "," "," ","P"," "," "," "," "," "],
+     [" ", " "," "," "," "," ","1","1"," "," "],
+     [" ", "1","1"," "," "," ","1"," "," "," "],
+     [" ", " ","1"," "," ","5"," "," "," "," "],
+     ["0", " "," "," ","5","5"," "," "," ","5"],
+     ["0", "0"," "," "," "," "," "," ","5","5"]
+]
+
+
+loadingMap(mapGreenland, MapG)
+
+
 
 buildList = PythonAdventure.getWorld() #list of all terrain on world
 #System of classes of worlds allow me to have different world or planets. Will allow me to get to different world
 
-blockedItems = ["※", "Ω", "₡", "Ⅲ", "Ⅷ", "Ⅱ", "🪨", "|", "🪦"]
+# blockedItems = ["※", "Ω", "₡", "Ⅲ", "Ⅷ", "Ⅱ", "\033[32m※\033[0m","\033[38;2;218;165;32m" + "Ⅱ" + "\033[0m", "🪨", "|", "🪦"]
 #[mapMeadows, mapVolcano, mapCliffs, mapLavaPlains, mapIcePlains, mapFrostedPlains, mapWaterPlains, mapWaterloo, mapGreenland, mapPineForest]
 #Call.biMap fixes prolem

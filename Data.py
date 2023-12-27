@@ -1,16 +1,19 @@
 import random
 from biomeMaps import *
 User = {
-    "Health" : 100,
+    "Health" : 100, #users current health
+    "Max Health" : 100, #This is what will be used to determine how much health the person can max out at
     #Starting Inventory
     "Inventory" : ["Weathered Tunic", "Wood Sword"],
     "InventoryCollected" : ["Weathered Tunic", "Wood Sword"],
     "Monsters Killed" : [],
+    
     "Current Biome" : "Greenland",
     "Wearing" : "Weathered Tunic", #What armor the person is currently wearing
     "Main Hand" : "Wood Sword", #What item the person wants to use
     "Quest" : [],
     "Biomes Discovered" : ["Greenland"],
+    "LVL" : 12,
     "Permanent Damage Buff" : "", #Make a skill tree with experience or gold or both to 
     
     "Permanent Armor Buff" : "",  #Unlock permanent attack damage or better damage with swords or axes
@@ -77,10 +80,10 @@ gridItems = { #Maybe change to have different items depending on level
     "Lava Plains" : [["Iron Axe", "Iron Ingot", "Crisp Apple", "Iron Ore", "Bomb", "Flint", "Stick"],[r(2, 5), r(5, 11), r(5, 8), r(5, 8),r(2, 5), r(4, 7), r(2, 5), ]],
     "Waterloo" : [["Rock", "Iron Axe", "Flint", "Cloth", "Stone Sword", "Apple", "Crisp Apple", "Stick"],[r(6, 9), r(3, 5), r(7, 9), r(4, 9), r(2, 7), r(5, 9), r(3, 7), r(5, 8)]],
     
-    "Volcano" : [["Aragon's Blade", "Gun Powder", "Flint", "Iron Ingot", "Iron Ore", "Crisp Apple"],[r(1, 2), r(1, 5), r(1, 4), r(4, 6), r(4, 11), r(4, 9)]],
+    "Volcano" : [["Aragon's Blade", "Gun Powder", "Flint", "Iron Ingot", "Iron Ore", "Crisp Apple"],[r(1, 2), r(3, 8), r(4, 9), r(8, 16), r(10, 18), r(4, 9)]],
     "Ice Plains" : [["Iron Axe", "Rock", "String","Wood Sword", "Iron Ore","Frozen Cow"],[r(1,3),r(1, 6), r(5, 8), r(1, 4), r(4, 10), r(3, 9)]],
-    "Frosted Plains" : [["Rock", "Frozen Cow"],[r(1,3), r(3, 7)]],
-    "Greenland" : [["Stone", "Stone Axe", "Iron Armor", "Stick", "Iron Ore", "Apple"],[r(3, 7), r(1, 2), r(1, 2), r(3, 7), r(3, 7), r(5, 9)]],
+    "Frosted Plains" : [["Rock", "Frozen Cow"],[r(3,7), r(3, 7)]],
+    "Greenland" : [["Stone", "Stone Axe", "Iron Armor", "Stick", "Iron Ore", "Apple"],[r(3, 7), r(1, 2), r(1, 2), r(7, 18), r(3, 7), r(5, 9)]],
     
     "Cliffs" : [["Cloth", "Apple", "Stone", "Iron Ore", "Wood Plank"],[r(4, 8), r(2, 12), r(5, 9), r(6, 12), r(3, 6)]],
     "Water Plains" : [["Flippers", "Apple", "Iron Ore", "Stick"],[r(3, 7), r(6, 10), r(7, 13), r(4, 9)]],
