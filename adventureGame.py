@@ -3,9 +3,10 @@ from termcolor import colored
 from json import load
 import turtle; from tkinter import *; import re
 from Data import *; from itemsList import *; from storyAdventure import *; from monsterList import *
-import random; import os; import array; import keyboard; import time; import copy; import msvcrt
+import random; import os; import array; import time; import copy; import msvcrt
 from gameNounsandWords import *; import string; from animationDepartment import *;
 from breakableItems import *
+#import keyboard is deprecated so i use pynupt in order to make it cross platform
 import sys; from colorama import init; from colorama import Fore, Back, Style
 def mapErase(i=1):
         sys.stdout.write("\033[F"*40)
@@ -773,6 +774,11 @@ def recipeBook(type): #make it so you can change to different recipe book and jo
     else: types = type
     print("")#Make a checker to see if it is a book in game
     keys = list(types)
+    key_listener = MyKeyListener()
+    listener = keyboard.Listener(
+        on_press=key_listener.on_press,
+        on_release=key_listener.on_release)
+    listener.start()
     while True:
         if erase:
             erases(cLine+1);cLine = 0
@@ -796,20 +802,23 @@ def recipeBook(type): #make it so you can change to different recipe book and jo
         except: t = 1
         if erase: print("---------------------: Press 'Enter' to leave book \n  "); cLine+=2
         erase = True
-        keyboard.read_key()
-        if keyboard.is_pressed("right"):
-            keyboard.release("right")
+        
+        
+        if key_listener.is_right_arrow_pressed():
+            keyboard.Controller().release(keyboard.Key.right)
             if  t == 0: sR = eR-1; eR += 3; page+=1; lineDraw = True
             else: erase = False
-        elif keyboard.is_pressed("left"):
-            keyboard.release("left")
+        elif key_listener.is_left_arrow_pressed():
+            keyboard.Controller().release(keyboard.Key.left)
             if sR - 3 > -1: eR -= 3; sR -= 3; page-=1; lineDraw = True
             else: erase = False
-        elif keyboard.is_pressed("Enter"):
+        elif key_listener.is_enter_pressed():
             input(" ")
-            if (keyboard.is_pressed("Enter")): erases(1)
+            if (key_listener.is_enter_pressed()): erases(1)
+            listener.stop()
             return 0
         else: erase = False
+    # listener.stop()
 
 def breakItem():
     NorthEastAndObjectAtSpot = lookAhead()
@@ -1018,7 +1027,15 @@ def checkStoryComplete(): #Checks if completion happens, and then triggers chang
             print("<-","-"*40,"->")
             changeMessage(f"""#Congrats on completing level: {storyNum[storyLevel.level]}\n$For your acomplishment you will recieve: \n$->{awardCount}\n$(press 'f' to go to next page) """)
             animation("Spokesman", True, False, f"    Rewarding System for completing {storyNum[levelNum]}:")
-            keyboard.wait('f')
+            key_listener = MyKeyListener()
+            listener = keyboard.Listener(
+                on_press=key_listener.on_press,
+                on_release=key_listener.on_release)
+            listener.start()
+            while (key_listener.is_f_pressed() == False):
+                if (key_listener.is_f_pressed()):
+                    break
+            listener.stop()
             erases(20)
             print("<-","-"*40,"->")
             try:

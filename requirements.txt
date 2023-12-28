@@ -4,6 +4,6 @@
 # setuptools
 # six
 termcolor==2.4.0
-keyboard==0.13.5
+# keyboard==0.13.5
 colorama==0.4.6
-# pynput==1.7.6
+pynput==1.7.6

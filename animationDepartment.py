@@ -1,25 +1,69 @@
-from storyAdventure import *;   import time; import keyboard; import random
+from storyAdventure import *;   import time; #import keyboard; import random
 import sys
 from colorama import init; from colorama import Fore, Back, Style
+from pynput import keyboard
+
+# Define a key listener
+class MyKeyListener:
+    def __init__(self):
+        self.keys_pressed = set()
+
+    def on_press(self, key):
+        self.keys_pressed.add(str(key))
+
+    def on_release(self, key):
+        self.keys_pressed.discard(str(key))
+
+    def is_pressed(self, key):
+        return str(key) in self.keys_pressed
+
+    #define what keys can be pressed
+    def is_s_pressed(self):
+        return "'s'" in self.keys_pressed
+    def is_x_pressed(self):
+        return "'x'" in self.keys_pressed
+    def is_f_pressed(self): 
+        return "'f'" in self.keys_pressed
+    
+    #Non keyboard charcters like enter 
+    def is_left_arrow_pressed(self):
+        return "Key.left" in self.keys_pressed
+    def is_right_arrow_pressed(self):
+        return "Key.right" in self.keys_pressed
+    def is_enter_pressed(self):
+        return "Key.enter" in self.keys_pressed
+
+#when getting keyboard input type in:
+    # key_listener = MyKeyListener()
+    #         listener = keyboard.Listener(
+    #             on_press=key_listener.on_press,
+    #             on_release=key_listener.on_release)
+
 if inits == True: init()
 if sys.stdin and sys.stdin.isatty():
     # running interactively
     hi = ""
+# listener.start()
 # else:
 #     with open('output','w') as f:
 #         f.write("running in the background!\n")
 def storyList(type, talk, animationEyeBrow, animationEyes, animationChin, animation1, animation2, wait):
+    key_listener = MyKeyListener()
+    listener = keyboard.Listener(
+        on_press=key_listener.on_press,
+        on_release=key_listener.on_release)
+    listener.start()
     storyletter = []; lineAnimation = animationEyes; nextAnimation = animationEyes; line = 0; count = 0; s = animationEyeBrow; t = animationEyeBrow; isOnCount = True; ani = animation1
     for i in type:
         if  i == "$" or i == "#":
             if talk and i == "$":
                 if count < 1:
                     storyletter.append(f"&\r                                                                                               \rt{nextAnimation}    t")
-                else: 
+                else:
                     storyletter.append(f"&\r                                                                                               \r{nextAnimation}    ")
-            elif talk and i == "#":     
+            elif talk and i == "#":
                 storyletter.append(f"\r{t}    ")
-            line+= 1    
+            line+= 1
         elif talk and count % 5 == 0:
             isOnCount = not isOnCount
             if isOnCount and not wait == True: ani = animation1
@@ -42,15 +86,19 @@ def storyList(type, talk, animationEyeBrow, animationEyes, animationChin, animat
                     storyletter.append(f"*\r\033[A\033[A{ani}   \r\n\n{lineAnimation}    ")
             storyletter.append(i)#Make math
         else: storyletter.append(i)
-        count += 1  
+        count += 1
     lastWritten = []
     #time.sleep(0.3)
-    keyboard.release("Enter")
+    # keyboard.release("Enter")
+    keyboard.Controller().release(keyboard.Key.enter)
     for i in storyletter:
-        if talk and not wait == True: 
-            if keyboard.is_pressed("s"): time.sleep(0.0000000000000000001)
-            elif keyboard.is_pressed("x"): time.sleep(0)
-            else: time.sleep(0.02)
+        if talk and not wait == True:
+            times = 0.0
+            if key_listener.is_s_pressed(): times = 0.005;key_listener.keys_pressed.discard(all); 
+            elif key_listener.is_x_pressed(): times = 0.0;talk=False; key_listener.keys_pressed.discard(all)
+
+            else: times = 0.02
+            if talk: time.sleep(times)
         if '*' in i and '$' not in i:
             print(f"{i[1:]}", end = "", flush= True)
             for lastLet in lastWritten:
@@ -62,7 +110,10 @@ def storyList(type, talk, animationEyeBrow, animationEyes, animationChin, animat
             else: print(i, end = "", flush= True)
             lastWritten.append(i)
     print('\n\r', flush= True)
-    keyboard.press("Enter")
+    keyboard.Controller().press(keyboard.Key.enter)
+    listener.stop()
+    # listener.stop()
+    # keyboard.press("Enter")
 
 Jeffery_AnimationHair =       """    \33[93m/////////\033[0m"""
 Jeffery_AnimationBrow =       """    \033[0m|-\033[30m\33[1m~~\033[0m-\033[30m\33[1m~~\033[0m-|"""
@@ -86,7 +137,7 @@ def animation(part, bools: bool, waitTime, stringorNot):
     runAnimation(parts, bools, waitTime)
 def runAnimation(type, TorF: bool, wait):
     # if stringYorN == True: type1 = type; print("Geshmach"); time.sleep(2)
-    # else: type1 = type[1] 
+    # else: type1 = type[1]
     return storyList(type[1], TorF, type[3], type[4], type[5], type[6], type[7], wait)
 try:
     animations = {
@@ -96,7 +147,7 @@ try:
         "Jeffery" : [Jeffery_AnimationHair, storyQuests["Jeffery"], True, Jeffery_AnimationBrow, Jeffery_AnimationEye, Jeffery_AnimationChin, Jeffery_AnimationMouthMove, Jeffery_AnimationCloseMouth],
         "Spokesman" : [Jeffery_AnimationHair, "#jkfshfjkafhsjkhfk hfkhskhfkjhs\n$ggdds\n$dgfgd\n$nk", True, Jeffery_AnimationBrow, Jeffery_AnimationEye, Jeffery_AnimationChin, Jeffery_AnimationMouthMove, Jeffery_AnimationCloseMouth]#
     }
-except: 
+except:
     animations = {
         "Beginning" : [Jeffery_AnimationHair, story["Beginning"], True, Jeffery_AnimationBrow, Jeffery_AnimationEye, Jeffery_AnimationChin, Jeffery_AnimationMouthMove, Jeffery_AnimationCloseMouth],
         "A New Leaf": [Jeffery_AnimationHair, story["A New Leaf"], True, Jeffery_AnimationBrow, Jeffery_AnimationEye, Jeffery_AnimationChin, Jeffery_AnimationMouthMove, Jeffery_AnimationCloseMouth],
