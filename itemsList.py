@@ -41,7 +41,7 @@ itemInfo = [
     "Wood Axe" : ": Breaks trees",
     "Wood Hoe" : ": Used to till soil and plant seeds",
     
-    "Iron Sword" : ": The shinest blade in the east creates fear in enemies" ,
+    "Stone Sword" : ": The shinest blade in the east creates fear in enemies" ,
     "Stone Pickaxe" : ": Can break ore deposits",
     "Stone Axe" : ": Provides improved attack damage", 
     
@@ -56,6 +56,8 @@ itemInfo = [
     "Bomb" : ": Craftable weapon that can blow up doors and walls, as well as damage others", 
     
     "Instant Kill" : ": If you have this item you are cheating!",
+    "Instant Break" : ": If you have this item you are cheating!",
+    "Cheat Tool" : ": Tool thay breaks and kills everything",
     },
     #maybe bomb is utility 
     #Consumables
@@ -95,31 +97,35 @@ itemBuffs = [
     #(TO DO) Make it so range weapons have certain range and speed of shot (Just decrease time.sleep in shoot function)
     #Items : ["Damage",["Materials it breaks"E.X "Wood", "Stone"]]
     #Can add heiarchy chart where if it can break stone it can break more
-    {
-    "Rock" : ["2", ["Projectile-5 (Squares)", "Speed-0.5 (Milliseconds)"]], 
+    { #"NAME" : Damage, "max Material it can break", special abilities for later
+    "Rock" : [2, "Nothing", ["Projectile-5 (Squares)", "Speed-0.5 (Milliseconds)"]], 
     
-    "Wood Sword" : ["5", ["Nothing"]], 
-    "Wood Pickaxe" : ["2", ["Stone"]],
-    "Wood Axe" : ["3", ["Wood"]],
-    "Wood Hoe" : ["1", ["Grass"]],
+    "Wood Sword" : [5,"Nothing"], 
+    "Wood Pickaxe" : [2, "Wood"],
+    #Can break objects that require wood to break 
+    "Wood Axe" : [3, "Nothing"],
+    "Wood Hoe" : [1, "Grass"],
     
-    "Stone Sword" : ["8", ["Nothing"]], 
-    "Stone Pickaxe" : ["3", ["Wood","Stone"]],
-    "Stone Axe" : ["5", ["Wood"]], 
+    "Stone Sword" : [8, "Nothing"], 
+    "Stone Pickaxe" : [3, "Stone"],
+    "Stone Axe" : [5, "Nothing"], 
 
     
-    "Iron Sword" : ["11", ["Nothing"]],
-    "Iron Axe" : ["8", ["Wood","Stone"]],
-    "Iron Pickaxe" : ["5", ["Wood","Stone","Iron"]],
+    "Iron Sword" : [11, "Nothing"],
+    "Iron Pickaxe" : [5, "Iron"],
+    "Iron Axe" : [8, "Nothing"],
 
-    "Aragon's Blade" : ["14", "Fire Damage"], 
-    "God Sword" : ["100", "Death Touch"],
+    "Aragon's Blade" : [14, "Nothing","Fire Damage"], 
+    "God Sword" : [100, "Nothing","Death Touch"],
     
-    "Pine Bow" : ["10", "Range-10", "Speed-0.3"], 
-    "Pine Arrow" : ["2", "Projectile"],
-    "Bomb": ["10", "Explosive"], 
+    "Pine Bow" : [10, "Nothing", "Range-10", "Speed-0.3"], 
+    "Pine Arrow" : [2, "Nothing", "Projectile"],
+    "Bomb": [10,"Nothing", "Explosive"], 
     
-    "Instant Kill" : ["30000", ["Death Touch"]], 
+    #cheat weapons
+    "Instant Break" : [100, "All"],
+    "Instant Kill" : [30000, "Nothing", ["Death Touch"]], 
+    "Cheat Tool" : [1000000, "All", ["Death Touch"]]
    
     },  
 
@@ -146,7 +152,8 @@ itemCraft = { #Works now just add whatever I want. However, make sure to then ad
     
     "Wood Pickaxe" : [["Stick", "Wood Plank"], [2, 3],[1]],
     "Furnace" : [["Stone"],[2],[1]],
-    "Rock" : [["Stone"],[1],[2]],
+    "Stone" : [["Rock"],[2],[1]],
+    
     
     
     # "Iron Ingot": [["Iron Ore"],[2],[1]], #Comment out later for smelting
@@ -174,6 +181,8 @@ itemCraft = { #Works now just add whatever I want. However, make sure to then ad
     
     "Cloth Tunic" : [["Cloth"],[4],[1]],
     "Iron Armor": [["Iron Ingot"],[8],[1]],
+    
+    "Rock" : [["Stone"],[1],[2]],
     
     
     

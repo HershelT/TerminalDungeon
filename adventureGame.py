@@ -187,7 +187,7 @@ def Movement():
         Call.biMap.setStuffPos((leMap-1)-(space[0]) % leMap,space[1] % wiMap, Movement.userImage)
         mapErase(1);loadMap();mapErase(1)
         itemInFront = lookAhead()
-        print(f"A {itemDrops[itemInFront[2]][2]}:{itemInFront[2]} Blocks your Path");  return False
+        print(f"\033[32mA \033[31m{itemDrops[itemInFront[2]][2]}\033[32m:{itemInFront[2]}\033[32m Blocks your Path\033[0m");  return False
     if ((space[0]< 0) or (space[0] >= 30)) or ((space[1] < -10) or (space[1] >= 20)):
         if t == "north": space[0] -= 1
         elif t == "south": space[0] += 1
@@ -356,7 +356,7 @@ def attackMonster(mon):
 def monsterAttacks(mon):
     roll = dice(1, 6); totalDG = roll + findMonster.DG
     usingArmor = "User"
-    if monsterAttacks.armor >= 0: 
+    if monsterAttacks.armor > 0: 
         monsterAttacks.armor -= totalDG
         usingArmor = "Armor"
         if monsterAttacks.armor < 0: monsterAttacks.armor = 0
@@ -823,6 +823,12 @@ def breakItem():
         if objectAtSpot == floor:
             print("Nothing to break")
         else:
+            ItemBlockChecker = heirarchyCheck(objectAtSpot,itemBuffs[2][User['Main Hand']][1])
+            if  ItemBlockChecker[0] == False:
+                print(colored(f"Not holding correct tool to break : \033[39m{objectAtSpot}","cyan"))
+                print(colored(f"Need tool level of \033[31m{ItemBlockChecker[1]}\033[96m or higher","light_cyan"))
+                print(colored(f"Current tool level is \033[31m{itemBuffs[2][User['Main Hand']][1]}", "light_cyan"))
+                return False
             Call.biMap.setStuffPos(directionN,directionE, floor)
             mapErase(1);loadMap();mapErase(1)
             print("Broke " + objectAtSpot)
@@ -1193,13 +1199,13 @@ def Call():
             else: "Crafting Nothing"
         else: craftItem(checkItemInfo(com), True)
     elif com == "killed": killed = sortItemCount(User["Monsters Killed"], "None");print(f'Monster kill list: \n{killed}') #fix
-    elif ("check" in com or "what" in com or "?" in com) and anys(com.lower(), words["hand"]): print(f'Mainhand: \n{User["Main Hand"]}')
+    elif ("check" in com or "what" in com or "?" in com) and anys(com.lower(), words["hand"]): print(f'Mainhand: \n{User["Main Hand"]}\nDamage {int(itemBuffs[2][User["Main Hand"]][0])}\nTool Level: {itemBuffs[2][User["Main Hand"]][1]}')
     elif anys(com.lower(), words["hand"]):
         if checkItemInfo(com) != "nothing": item = checkItemInfo(com)
         elif checkItemInfo(com) == "nothing" and findItem.ItemMemory != "": item = findItem.ItemMemory
         else: item = "nothing"
         mainhand("MH", item)
-    elif ("check" in com or "what" in com or "?" in com) and anys(com.lower(), words["wear"]): print(f'Wearing: \n{User["Wearing"]}')
+    elif ("check" in com or "what" in com or "?" in com) and anys(com.lower(), words["wear"]): print(f'Wearing: \n{User["Wearing"]}\nArmor Protection: {itemBuffs[1][User["Wearing"]][0]}')
     elif anys(com.lower(), words["wear"]) or ("put" in com.lower() and "on" in com.lower()): #maybe make it so it has to be first word
         if checkItemInfo(com) != "nothing": armor = checkItemInfo(com)
         elif checkItemInfo(com) == "nothing" and findItem.ItemMemory != "": armor = findItem.ItemMemory
