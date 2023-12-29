@@ -122,7 +122,7 @@ Jeffery_AnimationEye =        """    \033[0m|-\33[36m[]\033[39m-\33[36m[]\033[39
 Jeffery_AnimationCloseMouth = """    \033[0m|--\033[31m( )\033[0m--|"""
 Jeffery_AnimationMouthMove =  """    \033[0m|--\033[31m< >\033[0m--|"""
 
-Jeffery_AnimationChin =       """    \033[0m\_______/"""
+Jeffery_AnimationChin =       """    \033[0m\\_______/"""
 questsJ = storyQuests["Jeffery"]
 questsJ = questsJ[0]
 def animation(part, bools: bool, waitTime, stringorNot):

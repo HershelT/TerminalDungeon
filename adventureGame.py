@@ -1,9 +1,9 @@
 import traceback
 from termcolor import colored
-from json import load
-import turtle; from tkinter import *; import re
+# from json import load
+# import turtle; from tkinter import *; 
 from Data import *; from itemsList import *; from storyAdventure import *; from monsterList import *
-import random; import os; import array; import time; import copy; import msvcrt
+import random; import os; import time; import copy;
 from gameNounsandWords import *; import string; from animationDepartment import *;
 from breakableItems import *
 #import keyboard is deprecated so i use pynupt in order to make it cross platform
@@ -988,7 +988,7 @@ def storyLevel(check): #Sets what level you are on. Pops all other Stories so yo
                             mapErase(1)
                             loadMap()
                             mapErase(1)
-                            print(f"----Starting Adventure: {Call.level}----\n|\/Ferocious new Monsters Roam the Land\/|")
+                            print(f"----Starting Adventure: {Call.level}----\n|\\/Ferocious new Monsters Roam the Land\\/|")
                 print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
                 input("")
                 input("")
