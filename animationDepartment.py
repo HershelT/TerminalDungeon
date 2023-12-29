@@ -112,6 +112,7 @@ def storyList(type, talk, animationEyeBrow, animationEyes, animationChin, animat
     print('\n\r', flush= True)
     keyboard.Controller().press(keyboard.Key.enter)
     listener.stop()
+    del key_listener
     # listener.stop()
     # keyboard.press("Enter")
 

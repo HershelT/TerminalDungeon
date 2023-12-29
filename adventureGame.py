@@ -816,6 +816,7 @@ def recipeBook(type): #make it so you can change to different recipe book and jo
             input(" ")
             if (key_listener.is_enter_pressed()): erases(1)
             listener.stop()
+            del key_listener
             return 0
         else: erase = False
     # listener.stop()
