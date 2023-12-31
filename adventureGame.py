@@ -83,7 +83,7 @@ def location():
     print(f"North: {space[0]}:{Movement.spotN}")
     print(f"East: {space[1]}:{Movement.spotE}")
 
-def lookAhead():
+def lookAhead(objOrBlock : bool = False):
     #looks ahead one spot depending on direction of player
     directionN = Movement.spotN;directionE = Movement.spotE
     # floor = '\033[31m' + "*" + '\033[39m'
@@ -96,7 +96,13 @@ def lookAhead():
     else:
         directionE += newAdd
     try:
-        objectAtSpot = Call.biMap.getStuffPos(directionN,directionE)
+        if objOrBlock == True: 
+            try:
+                objectAtSpot = Call.biMap.getObj(directionN,directionE)
+            except:
+                objectAtSpot = False
+        else:
+            objectAtSpot = Call.biMap.getStuffPos(directionN,directionE)
     except:
         objectAtSpot = False
     #returns an array of[northernLocation,EasternLocation,ObjectAtSpot]
@@ -180,57 +186,75 @@ def Movement():
     bMap = Call.biMap.getMap()
     leMap = Call.biMap.getLength()
     wiMap = Call.biMap.getWidth()
-    if bMap[(leMap-1)-(space[0]) % leMap][space[1] % wiMap] in blockedItems:
-        if t == "north": space[0] -= 1
-        elif t == "south": space[0] += 1
-        elif t == "east": space[1] -= 1 #Change maps to use object maps (Done mostly)
-        elif t == "west": space[1] += 1
-        Call.biMap.setStuffPos((leMap-1)-(space[0]) % leMap,space[1] % wiMap, Movement.userImage)
-        mapErase(1);loadMap();mapErase(1)
-        itemInFront = lookAhead()
-        print(f"\033[32mA \033[31m{itemDrops[itemInFront[2]][2]}\033[32m:{itemInFront[2]}\033[32m Blocks your Path\033[0m");  return False
-    if ((space[0]< 0) or (space[0] >= 30)) or ((space[1] < -10) or (space[1] >= 20)):
-        if t == "north": space[0] -= 1
-        elif t == "south": space[0] += 1
-        elif t == "east": space[1] -= 1
-        elif t == "west": space[1] += 1
-        Call.biMap.setStuffPos((leMap-1)-(space[0]) % leMap, space[1] % wiMap, Movement.userImage)
-        mapErase(1);loadMap();mapErase(1)
-        print(f"Cannot go past boundry on {t}ern side")
-        return False
-    Call.biMap.setStuffPos(Movement.spotN, Movement.spotE, Movement.pre)
-    biome = testForNewEnv() #might be problem here with what biome it is
-    n = (space[0]) % biome.getLength()
-    e = (space[1]) % biome.getWidth()
-    #(TO DO-Done(12/22/2023)) Game charces when going to different sized maps like froxen lakes
-    #I believe problem is that the caluclualtion is off because my location is past 15 for second 5
-    #width map and needs to compensate but figure out
-    Movement.spotN = (biome.getLength()-1) - n
-    Movement.spotE = e
-    north = Movement.spotN
-    east = Movement.spotE
-    Movement.pre = biome.getStuffPos(north, east)
-    #(newProblem is droped items get displayed in all places) - fixeD(12/22/2023)
-    biome.setStuffPos(north, east, Movement.userImage) #(Problem might be here when putting charcter on meadows)
-    loadMap()
-    findEnv()
-    findMonster()
-    findItem()#working on building so doesnt drop (TO DO 12/22/2023)
-    #(OLD CODE COMMENTED OUT AND MOVED)
-    #Add checks to check if chacrter is on special block or wall
-    #USE LOOK AHEAD FUNCTION (12/22/2023)
-    #Checks if new positon is unicode value then trigger that specific command for that unicode value
-    #can make dictionaries where it is named after the unicode value
-    #dont run certain things if that happens make it so it returns at the end:
-    # n = (space[0]) % leMap
-    # e = space[1] % wiMap
-    # Movement.spotN = (leMap-1) - n
-    # Movement.spotE = e
-    # try: Call.biMap.setStuffPos(Movement.saveN, Movement.saveE, Movement.pre) (deprecated 12/22/2023)
-    # except: 1 == 1
-    #change for whatever was the previous spot
-    #Works but cannot see user because map doesnt reload.
-    #cannot make it reload because texts gets overwritten
+    #bootleg checking to see if is gate
+    try:
+        objectInFront: KeyBlocks = Call.biMap.getObj((leMap-1)-(space[0]) % leMap,space[1] % wiMap)
+        if objectInFront.getIsBlocking():
+            passingRequirment = objectInFront.getKeyLevel()
+            message = objectInFront.getMessage()
+            look = objectInFront.getLook()
+
+            if t == "north": space[0] -= 1
+            elif t == "south": space[0] += 1
+            elif t == "east": space[1] -= 1
+            elif t == "west": space[1] += 1
+            
+            Call.biMap.setStuffPos((leMap-1)-(space[0]) % leMap,space[1] % wiMap, Movement.userImage)
+            mapErase(1);loadMap();mapErase(1)
+            print(f"{look} Blocks your Path\033[0m\n{message}")
+            return False
+    except:
+        if bMap[(leMap-1)-(space[0]) % leMap][space[1] % wiMap] in blockedItems:
+            if t == "north": space[0] -= 1
+            elif t == "south": space[0] += 1
+            elif t == "east": space[1] -= 1 #Change maps to use object maps (Done mostly)
+            elif t == "west": space[1] += 1
+            Call.biMap.setStuffPos((leMap-1)-(space[0]) % leMap,space[1] % wiMap, Movement.userImage)
+            mapErase(1);loadMap();mapErase(1)
+            itemInFront = lookAhead()
+            print(f"\033[32mA \033[31m{itemDrops[itemInFront[2]][2]}\033[32m:{itemInFront[2]}\033[32m Blocks your Path\033[0m");  return False
+        elif ((space[0]< 0) or (space[0] >= 30)) or ((space[1] < -10) or (space[1] >= 20)):
+            if t == "north": space[0] -= 1
+            elif t == "south": space[0] += 1
+            elif t == "east": space[1] -= 1
+            elif t == "west": space[1] += 1
+            Call.biMap.setStuffPos((leMap-1)-(space[0]) % leMap, space[1] % wiMap, Movement.userImage)
+            mapErase(1);loadMap();mapErase(1)
+            print(f"Cannot go past boundry on {t}ern side")
+            return False
+        Call.biMap.setStuffPos(Movement.spotN, Movement.spotE, Movement.pre)
+        biome = testForNewEnv() #might be problem here with what biome it is
+        n = (space[0]) % biome.getLength()
+        e = (space[1]) % biome.getWidth()
+        #(TO DO-Done(12/22/2023)) Game charces when going to different sized maps like froxen lakes
+        #I believe problem is that the caluclualtion is off because my location is past 15 for second 5
+        #width map and needs to compensate but figure out
+        Movement.spotN = (biome.getLength()-1) - n
+        Movement.spotE = e
+        north = Movement.spotN
+        east = Movement.spotE
+        Movement.pre = biome.getStuffPos(north, east)
+        #(newProblem is droped items get displayed in all places) - fixeD(12/22/2023)
+        biome.setStuffPos(north, east, Movement.userImage) #(Problem might be here when putting charcter on meadows)
+        loadMap()
+        findEnv()
+        findMonster()
+        findItem()#working on building so doesnt drop (TO DO 12/22/2023)
+        #(OLD CODE COMMENTED OUT AND MOVED)
+        #Add checks to check if chacrter is on special block or wall
+        #USE LOOK AHEAD FUNCTION (12/22/2023)
+        #Checks if new positon is unicode value then trigger that specific command for that unicode value
+        #can make dictionaries where it is named after the unicode value
+        #dont run certain things if that happens make it so it returns at the end:
+        # n = (space[0]) % leMap
+        # e = space[1] % wiMap
+        # Movement.spotN = (leMap-1) - n
+        # Movement.spotE = e
+        # try: Call.biMap.setStuffPos(Movement.saveN, Movement.saveE, Movement.pre) (deprecated 12/22/2023)
+        # except: 1 == 1
+        #change for whatever was the previous spot
+        #Works but cannot see user because map doesnt reload.
+        #cannot make it reload because texts gets overwritten
 
 def shoot():
     #(TO DO) - Make it so different weapons can shoot faster so change time speed
@@ -579,6 +603,7 @@ def takeItem():
                 Movement.pre = drop[0]
                 itemIsDroped = True
                 break
+            #12/31 (Have error were map gets rid of door if item spawns under it)
         if itemIsDroped == False:
             Movement.pre = '\033[31m' + " " + '\033[39m'
         mapErase(1);loadMap(); mapErase(1)
@@ -823,7 +848,7 @@ def recipeBook(type): #make it so you can change to different recipe book and jo
 
 def breakItem():
     NorthEastAndObjectAtSpot = lookAhead()
-    if NorthEastAndObjectAtSpot[2] != False:
+    if NorthEastAndObjectAtSpot[2] != False and NorthEastAndObjectAtSpot[2] in itemDrops and not isinstance(NorthEastAndObjectAtSpot[2], KeyBlocks):
         # add ability to check for material and give user item broken or drop it
         #destroy item and grab it (TO-DO)
         floor = '\033[31m' + " " + '\033[39m'
@@ -1118,7 +1143,11 @@ def Call():
     if Call.thing == False: Call.thing == True
     Call.skipe = False
     ##; findItem.skip = False; #Call.move = True
-    if Input.choice == "/item locate": #Cheats for all items in game (For testing)
+    if "again" == com: 
+        Input.choice = Call.memory
+
+        Call()
+    elif Input.choice == "/item locate": #Cheats for all items in game (For testing)
         print(itemLoc)
         recipeBook("Item Locate") #not really needed annoying to flip through, but cleaner
     elif com == "/item drop":
@@ -1179,6 +1208,23 @@ def Call():
         else: storyAdv()
     elif com == "/setMap":
         print(Call.biMap.getName())
+    elif ("open" in com or "unlock" in com):
+        getObject = lookAhead(True)
+        if getObject[2] != False:
+            if getObject[2].getKeyLevel() in User["Inventory"]:
+                print("Opening Gate")
+                Call.biMap.setStuffPos(getObject[0], getObject[1], getObject[2].getLook())
+                Call.biMap.deleteObject(getObject[0], getObject[1])
+                
+                # del getObject[2].setIsBlocking(False)
+                mapErase(1);loadMap();mapErase(1)
+                print(f"Opened {getObject[2].getLook()} with {getObject[2].getKeyLevel()}")
+                del getObject[2]
+            else:
+                print(f"Do Not have required: ({getObject[2].getKeyLevel()}) to open gate")
+            
+        else: print("Nothing to open")
+
     elif anys(com.lower(), words["insults"]): print("You have a tiny dick")
     elif anys(com.lower(), words["shoot"]): shoot()
     elif anys(com.lower(), words["breaking"]): breakItem()
@@ -1244,6 +1290,7 @@ def Call():
             print(wrongKey[random.randint(0, 4)]); Call.first = True
         else: print("\033[A\033[A"," "*63, end = "\r")
     checkStoryComplete()
+    Call.memory = Input.choice
     Input()
 def Input():
     if findItem.skip != True:
@@ -1271,6 +1318,7 @@ try:
     space = [4,4]; Movement.spotN = 4; Movement.spotE = 4;
     # Movement.saveN = 9; Movement.saveE = 9;
     findItem.ItemMemory = ""; takeItem.s = True; findEnv.yes = False
+    Call.memory = ""
     storyBC["Beginning"] = storyBoard["Beginning"][:]; User["LVL"]=storyLevel.level;Call.skipe = False
     recipeBook.choice = 1; findItem.skip = False; Call.first = True;
     Movement.pre = '\033[31m' + " " + '\033[39m'; Movement.userImage = "p"

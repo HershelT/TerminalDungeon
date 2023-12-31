@@ -24,6 +24,8 @@ itemInfo = [
     "Wood Door" : ": Used for decroation, can be walked through by player", 
     "Wood Board" : ": Used for building materials and consutruction",
     "Crafting Table" : ": Used for crafting complex items",
+    
+    "Wood Key" : ": Used to open Wood doors",
     },
     #wearbles
     {"Cloth Tunic" : ": Provides minimal defense", 
@@ -120,7 +122,7 @@ itemBuffs = [
     
     "Pine Bow" : [10, "Nothing", "Range-10", "Speed-0.3"], 
     "Pine Arrow" : [2, "Nothing", "Projectile"],
-    "Bomb": [10,"Nothing", "Explosive"], 
+    "Bomb": [25,"Nothing", "Explosive"], 
     
     #cheat weapons
     "Instant Break" : [100, "All"],

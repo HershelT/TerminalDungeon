@@ -1,13 +1,6 @@
 blockedItems = ["🪵","\033[38;2;101;6733m∏\033[0m", '\033[31m▓\033[39m', "\033[32m※\033[0m","\033[38;2;218;165;32mⅡ\033[0m","\033[37m¤\033[0m", "🪨", "|", "🪦","💎", "※", "Ω","\033[90mΩ\033[0m", "₡", "Ⅲ", "Ⅷ", "Ⅱ"]
 
 
-# itemDesrtroyHeirarchy = { 
-#     "Nothing" : ["Nothing"],
-#     "Wood" : ["Stone","Wood", "Nothing"],
-#     "Stone" : ["Iron","Stone","Wood", "Nothing"],
-#     "Iron" : ["Diamond", "Iron","Stone","Wood", "Nothing"],
-#     "Diamond" : ["Quartz","Iron", "Stone", "Wood", "Nothing"],
-# }
 blockStrength = ["All","Diamond","Quartz","Iron", "Stone", "Wood", "Nothing"]
 #Item : [Item needed to destroy, Damage to item]
 def heirarchyCheck(block, itemBreak):
@@ -24,7 +17,26 @@ def heirarchyCheck(block, itemBreak):
 
 
 
+# key_blocks_list = []
+class KeyBlocks():
+    def __init__(self, look, keyOrBombLevel, message):
+        self.look = look
+        self.keyOrBombLevel = keyOrBombLevel
+        self.message = message
+        self.isBlocking = True
+        # key_blocks_list.append(self)
+    def setIsBlocking(self, isBlocking: bool):
+        self.isBlocking = isBlocking
+    def getLook(self):
+        return self.look
+    def getIsBlocking(self):
+        return self.isBlocking
+    def getKeyLevel(self):
+        return self.keyOrBombLevel
+    def getMessage(self):
+        return self.message
 
+# WoodDoor = KeyBlocks("∏", "Wood Key", "You need a wooden key to open this door")
 
 #"Item" : [["Items"][int(item amount)],"Name", Type of material needed to destroy"]
 itemDrops = {

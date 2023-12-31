@@ -2,6 +2,8 @@
 #Maps for Biomes
 #Make a system that can create a map of any height 
 # But can also place walls in specific spots
+from breakableItems import *
+
 buildList = []
 class world: #Allows automatic adding of terrain to environment without manuel
     def __init__(self):
@@ -25,9 +27,17 @@ class setMap:#add location on map (n, n, e, e)
         self.cord2 = cord2
         self.cord3 = cord3
         self.cord4 = cord4
+        self.objects : dict = {}
         PythonAdventure.addToWorld(self)
     def setStuffPos(self, row, col, stuff):
         self.mapType[row][col] = stuff
+    def setObj(self, row, col, stuff:KeyBlocks):
+        self.objects[str(row) + "," + str(col)] = stuff
+        self.mapType[row][col] = stuff.getLook()
+    def deleteObject(self,row,col):
+        self.objects.pop(str(row) + "," + str(col))
+    def getObj(self, row, col):
+        return self.objects[str(row) + "," + str(col)]
     def getStuffPos(self, row, col):
         return self.mapType[row][col]
     def getMap(self):
@@ -58,7 +68,7 @@ mapPineForest = setMap("Pine Forest", 0, 10, 10, 20)
 # mapGreenland.setStuffPos(3,5,"🪨")
 # mapGreenland.setStuffPos(6,8, "\033[32m※\033[0m")
 # mapGreenland.setStuffPos(6,8, "\033[32m※\033[0m")
-# mapGreenland.setStuffPos(1, 6, "🪦")
+
 
 
 
@@ -74,8 +84,10 @@ def loadingMap(map : setMap, mapPulledFrom : list):
                 map.setStuffPos(row,col,str('\033[31m' + " " + '\033[39m'))
             else:
                 block = itemToNumber[int(c)]
-                
-                map.setStuffPos(row,col,block)
+                if isinstance(block, KeyBlocks):
+                    map.setObj(row,col,block)
+                else:
+                    map.setStuffPos(row,col,block)
                 
             col += 1
         row += 1
@@ -98,7 +110,7 @@ itemToNumber =  {
     1 : "\033[32m※\033[0m", # Tree
     2 : "🪦", #Graveyard
     3 : "\033[38;2;218;165;32mⅡ\033[0m", #Wood Wall
-    4 : "∏", # Door
+    4 : KeyBlocks("\033[33m∏\033[0m", "Wood Key", "You need a wooden key to open - Wood Gate"), # locked Wood Door
     5 : "\033[90mΩ\033[0m", # Iron Ore deposit
     6 : '\033[31m▓\033[39m' #portal
 }
@@ -110,10 +122,10 @@ MapG = [
      ["0", "0"," ","5","1"," "," "," "," "," "],
      ["0", "5"," ","1","1"," ","1","1"," "," "],
      [" ", " ","1"," "," ","0","1"," ","0","0"],
-     [" ", "1","1"," "," "," "," "," ","0"," "],
-     [" ", " ","0"," ","P"," "," "," "," "," "],
+     [" ", "1","1"," "," "," ","1"," ","0"," "],
+     [" ", " ","0"," ","P"," ","4"," "," "," "],
      [" ", "0","0"," "," "," ","1","1","5"," "],
-     [" ", "1","1"," "," "," ","1","5"," "," "],
+     [" ", "1","1"," ","4"," ","1","5"," "," "],
      [" ", " ","1"," "," ","5"," "," "," "," "],
      ["0", " "," "," ","5","5","5"," "," ","5"],
      ["0", "0"," "," "," "," ","5"," ","5","5"]
@@ -122,7 +134,8 @@ MapG = [
 
 loadingMap(mapGreenland, MapG)
 
-
+# mapGreenland.setObj(5, 6, WoodDoor)
+# print(mapGreenland.getObj(5, 6).getKeyLevel())
 
 buildList = PythonAdventure.getWorld() #list of all terrain on world
 #System of classes of worlds allow me to have different world or planets. Will allow me to get to different world
