@@ -64,7 +64,6 @@ mapGreenland = setMap("Greenland",0, 10, 0, 10)
 mapPineForest = setMap("Pine Forest", 0, 10, 10, 20)         
 #Chacrters to use: ※ Ω ₡ Ⅲ Ⅷ Ⅱ [░-Change to walls or path][
 
-# mapGreenland.setStuffPos(4,5, "🪨")
 # mapGreenland.setStuffPos(3,5,"🪨")
 # mapGreenland.setStuffPos(6,8, "\033[32m※\033[0m")
 # mapGreenland.setStuffPos(6,8, "\033[32m※\033[0m")
@@ -84,6 +83,7 @@ def loadingMap(map : setMap, mapPulledFrom : list):
                 map.setStuffPos(row,col,str('\033[31m' + " " + '\033[39m'))
             else:
                 block = itemToNumber[int(c)]
+                #checks if i want to place an object with a property or just a block
                 if isinstance(block, KeyBlocks):
                     map.setObj(row,col,block)
                 else:
@@ -105,6 +105,7 @@ blankMap = [
      [" ", " "," "," "," "," "," "," "," "," "],
      [" ", " "," "," "," "," "," "," "," "," "]
 ]
+#basically a tileSet For terminal
 itemToNumber =  {
     0 : "\033[37m¤\033[0m", # Stone Block/Boulder
     1 : "\033[32m※\033[0m", # Tree
@@ -112,27 +113,46 @@ itemToNumber =  {
     3 : "\033[38;2;218;165;32mⅡ\033[0m", #Wood Wall
     4 : KeyBlocks("\033[33m∏\033[0m", "Wood Key", "You need a wooden key to open - Wood Gate"), # locked Wood Door
     5 : "\033[90mΩ\033[0m", # Iron Ore deposit
-    6 : '\033[31m▓\033[39m' #portal
+    6 : '\033[31m▓\033[39m', #portal
+    7 : KeyBlocks("\033[38;5;54m∏\033[0m", "Diamond Key", "You need a Diamond key to open - Boss Gate"),
+    8: "\033[0;34mΩ\033[0m"
+
 }
 #create maps and write a program that cycles through setting position of map to that if spot not empty
 #Create a list with blocks and there (DONEEE)
   
 #MapForGreenland
-MapG = [
-     ["0", "0"," ","5","1"," "," "," "," "," "],
+OldMapG = [
+     ["0", "0"," ","5","1"," "," ","8"," "," "],
      ["0", "5"," ","1","1"," ","1","1"," "," "],
      [" ", " ","1"," "," ","0","1"," ","0","0"],
-     [" ", "1","1"," "," "," ","1"," ","0"," "],
-     [" ", " ","0"," ","P"," ","4"," "," "," "],
+     [" ", "1","1"," "," ","8","1"," ","0"," "],
+     [" ", "8","0"," "," "," "," "," "," "," "],
      [" ", "0","0"," "," "," ","1","1","5"," "],
-     [" ", "1","1"," ","4"," ","1","5"," "," "],
-     [" ", " ","1"," "," ","5"," "," "," "," "],
+     [" ", "1","1"," "," "," ","1","5","8"," "],
+     [" ", "8","1"," "," ","5"," "," "," "," "],
      ["0", " "," "," ","5","5","5"," "," ","5"],
      ["0", "0"," "," "," "," ","5"," ","5","5"]
 ]
 
+UpdatedMapG = [
+     ["8", " "," "," "," "," "," "," "," ","8"],
+     ["8", "5","5","5","4","5","5","5"," ","8"],
+     [" ", "5","1","1","1","1","1","5"," "," "],
+     [" ", "5","1"," "," "," ","1","5"," "," "],
+     [" ", "7","1"," ","P"," ","1","4"," "," "],
+     [" ", "5","1"," "," "," ","1","5"," "," "],
+     [" ", "5","1"," "," "," ","1","5"," "," "],
+     [" ", "5","1","1","1","1","1","5"," "," "],
+     ["8", "5","5","5","7","5","5","5"," ","8"],
+     ["8", " "," "," "," "," "," "," "," ","8"]
+]
 
-loadingMap(mapGreenland, MapG)
+
+loadingMap(mapGreenland, UpdatedMapG)
+loadingMap(mapPineForest, OldMapG)
+# mapGreenland.setStuffPos(0,0, "🪨")
+
 
 # mapGreenland.setObj(5, 6, WoodDoor)
 # print(mapGreenland.getObj(5, 6).getKeyLevel())

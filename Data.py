@@ -4,13 +4,13 @@ User = {
     "Health" : 100, #users current health
     "Max Health" : 100, #This is what will be used to determine how much health the person can max out at
     #Starting Inventory
-    "Inventory" : ["Weathered Tunic", "Wood Sword"],
+    "Inventory" : ["Weathered Tunic", "Wood Sword", "Diamond Pickaxe"],
     "InventoryCollected" : ["Weathered Tunic", "Wood Sword"],
     "Monsters Killed" : [],
     
     "Current Biome" : "Greenland",
     "Wearing" : "Weathered Tunic", #What armor the person is currently wearing
-    "Main Hand" : "Wood Sword", #What item the person wants to use
+    "Main Hand" : "Diamond Pickaxe", #What item the person wants to use
     "Quest" : [],
     "Biomes Discovered" : ["Greenland"],
     "LVL" : 12,

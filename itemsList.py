@@ -10,22 +10,35 @@ itemInfo = [
     #Make something that blows up walls to cross if there is gunpowder
     #{"item" : ": description"}
     #utilities
-    {"Stone" : ": Can be used as a stepping stone up small bumps", 
+    { 
     "Gun Powder" : ": Used with Flint to blow up obstacles", 
-    "Flint" : ": Used as a stricker with flamables",
-    "Stick" : ": Used in many crafting recipes", 
+    
+     
     "String" : ": Used in crafting recipes that involve stretch", 
     "Cloth" : ": Used for lightweight armor and craftables", 
+    
+    "Stick" : ": Used in many crafting recipes",
+
+    "Flint" : ": Used as a stricker with flamables",
+    "Stone" : ": Can be used as a stepping stone up small bumps",
     "Iron Ore" : ": Used to craft Iron and Steal Ingots", 
+    
+    "Diamond" : ": Shiniest jewel in the west. Creates stron weapons",
     "Iron Ingot" : ": A Strong metal used in many Recipee",
+    
+    
+   
+    
     "Wood Plank" : ": Used for building and Crafting", 
-    "Furnace" : ": Used to cook food and ore. Needs Fuel Possibly dpening on how i feel", 
     "Wood Wall" : ": Cannot be walked on, used as decoration or defense",
     "Wood Door" : ": Used for decroation, can be walked through by player", 
     "Wood Board" : ": Used for building materials and consutruction",
+    
+    "Furnace" : ": Used to cook food and ore. Needs Fuel Possibly dpening on how i feel", 
     "Crafting Table" : ": Used for crafting complex items",
     
     "Wood Key" : ": Used to open Wood doors",
+
     },
     #wearbles
     {"Cloth Tunic" : ": Provides minimal defense", 
@@ -51,6 +64,10 @@ itemInfo = [
     "Iron Pickaxe" : ": can break iron blocks and higher quality ore deposits",
     "Iron Axe" : ": Attack Boost of 2 and Breaks Doors",
     
+    "Diamond Sword" : ": Strong and tough sword",
+    "Diamond Pickaxe" : ": Can break Diamond blocks and higher quality",
+    "Diamond Axe" :  ": Chips Away Stone ",
+
     "Aragon's Blade" : ": A fiery blade forged from the notorious half-born eating dragon, Aragon", 
     "God Sword" : ": The power of thyself compels you!",
     "Pine Bow" : ": Lightweight low attack bow", 
@@ -97,7 +114,7 @@ itemBuffs = [
     },
     #damage items (Number is how much damage can be done) Array [damage, buff/power] Element damge leaves a lingering affect during fight
     #(TO DO) Make it so range weapons have certain range and speed of shot (Just decrease time.sleep in shoot function)
-    #Items : ["Damage",["Materials it breaks"E.X "Wood", "Stone"]]
+    #Items : ["Damage",["Material that a block object looks at to see if can be broken"E.X "Wood", "Stone"]]
     #Can add heiarchy chart where if it can break stone it can break more
     { #"NAME" : Damage, "max Material it can break", special abilities for later
     "Rock" : [2, "Nothing", ["Projectile-5 (Squares)", "Speed-0.5 (Milliseconds)"]], 
@@ -116,6 +133,10 @@ itemBuffs = [
     "Iron Sword" : [11, "Nothing"],
     "Iron Pickaxe" : [5, "Iron"],
     "Iron Axe" : [8, "Nothing"],
+
+    "Diamond Sword" : [15, "Nothing"],
+    "Diamond Pickaxe" : [7, "Diamond"],
+    "Diamond Axe" :  [11, "Wood"],
 
     "Aragon's Blade" : [14, "Nothing","Fire Damage"], 
     "God Sword" : [100, "Nothing","Death Touch"],
@@ -173,6 +194,10 @@ itemCraft = { #Works now just add whatever I want. However, make sure to then ad
     "Iron Pickaxe" : [["Stick", "Iron Ingot"], [2, 3],[1]],
     "Iron Axe": [["Stick", "Iron Ingot"],[2, 3],[1]],
 
+    "Diamond Sword" : [["Stick", "Diamond"], [1, 2],[1]],
+    "Diamond Pickaxe" : [["Stick", "Diamond"], [2, 3],[1]],
+    "Diamond Axe": [["Stick", "Diamond"],[2, 3],[1]],
+
     "Wood Board" : [["Wood Plank"], [1],[2]],
     "Wood Wall" : [["Wood Plank"],[3],[4]],    
     "Wood Door" : [["Wood Wall", "Wood Plank", "Stick"],[1, 2, 2],[4]],
@@ -185,6 +210,7 @@ itemCraft = { #Works now just add whatever I want. However, make sure to then ad
     "Iron Armor": [["Iron Ingot"],[8],[1]],
     
     "Rock" : [["Stone"],[1],[2]],
+    "Wood Key" : [["Wood Plank", "Stick", "Wood Board"],[2,1,1],[1]]
     
     
     

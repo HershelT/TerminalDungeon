@@ -1,4 +1,4 @@
-blockedItems = ["🪵","\033[38;2;101;6733m∏\033[0m", '\033[31m▓\033[39m', "\033[32m※\033[0m","\033[38;2;218;165;32mⅡ\033[0m","\033[37m¤\033[0m", "🪨", "|", "🪦","💎", "※", "Ω","\033[90mΩ\033[0m", "₡", "Ⅲ", "Ⅷ", "Ⅱ"]
+blockedItems = ["🪵","\033[0;34mΩ\033[0m","\033[38;2;101;6733m∏\033[0m", '\033[31m▓\033[39m', "\033[32m※\033[0m","\033[38;2;218;165;32mⅡ\033[0m","\033[37m¤\033[0m", "🪨", "|", "🪦","💎", "※", "Ω","\033[90mΩ\033[0m", "₡", "Ⅲ", "Ⅷ", "Ⅱ"]
 
 
 blockStrength = ["All","Diamond","Quartz","Iron", "Stone", "Wood", "Nothing"]
@@ -18,6 +18,8 @@ def heirarchyCheck(block, itemBreak):
 
 
 # key_blocks_list = []
+#Class to make objects in games with special charterstics like display 
+#and message that happens when i run into object or key level required to open
 class KeyBlocks():
     def __init__(self, look, keyOrBombLevel, message):
         self.look = look
@@ -49,7 +51,8 @@ itemDrops = {
     "\033[38;2;218;165;32mⅡ\033[0m" : [["Wood Wall"],[1],"Wood Wall", "Nothing"],
     "∏" : [["Wood Door"],[1], "Wood Door", "Nothing"],
     "\033[90mΩ\033[0m" : [["Iron Ore"],[2], "Iron Ore Deposit", "Stone"],
-    "\033[38;2;101;6733m∏\033[0m":[["Crafting Table"],[1],"Crafting Table", "Nothing"]  #Can pass through if not on blocked items
+    "\033[0;34mΩ\033[0m" : [["Diamond"],[1], "Diamond Ore Deposit", "Iron"],
+    "\033[38;2;101;6733m∏\033[0m":[["Crafting Table"],[1],"Crafting Table", "Nothing"],  #Can pass through if not on blocked items
 }
 def getItemList(item : str):
     itemsList = itemDrops[item]

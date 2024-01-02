@@ -1,4 +1,5 @@
 import traceback
+from typing import Any
 from termcolor import colored
 # from json import load
 # import turtle; from tkinter import *; 
@@ -8,13 +9,19 @@ from gameNounsandWords import *; import string; from animationDepartment import 
 from breakableItems import *
 #import keyboard is deprecated so i use pynupt in order to make it cross platform
 import sys; from colorama import init; from colorama import Fore, Back, Style
+
 def mapErase(i=1):
-        sys.stdout.write("\033[F"*40)
-        sys.stdout.write("\n"*7)#Amount of lines i could have max
+        print("\033[?25l", end="")
+        sys.stdout.write("\033[?25l\033[F\033[?25h"*40)
+        sys.stdout.write("\033[?25l\n\033[?25h"*7)#Amount of lines i could have max
+        print("\033[?25h", end="")
 def erases(i):
     for x in range(0, i):
         #sys.stdout.write("\033[A")
-        sys.stdout.write("\033[A\033[K")
+        print("\033[?25l", end="")
+        sys.stdout.write("\033[A\033[K\033[?25h")
+        print("\033[?25h", end="")
+        # sys.stdout.flush()
         #print("\033[A",' '*115,"\033[A")      #Need to change randomy deending on size of screen
 def objectOfCurrentBiome(): #doesnt work yet
     for bObject in buildList:
@@ -33,6 +40,7 @@ def loadMap(biome = False):
     if int(itemBuffs[2][User['Main Hand']][0]) < 10: multiply -= 0.2
     elif int(itemBuffs[2][User['Main Hand']][0]) < 100: multiply -= 0.3
     else: multiply -= 0.5
+    print("\033[?25l", end="")
     counterM = 0; ends = " "; starts = " "*65; lineMark = "\33[94m|\033[K\33[0m" #2.8 is distance without health display
     print(" "*65,(f"\033[31m{User['Health']}|{User['Max Health']}\33[94m__\033[90mP:{monsterAttacks.armor}|{itemBuffs[1][User['Wearing']][0]}\033[94m__\033[35mD:{takeItem.mainhand}"+ "\33[94m"+"_"*(int(biome.getWidth()*multiply))) + "\33[0m", "\033[K", flush= True)
     for row in biome.getMap():
@@ -41,12 +49,13 @@ def loadMap(biome = False):
             counterM += 1
             if counterM > biome.getWidth() - 1: ends = "\33[94m|\33[0m \n" #change for when map is different sizes
             if counterM > biome.getWidth(): break
-            print(f'{starts}{lineMark}{col}',end = f"{ends}\033[K", flush= True); starts = " "; lineMark = ""
+            print(f'{starts}{lineMark}{col}',end = f"{ends}\033[K\033[?25h", flush= True); starts = " "; lineMark = ""
 
             widthC+=1
         counterM = 0; ends = " "; starts = " "*65; lineMark = "\33[94m|\33[0m"
         lengthC+=1
     print(" "*64,f" \033[033mLvL: {User['LVL']}", "\33[94m\u203e"*(int(Call.biMap.getWidth()*2.1)),end = "\33[0m\033[K", flush= True)
+    print("\033[?25h", end="")
     mapErase(12)
 def getNumberInSentence(sentence):
     newInt = 0 #Only gets numbers in sentence/string and ignores non numbers
@@ -96,13 +105,16 @@ def lookAhead(objOrBlock : bool = False):
     else:
         directionE += newAdd
     try:
-        if objOrBlock == True: 
+        # if objOrBlock == True: 
+        # else:
+        if directionN < Call.biMap.getLength() and directionN >= 0 and directionE >=0 and directionE < Call.biMap.getWidth():
             try:
                 objectAtSpot = Call.biMap.getObj(directionN,directionE)
             except:
-                objectAtSpot = False
+                objectAtSpot = Call.biMap.getStuffPos(directionN,directionE)
         else:
-            objectAtSpot = Call.biMap.getStuffPos(directionN,directionE)
+            objectAtSpot=False
+
     except:
         objectAtSpot = False
     #returns an array of[northernLocation,EasternLocation,ObjectAtSpot]
@@ -125,6 +137,8 @@ def lookAhead(objOrBlock : bool = False):
     # else:
     #     return [directionN,directionE,objectAtSpot]
     # # Movement.pre = biome.getStuffPos(space[0],space[1])
+
+
 
 
 # def MovementTwo():
@@ -173,14 +187,124 @@ def lookAhead(objOrBlock : bool = False):
 #         findEnv()
 #         findMonster()
 #         findItem()
-
+def movementAddition():
+    Call.biMap.setStuffPos(Movement.spotN, Movement.spotE, Movement.pre)
+    biome = testForNewEnv() #might be problem here with what biome it is
+    n = (space[0]) % biome.getLength()
+    e = (space[1]) % biome.getWidth()
+    #(TO DO-Done(12/22/2023)) Game charces when going to different sized maps like froxen lakes
+    #I believe problem is that the caluclualtion is off because my location is past 15 for second 5
+    #width map and needs to compensate but figure out
+    Movement.spotN = (biome.getLength()-1) - n
+    Movement.spotE = e
+    north = Movement.spotN
+    east = Movement.spotE
+    Movement.pre = biome.getStuffPos(north, east)
+    #(newProblem is droped items get displayed in all places) - fixeD(12/22/2023)
+    biome.setStuffPos(north, east, Movement.userImage) #(Problem might be here when putting charcter on meadows)
+    loadMap()
+    findEnv()
+    findMonster()
+    findItem()
 def Movement():
+    direct = words["direction"]; t = Input.choice; 
+    BoundryLine = ""; increment = [0,0]
+    if (("move" or "step" in t) and any(word in t.lower() for word in direct[7: 9])) or "w" == t.lower():increment[1]-= 1;  BoundryLine = "West"; Movement.userImage = "◄"#ᐊ▲►▼◄◀֎֎֎֎
+    elif (("move" or "step" in t) and any(word in t.lower() for word in direct[0:2])) or "n" == t.lower(): increment[0]+= 1; BoundryLine = "North"; Movement.userImage = "▲"#ᐃ▲/3456
+    elif (("move" or "step" in t) and any(word in t.lower() for word in direct[2:4])) or "e" == t.lower(): increment[1]+= 1; BoundryLine = "East"; Movement.userImage = "►"#ᐅ☻        elif (("move" or "step" in t) and any(word in t.lower() for word in direct[4:7])) or "s" == t.lower(): t = "s"; Movement.userImage = "▼"#ᐁ ▼▼◄
+    elif (("move" or "step" in t) and any(word in t.lower() for word in direct[4:7])) or "s" == t.lower(): increment[0]-= 1;  BoundryLine = "South"; Movement.userImage = "▼"#ᐁ ▼▼◄
+    elif t == "start": Movement.userImage = "▲"; Call.biMap.setStuffPos(Movement.spotN, Movement.spotE, Movement.userImage);mapErase(1);loadMap();mapErase(1); return False
+    SpotAhead = lookAhead()
+    if (((space[0] + increment[0] < 0) or (space[0] + increment[0] >= 30)) or ((space[1] +increment[1] < -10) or (space[1] + increment[1] >= 20))):
+        Call.biMap.setStuffPos(Movement.spotN, Movement.spotE, Movement.userImage)
+        mapErase(1);loadMap();mapErase(1)
+        print("The " + BoundryLine + "ern Boundry Line blocks your path")
+        return False
+    elif (SpotAhead[2] == False):
+        Call.biMap.setStuffPos(Movement.spotN,Movement.spotE, Movement.pre)
+        space[0] += increment[0]
+        Movement.spotN += -increment[0]
+        space[1] += increment[1]
+        Movement.spotE += increment[1]
+        for bObject in buildList:
+            bound = bObject.getCordinate()
+            if space[0] >= bound[0] and space[0] < bound[1] and space[1] >= bound[2] and space[1] < bound[3]:
+                if bObject.getStuffPos(Movement.spotN % (Call.biMap.getLength()),space[1] % Call.biMap.getWidth()) in blockedItems:
+                    blockingObject = bObject.getStuffPos(Movement.spotN % (Call.biMap.getLength()),space[1] % Call.biMap.getWidth())
+                    space[0] -= increment[0]
+                    space[1] -= increment[1]
+                    Movement.spotN -= -increment[0]
+                    Movement.spotE -= increment[1]
+                    Call.biMap.setStuffPos(Movement.spotN,Movement.spotE, Movement.userImage)
+                    mapErase(1);loadMap();mapErase(1)
+                    print(f"{blockingObject} Blocks Your path On {BoundryLine}ern Side")
+                    return False
+                display1 = User["Current Biome"]; User["Current Biome"] = bObject.getName()
+                display2 = "Entered Biome: {}".format(User["Current Biome"])
+                Call.biMap = bObject
+                scatterItem("item", User["Current Biome"], bound[0], bound[1], bound[2], bound[3], True)
+                scatterItem("monster", User["Current Biome"], bound[0], bound[1], bound[2], bound[3], True)
+                Movement.spotN = Movement.spotN % (Call.biMap.getLength())
+                Movement.spotE = space[1] % Call.biMap.getWidth()
+                Movement.pre = Call.biMap.getStuffPos(Movement.spotN,Movement.spotE)
+                Call.biMap.setStuffPos(Movement.spotN,Movement.spotE, Movement.userImage)
+                mapErase(1);loadMap();mapErase(1)
+                print(f"--------------\nLeaving Biome: {display1}\n{display2}\n--------------")
+                #Make a for loop to spawn monsters from old adventures if decide to use that ma=echanic (will be  lot of monsters but can change that)
+                #Can also make a loop to give each place a new random amount of monsters, super eas
+                if (not User["Current Biome"] in User["Biomes Discovered"]):
+                    User["Biomes Discovered"].append(User["Current Biome"])
+                    print(f"New Biome Discovered!")
+                findMonster()
+                findItem()
+                return False
+        print("Game is broken")
+        time.sleep(10)
+    elif SpotAhead[2] in blockedItems:
+        Call.biMap.setStuffPos(Movement.spotN,Movement.spotE,Movement.userImage)
+        mapErase(1);loadMap();mapErase(1)
+        print(f"{SpotAhead[2]} Blocks Your path")
+        return False
+    else:
+        # objectInFront = lookAhead(True)
+        if isinstance(SpotAhead[2], KeyBlocks):
+            # passingRequirment = objectInFront.getKeyLevel()
+            Call.biMap.setStuffPos(Movement.spotN,Movement.spotE, Movement.userImage)
+            mapErase(1);loadMap();mapErase(1)
+            print(f"{SpotAhead[2].getLook()} Blocks your Path\033[0m\n{SpotAhead[2].getMessage()}")
+            return False
+        else:
+            Call.biMap.setStuffPos(Movement.spotN,Movement.spotE,Movement.pre)
+            space[0] += increment[0]
+            Movement.spotN += -increment[0]
+            space[1] += increment[1]
+            Movement.spotE += increment[1]
+            Movement.pre = SpotAhead[2]
+            Call.biMap.setStuffPos(Movement.spotN,Movement.spotE,Movement.userImage)
+            mapErase(1);loadMap();mapErase(1)
+            findMonster()
+            findItem()
+        
+
+    # if (Movement.spotN + increment[0] < 0 or Movement.spotN + increment[0] >= 10) or (Movement.spotE + increment[1] < 0 or Movement.spotE + increment[1] >= Call.biMap.length()):
+    #     space[0], Movement.spotN += increment[0]
+    #     space[1], Movement.spotE += increment[1]
+    #     findEnv()
+    #     Movement.spotN = (Call.biMap.length()-1) % Movement.spotN
+    #     Movement.spotE = (Call.biMap.length()-1) % Movement.spotE
+        
+
+
+
+
+def MovementThree():
+    inc = 0
     direct = words["direction"]; t = Input.choice #have to check if they said move
     #Fix boundry as boundry gets larger
-    if (("move" or "step" in t) and any(word in t.lower() for word in direct[7: 9])) or "w" == t.lower(): space[1] -= 1; t = "west"; Movement.userImage = "◄"#ᐊ▲►▼◄◀֎֎֎֎
-    elif (("move" or "step" in t) and any(word in t.lower() for word in direct[0:2])) or "n" == t.lower(): space[0] += 1; t = "north"; Movement.userImage = "▲"#ᐃ▲/3456
-    elif (("move" or "step" in t) and any(word in t.lower() for word in direct[2:4])) or "e" == t.lower(): space[1] += 1; t = "east"; Movement.userImage = "►"#ᐅ☻
-    elif (("move" or "step" in t) and any(word in t.lower() for word in direct[4:7])) or "s" == t.lower(): space[0] -= 1; t = "south"; Movement.userImage = "▼"#ᐁ ▼▼◄
+    if (("move" or "step" in t) and any(word in t.lower() for word in direct[7: 9])) or "w" == t.lower(): inc-= 1; space[1] -= 1; t = "west"; Movement.userImage = "◄"#ᐊ▲►▼◄◀֎֎֎֎
+    elif (("move" or "step" in t) and any(word in t.lower() for word in direct[0:2])) or "n" == t.lower(): inc+= 1; space[0] += 1; t = "north"; Movement.userImage = "▲"#ᐃ▲/3456
+    elif (("move" or "step" in t) and any(word in t.lower() for word in direct[2:4])) or "e" == t.lower(): inc+= 1; space[1] += 1; t = "east"; Movement.userImage = "►"#ᐅ☻
+    elif (("move" or "step" in t) and any(word in t.lower() for word in direct[4:7])) or "s" == t.lower(): inc-= 1; space[0] -= 1; t = "south"; Movement.userImage = "▼"#ᐁ ▼▼◄
     elif t == "start": Movement.userImage = "▲"
     #(TO DO) Make world randomyl generate biomes with items located in
     bMap = Call.biMap.getMap()
@@ -188,7 +312,7 @@ def Movement():
     wiMap = Call.biMap.getWidth()
     #bootleg checking to see if is gate
     try:
-        objectInFront: KeyBlocks = Call.biMap.getObj((leMap-1)-(space[0]) % leMap,space[1] % wiMap)
+        objectInFront: KeyBlocks = Call.biMap.getObj((leMap-1)-((space[0]) % leMap),space[1] % wiMap)
         if objectInFront.getIsBlocking():
             passingRequirment = objectInFront.getKeyLevel()
             message = objectInFront.getMessage()
@@ -204,16 +328,7 @@ def Movement():
             print(f"{look} Blocks your Path\033[0m\n{message}")
             return False
     except:
-        if bMap[(leMap-1)-(space[0]) % leMap][space[1] % wiMap] in blockedItems:
-            if t == "north": space[0] -= 1
-            elif t == "south": space[0] += 1
-            elif t == "east": space[1] -= 1 #Change maps to use object maps (Done mostly)
-            elif t == "west": space[1] += 1
-            Call.biMap.setStuffPos((leMap-1)-(space[0]) % leMap,space[1] % wiMap, Movement.userImage)
-            mapErase(1);loadMap();mapErase(1)
-            itemInFront = lookAhead()
-            print(f"\033[32mA \033[31m{itemDrops[itemInFront[2]][2]}\033[32m:{itemInFront[2]}\033[32m Blocks your Path\033[0m");  return False
-        elif ((space[0]< 0) or (space[0] >= 30)) or ((space[1] < -10) or (space[1] >= 20)):
+        if ((space[0]< 0) or (space[0] >= 30)) or ((space[1] < -10) or (space[1] >= 20)):
             if t == "north": space[0] -= 1
             elif t == "south": space[0] += 1
             elif t == "east": space[1] -= 1
@@ -222,24 +337,55 @@ def Movement():
             mapErase(1);loadMap();mapErase(1)
             print(f"Cannot go past boundry on {t}ern side")
             return False
-        Call.biMap.setStuffPos(Movement.spotN, Movement.spotE, Movement.pre)
-        biome = testForNewEnv() #might be problem here with what biome it is
-        n = (space[0]) % biome.getLength()
-        e = (space[1]) % biome.getWidth()
-        #(TO DO-Done(12/22/2023)) Game charces when going to different sized maps like froxen lakes
-        #I believe problem is that the caluclualtion is off because my location is past 15 for second 5
-        #width map and needs to compensate but figure out
-        Movement.spotN = (biome.getLength()-1) - n
-        Movement.spotE = e
-        north = Movement.spotN
-        east = Movement.spotE
-        Movement.pre = biome.getStuffPos(north, east)
-        #(newProblem is droped items get displayed in all places) - fixeD(12/22/2023)
-        biome.setStuffPos(north, east, Movement.userImage) #(Problem might be here when putting charcter on meadows)
-        loadMap()
-        findEnv()
-        findMonster()
-        findItem()#working on building so doesnt drop (TO DO 12/22/2023)
+        # elif bMap[(leMap-1)-(space[0]) % leMap][space[1] % wiMap] in blockedItems:
+        
+        elif Movement.spotN + inc < 0 or Movement.spotE >= 10:
+            print("Hey")
+            # movementAddition()
+            return False
+        elif bMap[(leMap-1)-(space[0]) % leMap][space[1] % wiMap] in blockedItems:
+            if t == "north": space[0] -= 1
+            elif t == "south": space[0] += 1
+            elif t == "east": space[1] -= 1 #Change maps to use object maps (Done mostly)
+            elif t == "west": space[1] += 1
+            Call.biMap.setStuffPos((leMap-1)-(space[0]) % leMap,space[1] % wiMap, Movement.userImage)
+            mapErase(1);loadMap();mapErase(1)
+            try:
+                itemInFront = lookAhead()
+                print(f"\033[32mA \033[31m{itemDrops[itemInFront[2]][2]}\033[32m:{itemInFront[2]}\033[32m Blocks your Path\033[0m")
+                return False
+            except:
+                movementAddition()
+                return False
+        movementAddition()
+        #Huge Bug where if there is item all the way to left on same row
+        #Then i cannot move to next biome because it thinks that is blocking it
+        #Problem with calculation
+
+
+
+
+        # Call.biMap.setStuffPos(Movement.spotN, Movement.spotE, Movement.pre)
+        # biome = testForNewEnv() #might be problem here with what biome it is
+        # n = (space[0]) % biome.getLength()
+        # e = (space[1]) % biome.getWidth()
+        # #(TO DO-Done(12/22/2023)) Game charces when going to different sized maps like froxen lakes
+        # #I believe problem is that the caluclualtion is off because my location is past 15 for second 5
+        # #width map and needs to compensate but figure out
+        # Movement.spotN = (biome.getLength()-1) - n
+        # Movement.spotE = e
+        # north = Movement.spotN
+        # east = Movement.spotE
+        # Movement.pre = biome.getStuffPos(north, east)
+        # #(newProblem is droped items get displayed in all places) - fixeD(12/22/2023)
+        # biome.setStuffPos(north, east, Movement.userImage) #(Problem might be here when putting charcter on meadows)
+        # loadMap()
+        # findEnv()
+        # findMonster()
+        # findItem()
+
+
+        #working on building so doesnt drop (TO DO 12/22/2023)
         #(OLD CODE COMMENTED OUT AND MOVED)
         #Add checks to check if chacrter is on special block or wall
         #USE LOOK AHEAD FUNCTION (12/22/2023)
@@ -670,7 +816,7 @@ def testForNewEnv():
             if space[0] >= bounds[0] and space[0] < bounds[1] and space[1] >= bounds[2] and space[1] < bounds[3]:
                 return buildList[counter]
         counter+=1
-    return Call.biMap
+    return [Call.biMap, False]
 
 def findEnv():
     findEnv.yes = False; counter = 0
@@ -885,7 +1031,7 @@ def breakItem():
 
 def build(item):
     if item == "nothing":
-        print("Not a collectable item in the game")
+        print("Not a buildable item in the game")
         return False
     elif item not in User["Inventory"]:
         print("Item not in Inventory")
@@ -899,7 +1045,7 @@ def build(item):
                 User["Inventory"].remove(item)
                 Movement.pre = Call.biMap.getStuffPos(Movement.spotN, Movement.spotE)
                 return True
-        print("Nothing to build or place")
+        print(f"Cant Place {item}")
         return False
 
 def dropItem(said):
@@ -1315,7 +1461,7 @@ try:
     os.system('cls'); storyLevel.skip = False;  help.ran = False; dropItem.count = 1
     Call.level = "Beginning"; Call.thing = True; Call.direction = True; Call.message = False; Input.f = True
     storyLevel.level = 0;findMonster.list = []; findMonster.HP = 0; findMonster.DG = 0; findItem.era  = 0
-    space = [4,4]; Movement.spotN = 4; Movement.spotE = 4;
+    space = [4,4]; Movement.spotN = 5; Movement.spotE = 4
     # Movement.saveN = 9; Movement.saveE = 9;
     findItem.ItemMemory = ""; takeItem.s = True; findEnv.yes = False
     Call.memory = ""
