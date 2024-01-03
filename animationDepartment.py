@@ -96,7 +96,6 @@ def storyList(type, talk, animationEyeBrow, animationEyes, animationChin, animat
             times = 0.0
             if key_listener.is_s_pressed(): times = 0.005;key_listener.keys_pressed.discard(all); 
             elif key_listener.is_x_pressed(): times = 0.0;talk=False; key_listener.keys_pressed.discard(all)
-
             else: times = 0.02
             if talk: time.sleep(times)
         if '*' in i and '$' not in i:

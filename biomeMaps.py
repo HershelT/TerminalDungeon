@@ -16,7 +16,7 @@ PythonAdventure = world()
 #add ability so using setMap you put in what world you wnat biome screated in
 #this allows person to have overworlds and underworlds
 class setMap:#add location on map (n, n, e, e)
-    def __init__(self, name, cord1, cord2, cord3, cord4): 
+    def __init__(self, name, cord1, cord2, cord3, cord4, floorColor = ''): 
         #Add a floor color that can be set in init or changed later to make that the base floor color on map
         
         self.name = name
@@ -28,12 +28,15 @@ class setMap:#add location on map (n, n, e, e)
         self.cord3 = cord3
         self.cord4 = cord4
         self.objects : dict = {}
+        self.floorColor = floorColor
         PythonAdventure.addToWorld(self)
     def setStuffPos(self, row, col, stuff):
         self.mapType[row][col] = stuff
     def setObj(self, row, col, stuff:KeyBlocks):
         self.objects[str(row) + "," + str(col)] = stuff
         self.mapType[row][col] = stuff.getLook()
+    def setFloorColor(self, color):
+        self.floorColor = color
     def deleteObject(self,row,col):
         self.objects.pop(str(row) + "," + str(col))
     def getObj(self, row, col):
@@ -48,6 +51,8 @@ class setMap:#add location on map (n, n, e, e)
         return self.width 
     def getName(self):
         return self.name      
+    def getFloorColor(self):
+        return self.floorColor
     def getCordinate(self):
         return [self.cord1, self.cord2, self.cord3, self.cord4]     
 mapMeadows = setMap("Meadows",20, 30, -10, 0) #(TO DO) problem with display and movement.userImage
@@ -55,13 +60,13 @@ mapVolcano = setMap("Volcano",20, 30, 0, 10)
 mapCliffs = setMap("Cliffs",20, 30, 10, 20)
 #customize each thing with walls and trees and stuff
 mapLavaPlains = setMap("Lava Plains",10, 20, -10, 0)
-mapIcePlains = setMap("Ice Plains",10, 20, 0, 5) #Stuff from half maps gets displatyed in meadpws
-mapFrostedPlains = setMap("Frosted Plains",10, 20, 5, 10)
+mapIcePlains = setMap("Ice Plains",10, 20, 0, 5, "\033[1;30;47m") #Stuff from half maps gets displatyed in meadpws
+mapFrostedPlains = setMap("Frosted Plains",10, 20, 5, 10, "\033[1;30;47m")
 mapWaterPlains = setMap("Water Plains",10, 20, 10, 20)
 
-mapWaterloo = setMap("Waterloo",0, 10, -10, 0)
-mapGreenland = setMap("Greenland",0, 10, 0, 10)
-mapPineForest = setMap("Pine Forest", 0, 10, 10, 20)         
+mapWaterloo = setMap("Waterloo",0, 10, -10, 0, "\033[1;36;44m")
+mapGreenland = setMap("Greenland",0, 10, 0, 10, "\033[46m")
+mapPineForest = setMap("Pine Forest", 0, 10, 10, 20, "\033[1;30;43m")         
 #Chacrters to use: ※ Ω ₡ Ⅲ Ⅷ Ⅱ [░-Change to walls or path][
 
 # mapGreenland.setStuffPos(3,5,"🪨")
@@ -80,7 +85,7 @@ def loadingMap(map : setMap, mapPulledFrom : list):
         col = 0
         for c in r:
             if c == " " or c == "P":
-                map.setStuffPos(row,col,str('\033[31m' + " " + '\033[39m'))
+                map.setStuffPos(row,col,(map.getFloorColor()+" "))
             else:
                 block = itemToNumber[int(c)]
                 #checks if i want to place an object with a property or just a block
@@ -115,12 +120,25 @@ itemToNumber =  {
     5 : "\033[90mΩ\033[0m", # Iron Ore deposit
     6 : '\033[31m▓\033[39m', #portal
     7 : KeyBlocks("\033[38;5;54m∏\033[0m", "Diamond Key", "You need a Diamond key to open - Boss Gate"),
-    8: "\033[0;34mΩ\033[0m"
+    8: "\033[34mΩ\033[0m",
+    9: "\033[47m \033[0m",
 
 }
 #create maps and write a program that cycles through setting position of map to that if spot not empty
 #Create a list with blocks and there (DONEEE)
   
+UpdatedMapGreenland = [
+     [" ", " "," "," "," "," "," "," "," "," "],
+     [" ", " ","9","9","9","9","9","9"," "," "],
+     [" ", " "," "," "," "," "," ","9"," "," "],
+     [" ", " "," "," "," "," "," ","9"," "," "],
+     [" ", " "," "," "," "," "," ","4"," "," "],
+     [" ", " "," "," ","P"," "," "," "," "," "],
+     [" ", " "," "," "," "," "," ","9"," "," "],
+     [" ", " "," "," "," "," "," ","9"," "," "],
+     [" ", " "," "," "," "," "," "," "," "," "],
+     [" ", " "," "," "," "," "," "," "," "," "]
+]
 #MapForGreenland
 OldMapG = [
      ["0", "0"," ","5","1"," "," ","8"," "," "],
@@ -149,7 +167,8 @@ UpdatedMapG = [
 ]
 
 
-loadingMap(mapGreenland, UpdatedMapG)
+
+loadingMap(mapGreenland, UpdatedMapGreenland)
 loadingMap(mapPineForest, OldMapG)
 # mapGreenland.setStuffPos(0,0, "🪨")
 
