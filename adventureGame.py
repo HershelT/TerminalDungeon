@@ -234,7 +234,7 @@ def Movement():
     elif (("move" or "step" in t) and any(word in t.lower() for word in direct[4:7])) or "s" == t.lower(): increment[0]-= 1;  BoundryLine = "South"; Movement.userImage = "▼"#ᐁ ▼▼◄
     elif t == "start": Movement.userImage = "▲"; Call.biMap.setStuffPos(Movement.spotN, Movement.spotE, Movement.userImage);mapErase(1);loadMap(); return False
     SpotAhead = lookAhead()
-    if (((space[0] + increment[0] < 0) or (space[0] + increment[0] >= 30)) or ((space[1] +increment[1] < -10) or (space[1] + increment[1] >= 20))):
+    if (((space[0] + increment[0] < LowerBound) or (space[0] + increment[0] >= UpperBound)) or ((space[1] +increment[1] < EasternBound) or (space[1] + increment[1] >= WesternBound))):
         Call.biMap.setStuffPos(Movement.spotN, Movement.spotE, Movement.userImage)
         mapErase(1);loadMap()
         print(colored("The " + BoundryLine + "ern Boundry Line blocks your path","light_green"))

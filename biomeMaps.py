@@ -66,7 +66,11 @@ mapWaterPlains = setMap("Water Plains",10, 20, 10, 20)
 
 mapWaterloo = setMap("Waterloo",0, 10, -10, 0, "\033[1;36;44m")
 mapGreenland = setMap("Greenland",0, 10, 0, 10, "\033[46m")
-mapPineForest = setMap("Pine Forest", 0, 10, 10, 20, "\033[1;30;43m")         
+mapPineForest = setMap("Pine Forest", 0, 10, 10, 20, "\033[1;30;43m") 
+LowerBound = 0
+UpperBound = 30
+EasternBound = -10
+WesternBound = 20        
 #Chacrters to use: ※ Ω ₡ Ⅲ Ⅷ Ⅱ [░-Change to walls or path][
 
 # mapGreenland.setStuffPos(3,5,"🪨")
