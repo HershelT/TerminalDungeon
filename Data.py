@@ -24,10 +24,10 @@ User = {
 
 
 Inventory = { #Used to determine the rows and what each item is from invLoc() method
-    "Utilities" : [],
-    "Wearables" : [],
-    "Weapons" : [],
-    "Consumables" : [],
+    "\033[33mUtilities" : [],
+    "\033[90mWearables" : [],
+    "\033[35mWeapons" : [],
+    "\033[94mConsumables" : [],
 }
 Inventory1 = {
     #Empty inventory thst gets copied from Inventory for invLoc()

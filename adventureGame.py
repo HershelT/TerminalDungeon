@@ -468,7 +468,10 @@ def shoot():
         if test:
             Call.biMap.setStuffPos(directionN,directionE, shoot.pre)
         else: print("Shot can't leave biome"); return False
-        if counter>0: User["Inventory"].remove(isArrow)
+        if counter>0: 
+            User["Inventory"].remove(isArrow)
+            if isArrow not in User["Inventory"]: 
+                User["Main Hand"] = ""
         else: print("Shot cant shoot through walls"); return False #Maybe make certaub utens shoot through different walls
         mapErase(1);loadMap()
     except:
@@ -1151,7 +1154,7 @@ def Info():
 def invLoc():
     Inventory1 = copy.deepcopy(Inventory)
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-    print(f'Main Hand: ({User["Main Hand"]}) \nWearing: ({User["Wearing"]})')
+    print(colored(f'Main Hand: ({User["Main Hand"]}) \nWearing: ({User["Wearing"]})',"light_green"))
     for i in User["Inventory"]: #Can just do this when retrieve item so it doesnt have to use space
         CT = 0
         for j in Inventory:
@@ -1170,7 +1173,7 @@ def invLoc():
             if itemC not in sortU:
                 sortU.append(itemC)
         print(f'{arrJ[x]}: {sortU}')
-    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    print("\033[m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 def storyAdv(): #Prints out story for levek you Are on
 
 
@@ -1346,6 +1349,13 @@ def Call():
             gridI = gridItems[User["Current Biome"]]
             print("Items", gridI[0], "\nCount", gridI[1])
         except: print("Unfinished items in that locations")
+    elif Input.choice[0:7] == "/damage":
+        try:
+            User["Health"] -= int(Input.choice[8:])
+            mapErase()
+            loadMap()
+            print(colored(f'Took damage: {int(Input.choice[8:])} off of User',"red"))
+        except: print("Wrong Input for taking damage")
     elif Input.choice == "/build locate": #Cheats for environment locations of everywhere
         for i in buildList:
             print(i.getName(),": ",i.getCordinate())
