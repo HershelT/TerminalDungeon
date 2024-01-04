@@ -106,6 +106,7 @@ itemBuffs = [
     }, 
     #wearbles (Number is how much damage can potentially be decreased per someones attack])
     {
+    "" : [0, "Wearable"],
     "Cloth Tunic" : [3, "Wearable"], 
     "Iron Armor" : [10, "Wearable"], 
     "Weathered Tunic" : [2, "Wearable"], 
@@ -117,6 +118,7 @@ itemBuffs = [
     #Items : ["Damage",["Material that a block object looks at to see if can be broken"E.X "Wood", "Stone"]]
     #Can add heiarchy chart where if it can break stone it can break more
     { #"NAME" : Damage, "max Material it can break", special abilities for later
+    "" : [0, "Weapon"],
     "Rock" : [2, "Nothing", ["Projectile-5 (Squares)", "Speed-0.5 (Milliseconds)"]], 
     
     "Wood Sword" : [5,"Nothing"], 

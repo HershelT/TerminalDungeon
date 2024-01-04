@@ -11,10 +11,10 @@ from breakableItems import *
 import sys; from colorama import init; from colorama import Fore, Back, Style
 
 def mapErase(i=1):
-        print("\033[?25l", end="")
+        print("\033[?25l", end="", flush=True)
         print("\033[F"*40,flush=True)
         print("\n"*6,flush=True)#Amount of lines i could have max
-        print("\033[?25h", end="")
+        print("\033[?25h", end="", flush=True)
 def erases(i):
     for x in range(0, i):
         #sys.stdout.write("\033[A")
@@ -30,33 +30,50 @@ def objectOfCurrentBiome(): #doesnt work yet
             return bObject
 def loadMap(biome = False):
     if biome == False: biome = Call.biMap
-    lengthC = 0; widthC = 0
-    multiply = 2.8
-    if User["Health"] >= 100: multiply = 1.7 #size of line on top
-    elif User["Health"] >= 10: multiply = 1.8
-    else: multiply = 2.0
-    if itemBuffs[1][User['Wearing']][0] < 10: multiply -= 0.4
-    elif itemBuffs[1][User['Wearing']][0] < 100: multiply -= 0.65
-    else: multiply -= 0.8
-    if int(itemBuffs[2][User['Main Hand']][0]) < 10: multiply -= 0.2
-    elif int(itemBuffs[2][User['Main Hand']][0]) < 100: multiply -= 0.3
-    else: multiply -= 0.5
+    
+    # multiply = 2.8
+    # if User["Health"] >= 100: multiply = 1.7 #size of line on top
+    # elif User["Health"] >= 10: multiply = 1.8
+    # else: multiply = 2.0
+    # if itemBuffs[1][User['Wearing']][0] < 10: multiply -= 0.4
+    # elif itemBuffs[1][User['Wearing']][0] < 100: multiply -= 0.65
+    # else: multiply -= 0.8
+    # if int(itemBuffs[2][User['Main Hand']][0]) < 10: multiply -= 0.2
+    # elif int(itemBuffs[2][User['Main Hand']][0]) < 100: multiply -= 0.3
+    # else: multiply -= 0.5
     print("\033[?25l", end="", flush=True)
-    counterM = 0; ends = "\033[0m"; starts = " "*65; lineMark = "\033[94m|\033[K\033[0m" #2.8 is distance without health display
-    print(" "*65,(f"\033[31m{User['Health']}|{User['Max Health']}\033[94m__\033[90mP:{monsterAttacks.armor}|{itemBuffs[1][User['Wearing']][0]}\033[94m__\033[35mD:{takeItem.mainhand}"+ "\33[94m"+"_"*(int(biome.getWidth()*multiply))) + "\33[0m", "\033[K", flush= True)
+    lengthC = 0;counterM = 0; rowCount = 0
+    ends = "\033[0m"; starts = " "*65; lineMark = "\033[94m|\033[K\033[0m" #2.8 is distance without health display(f"\033[31m{User['Health']}|{User['Max Health']}\033[94m__\033[90mP:{monsterAttacks.armor}|{itemBuffs[1][User['Wearing']][0]}\033[94m__\033[35mD:{takeItem.mainhand}"
+    print(" "*63,"\033[94m","_"*(int(biome.getWidth()*1.2)) + "\33[0m", "\033[K", flush= True)
     color = biome.getFloorColor()
     for row in biome.getMap():
         if lengthC > biome.getLength(): break
+        row_str = starts
         for col in row:
             counterM += 1
-            if counterM > biome.getWidth() - 1: ends = "\033[94m|\033[0m \n" #change for when map is different sizes
+            if counterM > biome.getWidth() - 1: 
+                
+                if rowCount == 0: ends +=  f"\033[94m|\033[0m \033[31mHealth:"
+                elif rowCount == 1: ends +=  f"\033[94m|\033[0m \033[31m({User['Health']}|{User['Max Health']})"
+                elif rowCount == 2: ends +=  f"\033[94m|\033[0m \033[90mArmor:"
+                elif rowCount == 3: ends +=  f"\033[94m|\033[0m \033[90m{monsterAttacks.armor}|{itemBuffs[1][User['Wearing']][0]}"
+                elif rowCount == 4: ends += f"\033[94m|\033[0m \033[35mDamage:"
+                elif rowCount == 5: ends += f"\033[94m|\033[0m \033[35m{takeItem.mainhand}"
+                elif rowCount == 6: ends += f"\033[94m|\033[0m \033[92m{User['Main Hand']}"
+                elif rowCount == 7: ends += f"\033[94m|\033[0m \033[92m{User['Wearing']}"
+                elif rowCount == 8: ends += f"\033[94m|\033[0m \033[033mLvL: {User['LVL']}"
+                else: ends = "\033[94m|\033[0m "
+                # elif row == 2: ends +=  f"\033[94m__\033[90mP:{monsterAttacks.armor}|{itemBuffs[1][User['Wearing']][0]}"
+                # elif row == 4: ends += f"\033[94m__\033[35mD:{takeItem.mainhand}" #change for when map is different sizes
             if counterM > biome.getWidth(): break
-            print(f'{starts}{lineMark}{color}{col}\033[0m',end = f"{ends}\033[0m\033[K", flush= True); starts = f"{color}"; lineMark = ""
-
-            widthC+=1
+            row_str += f'{lineMark}{color}{col}\033[0m'
+            # print(f'{starts}{lineMark}{color}{col}\033[0m',end = f"{ends}\033[0m\033[K", flush= True); 
+            starts = f"{color}"; lineMark = ""
+        print(row_str+ends + "\033[0m\033[K", flush= True)
         counterM = 0; ends = "\033[0m"; starts = " "*65; lineMark = "\033[94m|\033[0m"
-        lengthC+=1
-    print(" "*64,f" \033[033mLvL: {User['LVL']}", "\33[94m\u203e"*(int(Call.biMap.getWidth()*2.1)),end = "\33[0m\033[K", flush= True)
+        lengthC+=1; rowCount += 1
+    print(" "*63,"\033[94m","\033[94m\u203e"*(int(biome.getWidth()*1.2)) + "\033[0m", "\033[K", flush= True)
+    # print(" "*64,f" \033[033mLvL: {User['LVL']}", "\33[94m\u203e"*(int(Call.biMap.getWidth()*2.1)),end = "\33[0m\033[K", flush= True)
     print("\033[?25h", end="",flush=True)
     mapErase(12)
 def getNumberInSentence(sentence):
@@ -220,7 +237,7 @@ def Movement():
     if (((space[0] + increment[0] < 0) or (space[0] + increment[0] >= 30)) or ((space[1] +increment[1] < -10) or (space[1] + increment[1] >= 20))):
         Call.biMap.setStuffPos(Movement.spotN, Movement.spotE, Movement.userImage)
         mapErase(1);loadMap()
-        print("The " + BoundryLine + "ern Boundry Line blocks your path")
+        print(colored("The " + BoundryLine + "ern Boundry Line blocks your path","light_green"))
         return False
     elif (SpotAhead[2] == False):
         Call.biMap.setStuffPos(Movement.spotN,Movement.spotE, Movement.pre)
@@ -239,7 +256,7 @@ def Movement():
                     Movement.spotE -= increment[1]
                     Call.biMap.setStuffPos(Movement.spotN,Movement.spotE, Movement.userImage)
                     mapErase(1);loadMap()
-                    print(f"{blockingObject} Blocks Your path On {BoundryLine}ern Side")
+                    print(f"{blockingObject}", colored(f"Blocks Your path On {BoundryLine}ern Side","light_green"))
                     return False
                 display1 = User["Current Biome"]; User["Current Biome"] = bObject.getName()
                 display2 = "Entered Biome: {}".format(User["Current Biome"])
@@ -251,12 +268,12 @@ def Movement():
                 Movement.pre = Call.biMap.getStuffPos(Movement.spotN,Movement.spotE)
                 Call.biMap.setStuffPos(Movement.spotN,Movement.spotE, Movement.userImage)
                 mapErase(1);loadMap()
-                print(f"--------------\nLeaving Biome: {display1}\n{display2}\n--------------")
+                print(colored(f"--------------\nLeaving Biome: {display1}\n{display2}\n--------------","light_yellow"))
                 #Make a for loop to spawn monsters from old adventures if decide to use that ma=echanic (will be  lot of monsters but can change that)
                 #Can also make a loop to give each place a new random amount of monsters, super eas
                 if (not User["Current Biome"] in User["Biomes Discovered"]):
                     User["Biomes Discovered"].append(User["Current Biome"])
-                    print(f"New Biome Discovered!")
+                    print(colored(f"New Biome Discovered!","light_yellow"))
                 findMonster()
                 findItem()
                 return False
@@ -265,7 +282,7 @@ def Movement():
     elif SpotAhead[2] in blockedItems:
         Call.biMap.setStuffPos(Movement.spotN,Movement.spotE,Movement.userImage)
         mapErase(1);loadMap()
-        print(f"{SpotAhead[2]} Blocks Your path")
+        print(f"{SpotAhead[2]}", colored("Blocks Your path","light_green"))
         return False
     else:
         # objectInFront = lookAhead(True)
@@ -273,7 +290,7 @@ def Movement():
             # passingRequirment = objectInFront.getKeyLevel()
             Call.biMap.setStuffPos(Movement.spotN,Movement.spotE, Movement.userImage)
             mapErase(1);loadMap()
-            print(f"{SpotAhead[2].getLook()} Blocks your Path\033[0m\n{SpotAhead[2].getMessage()}")
+            print(f"{SpotAhead[2].getLook()}",colored(f"Blocks Your Path\n{SpotAhead[2].getMessage()}","light_green"))
             return False
         else:
             Call.biMap.setStuffPos(Movement.spotN,Movement.spotE,Movement.pre)
@@ -995,6 +1012,9 @@ def recipeBook(type): #make it so you can change to different recipe book and jo
 
 def breakItem():
     NorthEastAndObjectAtSpot = lookAhead()
+    if User["Main Hand"] == "":
+        print("Need to hold something to break")
+        return False
     if NorthEastAndObjectAtSpot[2] != False and NorthEastAndObjectAtSpot[2] in itemDrops and not isinstance(NorthEastAndObjectAtSpot[2], KeyBlocks):
         # add ability to check for material and give user item broken or drop it
         #destroy item and grab it (TO-DO)
@@ -1057,8 +1077,8 @@ def dropItem(said):
     elif it not in User["Inventory"]:
         print("Item not in Inventory")
         return False
-    if it in User["Main Hand"]: User["Main Hand"] = ""
-    elif it in User["Wearing"]: User["Wearing"] = ""
+    if it in User["Main Hand"]: User["Main Hand"] = "";takeItem.mainhand = int(itemBuffs[2][User['Main Hand']][0])
+    elif it in User["Wearing"]: User["Wearing"] = "";monsterAttacks.armor = itemBuffs[1][User['Wearing']][0];
     gridList = gridItems[User["Current Biome"]]
     gridItem = gridList[0]; gridNum = gridList[1]
     User["Inventory"].remove(it)
@@ -1477,19 +1497,18 @@ try:
     time.sleep(0.3)
     animation("Beginning", True, False, False)
     input("")
-    time.sleep(0.8)
-    print("Type 'help' for help")
-    time.sleep(0.2)
+    # time.sleep(0.8)
+    # print("Type 'help' for help")
+    # time.sleep(0.2)
     Input.choice = "start"
     Movement()
-    os.system('cls')
-    print("<-","-"*40,"->")
-    animation(Call.level, True, Call.thing, mess)
-    input("")
+    # os.system('cls')
+    # print("<-","-"*40,"->")
+    # animation(Call.level, True, Call.thing, mess)
+    # input("")
     erases(1)
     mapErase(1)
     loadMap()
-    mapErase(1)
     Call()
     # loadMap()
     # Input()
