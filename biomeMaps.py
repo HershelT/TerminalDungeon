@@ -120,7 +120,7 @@ itemToNumber =  {
     5 : "\033[90mΩ\033[0m", # Iron Ore deposit
     6 : '\033[31m▓\033[39m', #portal
     7 : KeyBlocks("\033[38;5;54m∏\033[0m", "Diamond Key", "You need a Diamond key to open - Boss Gate"),
-    8: "\033[34mΩ\033[0m",
+    8: "\033[34mΩ\033[0m", #Diamond Ore Deposit
     9: "\033[47m \033[0m",
 
 }

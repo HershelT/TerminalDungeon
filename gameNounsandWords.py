@@ -13,6 +13,7 @@ words = {
     "story" : ["story", "adventure", "journey", "legend", "happen", "going on"],
     "inv" : ["inv", "storage", "storing", "bag", "on me", "pocket"],
     "shoot" : ["shoot", "blast", "rocket", "bam", "fire", "gun", "bang"],
+    "consume" : ["eat", "consume", "bite", "chew", "swallow", "drink", "guzzle", "gobble", "devour"],
     "building" : ["build", "place"],
     "breaking" : ["break", "destroy"],
     "insults" : ["fuck", "shit", "ass"]

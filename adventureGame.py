@@ -572,7 +572,7 @@ def monsterAttacks(mon):
     #Make it so armor takes away damage from weapons, but if armor causes weapon to do no damage make it
     #so the person always does 1 damage
 def findMonster():
-    findMonster.list = []; findMonster.HP = 0; findMonster.DG = 0; attack = " "; cLine = 0; findMonster.yes = False
+    findMonster.list = []; findMonster.HP = 0; findMonster.DG = 0; attack = " "; findMonster.yes = False
     try: #Checks if position equals a pos of item alos checks if pick up command is used and pos is right
         for monster in monstersClear:
             if space == monstersClear[monster]:
@@ -591,12 +591,13 @@ def findMonster():
                 print(colored(f'-------------------\nA wild {monsterN} appeard: \n <---->|Combat Mode|<---->',"dark_grey"))
                 while findMonster.HP > 0:
                     if attack != "":time.sleep(0.5)
-                    # print(f'{monsterN} Health: {findMonster.HP}'); cLine += 1
-                    # print(f'{monsterN} Min Damage: {findMonster.DG}'); cLine += 1
                     print(colored(f"---------User----------\n   -> Health: {User['Health']} | {User['Max Health']} <-\n   -> Armor Protection: {monsterAttacks.armor} | {itemBuffs[1][User['Wearing']][0]}\n   -> Damage Dealt To \033[94mMonster\033[0m\033[31m: {findMonster.damageUser} <-\033[0m", "red"))
                     print(colored(f"---------{monsterN}----------\n   -> Health: {findMonster.HP} | {monMDandHP[monsterN][1]} <-\n   -> Damage Dealt To \033[31mUser\033[0m\033[94m: {findMonster.damageMonster} <-\033[0m", "light_blue"))
                     if attack != "": time.sleep(0.25)
-                    attack = input("Attack or Flee? (a/f) \n->"); cLine+=2
+                    attack = input("Attack or Flee? (a/f) \n->");
+                    while attack == "":#Gets rid of stupid enter thing changing look(1/4/2024)
+                        print('         \033[F                      \033[F', end='')
+                        attack = input("Attack or Flee? (a/f) \n->");
                     erases(1)
                     # print("\033[K")
                 
@@ -605,7 +606,7 @@ def findMonster():
                     if "attack" in attack.lower() or "a" == attack:
                         #erases(cLine); cLine = 0
                         # print(f"You choose to attack the {monsterN}"); cLine +=1
-                        findMonster.damageUser = attackMonster(monsterN); cLine+=5
+                        findMonster.damageUser = attackMonster(monsterN)
                         
                         print(colored((f"---------User----------\n   -> Health: {User['Health']} | {User['Max Health']} <-\n   -> Armor Protection: {monsterAttacks.armor} | {itemBuffs[1][User['Wearing']][0]}\n   -> Damage To \033[94mMonster\033[0m\033[31m: {findMonster.damageUser} <-\033[0m"), "red"))
                         print(colored((f"---------{monsterN}----------\n   -> Health: {findMonster.HP} | {monMDandHP[monsterN][1]} <-\n   -> Damage Dealt To \033[31mUser\033[0m\033[94m: {findMonster.damageMonster} <-\033[0m"), "light_blue"))
@@ -616,7 +617,7 @@ def findMonster():
                         mapErase(1)
                         loadMap()
                         findMonster.damageMonster = monsterAttacks(monsterN) #Finally making combat system
-                        cLine += attackMonster.cL
+                       
                         #choose betwene armor increasing health or preventing more damage
                     elif "flee" in attack or "f" == attack: #(TO DO): Make it so when you flee you lose damage
                         #erases(2)
@@ -629,17 +630,24 @@ def findMonster():
                         item = checkItemInfo(attack)
                         print('Mainhand: ')
                         if attack == "mainhand" or attack == "mainhand ":
-                            print(f'{User["Main Hand"]}'); cLine += 2
-                        else: mainhand("MH", item); cLine += 2
+                            print(f'{User["Main Hand"]}')
+                        else: mainhand("MH", item)
                     elif anys(attack, words["wear"]):
                         wear = checkItemInfo(attack)
                         print("Wearing: ")
                         if attack == "equip " or attack == "wear" or attack == "wear ":
-                            print(f'{User["Wearing"]}'); cLine += 2
-                        else: mainhand("Wear", wear); cLine += 2
+                            print(f'{User["Wearing"]}')
+                        else: mainhand("Wear", wear)
+                    elif anys(attack, words["consume"]):
+                        food = checkItemInfo(attack)
+                        if attack == "consume " or attack == "eat " or attack == "consume" or attack == "eat":
+                            print(colored('Choose something to eat!',"light_red"))
+                        else:
+                            consume(food)
+                            # mapErase()
+                            # loadMap()
                     elif "/kill" in attack: findMonster.HP = -1
-                    else:
-                        cLine = 0
+                    
                 #Add a return if health is below or equal to 0
                 mapErase(1)
                 # print(colored((f"---------User----------\n   -> Health: {User['Health']} | {User['Max Health']} <-\n   -> Damage To \033[94mMonster\033[0m\033[31m: {findMonster.damageUser} <-\033[0m"), "red"))
@@ -683,6 +691,23 @@ def findMonster():
                 return 0
     except:
         return 0
+def consume(food):
+    if food in itemBuffs[3]:
+        if food in User["Inventory"]:
+            if User["Health"] == User["Max Health"]: 
+                print(colored(f"Health already full!, Can't eat {food}", "light_red")) 
+            else: 
+                User["Inventory"].remove(food)
+                # User["InventoryCollected"].remove(food)
+                User["Health"] += itemBuffs[3][food][0]
+                if User["Health"] > User["Max Health"]: User["Health"] = User["Max Health"]
+                mapErase(1);loadMap()
+                print(colored(f"Consumed {food} and gained {itemBuffs[3][food][0]} health","light_blue"))
+                return 0
+        else: print("Item not in inventory")
+    else: print("Item not in game")
+    
+
 def mainhand(type,item):
     ch = 0
     if type == "MH": ch = 2
@@ -931,9 +956,9 @@ def craftItem(create, inp): #can Change the whole dynamic where you type in the 
             return 0
     if inp == True:
         if create in buildTypes:
-            print(f"Don't have enough items in inventory for {create}")
+            print(colored(f"Don't have enough items in inventory for {create}","light_red"))
             craftRecipe(create)
-            print("You only have")
+            print(colored(f"You only have:","light_red"))
             needs = []; listUI = list(User["Inventory"])
             craftItems = sortItemCount(buildTypes[create], "add")
             setUser = set(User["Inventory"])
@@ -942,7 +967,7 @@ def craftItem(create, inp): #can Change the whole dynamic where you type in the 
                     needs.append(f"{i} ({listUI.count(i)})")
                     setUser.remove(i)
             if needs == []: needs = "No Items"
-            print(f"->{needs}")
+            print(colored(f"->{needs}", "light_red"))
         else: print(f"Non craftable recipe for {create}")
     else: print("Not a craftable recipe!")
 def craftRecipe(craftable): #Describes crafting recipee for whatever you put down
@@ -951,12 +976,11 @@ def craftRecipe(craftable): #Describes crafting recipee for whatever you put dow
     elif craftable in itemCraft: buildT = itemCraft; name = "craft"; names = "craft"
     for ele in buildT:
         if craftable == ele:
-            print(f'To {names} {ele} You will need: ')
-            print(sortItemCount(buildT[ele], "count"))
+            print(colored(f'To {names} {ele} You will need: \n{sortItemCount(buildT[ele], "count")}',"dark_grey"))
             return 0
-    print(f"Non {name}able item") # Can write code to figure out which one        if its not in game or just not cratfable
+    print(colored(f"Non {name}able item","light_red")) # Can write code to figure out which one        if its not in game or just not cratfable
 def recipeBook(type): #make it so you can change to different recipe book and journals
-    page = 1; sR = 0; eR = 4; lineDraw = True; erase = True; t = 0; cLine = 0;
+    page = 1; sR = 0; eR = 4; lineDraw = True; erase = True; t = 0; cLine = 0
     if "Cook" in type: types= itemCook
     elif "Craft" in type: types = itemCraft
     elif "Item Locate" in type: types = itemLoc
@@ -1293,12 +1317,10 @@ def Call():
     if not "/quest complete" in com:
         if "quest" in com: mess = False
         else: mess = Call.message
-    if help.ran == True:
-        print("Help is true")
+    if help.ran == True: 
         os.system('cls')
         print("<-","-"*40,"->")
         animation(Call.level, True, Call.thing, mess); help.ran = False
-
     if not com == "":
         #print("\033[K")
         mapErase(40)
@@ -1306,7 +1328,7 @@ def Call():
         # input("")
         # erases(1)
 
-        loadMap();
+        loadMap()
     if Call.thing == False: Call.thing == True
     Call.skipe = False
     ##; findItem.skip = False; #Call.move = True
@@ -1431,6 +1453,12 @@ def Call():
         else: craftItem(checkItemInfo(com), True)
     elif com == "killed": killed = sortItemCount(User["Monsters Killed"], "None");print(f'Monster kill list: \n{killed}') #fix
     elif ("check" in com or "what" in com or "?" in com) and anys(com.lower(), words["hand"]): print(f'Mainhand: \n{User["Main Hand"]}\nDamage {int(itemBuffs[2][User["Main Hand"]][0])}\nTool Level: {itemBuffs[2][User["Main Hand"]][1]}')
+    elif anys(com.lower(), words["consume"]):
+        food = checkItemInfo(com)
+        if food != "nothing": eat = food
+        elif food == "nothing" and findItem.ItemMemory != "": eat = findItem.ItemMemory
+        else: eat = "nothing"
+        consume(eat)
     elif anys(com.lower(), words["hand"]):
         if checkItemInfo(com) != "nothing": item = checkItemInfo(com)
         elif checkItemInfo(com) == "nothing" and findItem.ItemMemory != "": item = findItem.ItemMemory
