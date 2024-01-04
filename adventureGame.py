@@ -1196,6 +1196,7 @@ def storyLevel(check): #Sets what level you are on. Pops all other Stories so yo
             if storyLevel.level < len(storyNum):
                 Call.level = storyNum[storyLevel.level];
                 animation(storyNum[storyLevel.level], True, False, False)
+                if storyLevel.level == 1: User["Max Health"] += 20; User["Health"] = User["Max Health"]
                 time.sleep(0.3)
                 bA = User["Current Biome"]
                 for bObject in buildList:
@@ -1356,6 +1357,15 @@ def Call():
             loadMap()
             print(colored(f'Took damage: {int(Input.choice[8:])} off of User',"red"))
         except: print("Wrong Input for taking damage")
+    elif Input.choice[0:5] == "/heal":
+        try:
+            User["Health"] += int(Input.choice[6:])
+            if User["Health"] > 100: 
+                User["Health"] = 100
+            mapErase()
+            loadMap()
+            print(colored(f'Healed: {int(Input.choice[6:])} to User',"light_green"))
+        except: print("Wrong Input for healing")
     elif Input.choice == "/build locate": #Cheats for environment locations of everywhere
         for i in buildList:
             print(i.getName(),": ",i.getCordinate())
