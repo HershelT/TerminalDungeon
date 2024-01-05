@@ -3,6 +3,7 @@
 Everything is created by me for your benefit
 ## **To Download:**
 1) Go to Green Code Box
+   ![image](https://github.com/HershelT/TerminalDungeon/assets/57326155/c1046242-1240-439a-b25d-69d22c3de8bb)
 3) press 'Download Zip'
 4) Open zip in folder and extract all
 5) right click terminal-dungeon folder
