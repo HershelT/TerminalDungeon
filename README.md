@@ -3,7 +3,6 @@
 Everything is created by me for your benefit
 ## **To Download:**
 1) Go to Green Code Box
-2) ![image](https://github.com/HershelT/game/assets/57326155/d52f1f75-34d7-478d-98ea-fd3a83881f21)
 3) press 'Download Zip'
 4) Open zip in folder and extract all
 5) right click terminal-dungeon folder
