@@ -1,7 +1,7 @@
-Natural Language proccesing Terminal Game
+# **Natural Language proccesing Terminal Game
 2d display game with no graphical package
 Everything is created by me for your benefit
-To Download:
+## **To Download:
 1) Go to Green Code Box
 2) press 'Download Zip'
 3) Open zip in folder and extract all
