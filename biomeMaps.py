@@ -62,10 +62,10 @@ mapCliffs = setMap("Cliffs",20, 30, 10, 20)
 mapLavaPlains = setMap("Lava Plains",10, 20, -10, 0)
 mapIcePlains = setMap("Ice Plains",10, 20, 0, 5, "\033[1;30;47m") #Stuff from half maps gets displatyed in meadpws
 mapFrostedPlains = setMap("Frosted Plains",10, 20, 5, 10, "\033[1;30;47m")
-mapWaterPlains = setMap("Water Plains",10, 20, 10, 20)
+mapWaterPlains = setMap("Water Plains",10, 20, 10, 20, "\033[46m")
 
 mapWaterloo = setMap("Waterloo",0, 10, -10, 0, "\033[1;36;44m")
-mapGreenland = setMap("Greenland",0, 10, 0, 10, "\033[46m")
+mapGreenland = setMap("Greenland",0, 10, 0, 10, "\033[1;30;42m")
 mapPineForest = setMap("Pine Forest", 0, 10, 10, 20, "\033[1;30;43m") 
 LowerBound = 0
 UpperBound = 30

@@ -62,6 +62,7 @@ def loadMap(biome = False):
                 elif rowCount == 6: ends += f"\033[94m|\033[0m \033[92m{User['Main Hand']}"
                 elif rowCount == 7: ends += f"\033[94m|\033[0m \033[92m{User['Wearing']}"
                 elif rowCount == 8: ends += f"\033[94m|\033[0m \033[033mLvL: {User['LVL']}"
+                elif rowCount == 9: ends += f"\033[94m|\033[0m {biome.getFloorColor()} \033[30m{User['Current Biome']} "
                 else: ends = "\033[94m|\033[0m "
                 # elif row == 2: ends +=  f"\033[94m__\033[90mP:{monsterAttacks.armor}|{itemBuffs[1][User['Wearing']][0]}"
                 # elif row == 4: ends += f"\033[94m__\033[35mD:{takeItem.mainhand}" #change for when map is different sizes
@@ -86,7 +87,7 @@ def getNumberInSentence(sentence):
 def help():
 #Maybe make it so jeffery says help
     help.ran = True
-    os.system('cls')
+    os.system(clear_command)
     print("-"*56)
     print("""Do to the indcredible work of Hershel Thomas, the game now allows you to naturally
 talk to the game as if it was a normal conversation. The game looks for key words and phrases in order
@@ -1244,7 +1245,7 @@ def checkStoryComplete(): #Checks if completion happens, and then triggers chang
             awardCount = sortItemCount(storyAward[storyNum[storyLevel.level]], "count")
             erases(30)
             time.sleep(0.2)
-            os.system('cls')
+            os.system(clear_command)
             print("<-","-"*40,"->")
             changeMessage(f"""#Congrats on completing level: {storyNum[storyLevel.level]}\n$For your acomplishment you will recieve: \n$->{awardCount}\n$(press 'f' to go to next page) """)
             animation("Spokesman", True, False, f"    Rewarding System for completing {storyNum[levelNum]}:")
@@ -1322,7 +1323,7 @@ def Call():
         if "quest" in com: mess = False
         else: mess = Call.message
     if help.ran == True: 
-        os.system('cls')
+        os.system(clear_command)
         print("<-","-"*40,"->")
         animation(Call.level, True, Call.thing, mess); help.ran = False
     if not com == "":
@@ -1383,7 +1384,7 @@ def Call():
         #animation("Jeffery", True, False) #Make a definition that tells you what quest you are doing
         #Or/and make a book that keeps track of all the quests you are doing
     elif com == "/clear":
-        os.system('cls')
+        os.system(clear_command)
         print("<-","-"*40,"->",flush=True)
         animation(Call.level, True, Call.thing, mess)
         input("")
@@ -1410,7 +1411,7 @@ def Call():
             for mon in questArrMonster:
                 User["Monsters Killed"].append(mon)
             print(f"Completing {storyNum[storyLevel.level]}")
-        else: os.system('cls'); print("<-","-"*40,"->");storyAdv(); mapErase(1); loadMap()
+        else: os.system(clear_command); print("<-","-"*40,"->");storyAdv(); mapErase(1); loadMap()
     elif com == "/monster":
         print(monstersClear)
         if not storyLevel.level >= len(storyNum): print(sortItemCount(monsters[storyNum[storyLevel.level]], "count"))
@@ -1514,20 +1515,20 @@ def Input():
     Call()
 Call.biMap = mapGreenland
 try:
-    os.system('cls')
+    # os.system(clear_command)
     mess = ""
     # numList = ["⓪","➀","➁","➂","➃","➄","➅","➆","➇","➈","➉","⑪","⑫","⑬","⑭","⑮","⑯","⑰","⑱","⑲","⑳,"㉑","㉒","㉓","㉔","㉕","㉖","㉗","㉘","㉙","㉚","㉛","㉜","㉝","㉞","㉟","㊱","㊲","㊳","㊴","㊵","㊶","㊷","㊸","㊹","㊺","㊻","㊼","㊽","㊾","㊿"]
     # print(numList)
     Call.inits = True
     # while True:
-    #     os.system('cls')
+    #     os.system(clear_command)
     #     type = input("\nAre you running this on Command Prompt or similar?\n(Windows CMD or Mac OS)\nBreaks game if given incorrect answer!!!!\n->")
     #     mess = type.lower()
     #     if "y" == mess or "yes" in mess: inits = True; Call.inits = True; break
     #     elif "n" == mess or "no" in mess: inits = False; break
     # if Call.inits == True: print("Running init")
-
-    os.system('cls'); storyLevel.skip = False;  help.ran = False; dropItem.count = 1
+    clear_command = 'cls' if os.name == 'nt' else 'clear'
+    os.system(clear_command); storyLevel.skip = False;  help.ran = False; dropItem.count = 1
     Call.level = "Beginning"; Call.thing = True; Call.direction = True; Call.message = False; Input.f = True
     storyLevel.level = 0;findMonster.list = []; findMonster.HP = 0; findMonster.DG = 0; findItem.era  = 0
     space = [4,4]; Movement.spotN = 5; Movement.spotE = 4
@@ -1550,7 +1551,7 @@ try:
     # time.sleep(0.2)
     Input.choice = "start"
     Movement()
-    # os.system('cls')
+    # os.system(clear_command)
     # print("<-","-"*40,"->")
     # animation(Call.level, True, Call.thing, mess)
     # input("")
