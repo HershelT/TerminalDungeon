@@ -12,5 +12,7 @@ Everything is created by me for your benefit
 8) Press enter
 9) type 'pip3 install -r requirements.txt'
 10) Lastly, type 'python3 adventureGame.py'
+
+## **Pictures**
 ![image](https://github.com/HershelT/game/assets/57326155/d52f1f75-34d7-478d-98ea-fd3a83881f21)
 
