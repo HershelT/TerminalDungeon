@@ -8,7 +8,10 @@ Everything is created by me for your benefit
    !![image](https://github.com/HershelT/TerminalDungeon/assets/57326155/9b235f7d-c5fe-4d6b-a1c7-37e301330ded)
 
 5) Open zip in folder and extract all
+   !![image](https://github.com/HershelT/FortniteGXMen-TerminalDungeon/assets/57326155/972f6e39-3dbd-4887-81e0-d004f2b475a6)
+   ![image](https://github.com/HershelT/FortniteGXMen-TerminalDungeon/assets/57326155/2cb38075-6997-4aff-a3c7-0122ac255765)
 6) right click terminal-dungeon folder
+   !![image](https://github.com/HershelT/FortniteGXMen-TerminalDungeon/assets/57326155/ef71e4d4-8f7c-443f-80fd-6a023659725c)
 7) press copy
 8) Go to bash or terminal depending on computer
 9) type 'cd' then right click on same line cd is to paste
