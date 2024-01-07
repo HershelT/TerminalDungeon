@@ -1423,7 +1423,7 @@ def Call():
         if isinstance(getObject[2], KeyBlocks):
             if getObject[2].getKeyLevel() in User["Inventory"]:
                 print("Opening Gate")
-                Call.biMap.setStuffPos(getObject[0], getObject[1], getObject[2].getLook())
+                Call.biMap.setStuffPos(getObject[0], getObject[1], "\u203e\033[0m")#getObject[2].getLook()
                 Call.biMap.deleteObject(getObject[0], getObject[1])
                 
                 # del getObject[2].setIsBlocking(False)
