@@ -229,16 +229,16 @@ def lookAhead(objOrBlock : bool = False):
 def Movement():
     direct = words["direction"]; t = Input.choice; 
     BoundryLine = ""; increment = [0,0]
-    if (("move" or "step" in t) and any(word in t.lower() for word in direct[7: 9])) or "w" == t.lower():increment[1]-= 1;  BoundryLine = "West"; Movement.userImage = "◄"#ᐊ▲►▼◄◀֎֎֎֎
-    elif (("move" or "step" in t) and any(word in t.lower() for word in direct[0:2])) or "n" == t.lower(): increment[0]+= 1; BoundryLine = "North"; Movement.userImage = "▲"#ᐃ▲/3456
-    elif (("move" or "step" in t) and any(word in t.lower() for word in direct[2:4])) or "e" == t.lower(): increment[1]+= 1; BoundryLine = "East"; Movement.userImage = "►"#ᐅ☻        elif (("move" or "step" in t) and any(word in t.lower() for word in direct[4:7])) or "s" == t.lower(): t = "s"; Movement.userImage = "▼"#ᐁ ▼▼◄
-    elif (("move" or "step" in t) and any(word in t.lower() for word in direct[4:7])) or "s" == t.lower(): increment[0]-= 1;  BoundryLine = "South"; Movement.userImage = "▼"#ᐁ ▼▼◄
+    if (("move" or "step" in t) and any(word in t.lower() for word in direct[8: 10])) or "w" == t.lower():increment[1]-= 1;  BoundryLine = "West"; Movement.userImage = "◄"#ᐊ▲►▼◄◀֎֎֎֎
+    elif (("move" or "step" in t) and any(word in t.lower() for word in direct[0:3])) or "n" == t.lower(): increment[0]+= 1; BoundryLine = "North"; Movement.userImage = "▲"#ᐃ▲/3456
+    elif (("move" or "step" in t) and any(word in t.lower() for word in direct[3:5])) or "e" == t.lower(): increment[1]+= 1; BoundryLine = "East"; Movement.userImage = "►"#ᐅ☻        elif (("move" or "step" in t) and any(word in t.lower() for word in direct[4:7])) or "s" == t.lower(): t = "s"; Movement.userImage = "▼"#ᐁ ▼▼◄
+    elif (("move" or "step" in t) and any(word in t.lower() for word in direct[5:8])) or "s" == t.lower(): increment[0]-= 1;  BoundryLine = "South"; Movement.userImage = "▼"#ᐁ ▼▼◄
     elif t == "start": Movement.userImage = "▲"; Call.biMap.setStuffPos(Movement.spotN, Movement.spotE, Movement.userImage);mapErase(1);loadMap(); return False
     SpotAhead = lookAhead()
     if (((space[0] + increment[0] < LowerBound) or (space[0] + increment[0] >= UpperBound)) or ((space[1] +increment[1] < EasternBound) or (space[1] + increment[1] >= WesternBound))):
         Call.biMap.setStuffPos(Movement.spotN, Movement.spotE, Movement.userImage)
         mapErase(1);loadMap()
-        print(colored("The " + BoundryLine + "ern Boundry Line blocks your path","light_green"))
+        print(colored("The " + BoundryLine + "ern Boundry Line blocks your path","light_red"))
         return False
     elif (SpotAhead[2] == False):
         Call.biMap.setStuffPos(Movement.spotN,Movement.spotE, Movement.pre)
@@ -283,7 +283,7 @@ def Movement():
     elif SpotAhead[2] in blockedItems:
         Call.biMap.setStuffPos(Movement.spotN,Movement.spotE,Movement.userImage)
         mapErase(1);loadMap()
-        print(f"{SpotAhead[2]}", colored("Blocks Your path","light_green"))
+        print(f"{SpotAhead[2]} : {itemDrops[SpotAhead[2]][2]}" + colored(" Blocks Your path","red"))
         return False
     else:
         # objectInFront = lookAhead(True)
@@ -291,7 +291,7 @@ def Movement():
             # passingRequirment = objectInFront.getKeyLevel()
             Call.biMap.setStuffPos(Movement.spotN,Movement.spotE, Movement.userImage)
             mapErase(1);loadMap()
-            print(f"{SpotAhead[2].getLook()}",colored(f"Blocks Your Path\n{SpotAhead[2].getMessage()}","light_green"))
+            print(f"{SpotAhead[2].getLook()} : {SpotAhead[2].getName()} " + colored(f"Blocks Your Path\n{SpotAhead[2].getMessage()}","red"))
             return False
         else:
             Call.biMap.setStuffPos(Movement.spotN,Movement.spotE,Movement.pre)

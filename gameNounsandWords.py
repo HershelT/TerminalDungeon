@@ -2,7 +2,7 @@
 words = {
     "recipeCraft" : ["building", "crafting", "recipe"], #Can make it seperate so we know which book
     "recipeCook" : ["ingredient", "chef", "meal", "baker","smelting"],
-    "direction" : ["north", "forward", "east", "right", "south", "back", "down", "west", "left", "n", "e", "s", "w"], 
+    "direction" : ["north", "forward","up", "east", "right", "south", "back", "down", "west", "left", "n", "e", "s", "w"], 
     "wasd" : ["w", "a", "s", "d"],
     "itemFind" : ["describe", "descript", "what", "take", "pick", "up", "grab", "get"], #MAybe no 'up'
     "hand" : ["hold", "main", "hand", "wield", "equip"],

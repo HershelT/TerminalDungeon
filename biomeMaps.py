@@ -120,12 +120,12 @@ itemToNumber =  {
     1 : "\033[32m※\033[0m", # Tree
     2 : "🪦", #Graveyard
     3 : "\033[38;2;218;165;32mⅡ\033[0m", #Wood Wall
-    4 : KeyBlocks("\033[33m∏\033[0m", "Wood Key", "You need a wooden key to open - Wood Gate"), # locked Wood Door
+    4 : KeyBlocks("\033[33m∏\033[0m", "\033[33mWood Gate\033[0m", "Wood Key", "You need a wooden key to open - Wood Gate"), # locked Wood Door
     5 : "\033[90mΩ\033[0m", # Iron Ore deposit
     6 : '\033[31m▓\033[39m', #portal
-    7 : KeyBlocks("\033[38;5;54m∏\033[0m", "Diamond Key", "You need a Diamond key to open - Boss Gate"),
+    7 : KeyBlocks("\033[38;5;54m∏\033[0m", "\033[38;5;54mBoss Gate\033[0m", "Diamond Key", "You need a Diamond key to open - Boss Gate"),
     8: "\033[34mΩ\033[0m", #Diamond Ore Deposit
-    9: "\033[47m \033[0m",
+    9: "\033[47m \033[0m", #Wall
 
 }
 #create maps and write a program that cycles through setting position of map to that if spot not empty
