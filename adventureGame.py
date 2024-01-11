@@ -1204,7 +1204,7 @@ def Call():
                 print(f"Opened {getObject[2].getLook()} with {getObject[2].getKeyLevel()}")
                 del getObject[2]
             else:
-                print(f"\033[0;31mDo Not have required: \033[1;96m({getObject[2].getKeyLevel()})\033[0;31m to open gate\033[0m")
+                print(f"\033[0;31mDo Not have required: \033[1;96m({getObject[2].getKeyLevel()}\033[1;96m)\033[0;31m to open gate\033[0m")
             
         else: print("Nothing to open")
 
