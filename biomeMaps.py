@@ -60,13 +60,13 @@ mapVolcano = setMap("Volcano",20, 30, 0, 10)
 mapCliffs = setMap("Cliffs",20, 30, 10, 20)
 #customize each thing with walls and trees and stuff
 mapLavaPlains = setMap("Lava Plains",10, 20, -10, 0)
-mapIcePlains = setMap("Ice Plains",10, 20, 0, 5, "\033[1;30;47m") #Stuff from half maps gets displatyed in meadpws
-mapFrostedPlains = setMap("Frosted Plains",10, 20, 5, 10, "\033[1;30;47m")
-mapWaterPlains = setMap("Water Plains",10, 20, 10, 20, "\033[46m")
+mapIcePlains = setMap("Ice Plains",10, 20, 0, 5, "\033[0;30;47m") #Stuff from half maps gets displatyed in meadpws
+mapFrostedPlains = setMap("Frosted Plains",10, 20, 5, 10, "\033[0;30;47m")
+mapWaterPlains = setMap("Water Plains",10, 20, 10, 20, "\033[0;38;5;206;48;5;57m")
 
-mapWaterloo = setMap("Waterloo",0, 10, -10, 0, "\033[1;36;44m")
-mapGreenland = setMap("Greenland",0, 10, 0, 10, "\033[1;30;42m")
-mapPineForest = setMap("Pine Forest", 0, 10, 10, 20, "\033[1;30;43m") 
+mapWaterloo = setMap("Waterloo",0, 10, -10, 0, "\033[0;36;44m")
+mapGreenland = setMap("Greenland",0, 10, 0, 10, "\033[0;30;46m")
+mapPineForest = setMap("Pine Forest", 0, 10, 10, 20, "\033[0;30;43m") 
 LowerBound = 0
 UpperBound = 30
 EasternBound = -10
@@ -117,31 +117,32 @@ blankMap = [
 #basically a tileSet For terminal
 itemToNumber =  {
     0 : "\033[37m¤\033[0m", # Stone Block/Boulder
-    1 : "\033[32m※\033[0m", # Tree
+    1 : "\033[1;32mΨ\033[0m", # Tree
     2 : "🪦", #Graveyard
     3 : "\033[38;2;218;165;32mⅡ\033[0m", #Wood Wall
-    4 : KeyBlocks("\033[33m∏\033[0m", "\033[33mWood Gate\033[0m", "Wood Key", "You need a wooden key to open - Wood Gate"), # locked Wood Door
+    4 : KeyBlocks("\033[33m∏\033[0m", "\033[33mWood Gate\033[0m", "Wood Key", "You need a Wooden Key to open - Wood Gate"), # locked Wood Door
     5 : "\033[90mΩ\033[0m", # Iron Ore deposit
     6 : '\033[31m▓\033[39m', #portal
-    7 : KeyBlocks("\033[38;5;54m∏\033[0m", "\033[38;5;54mBoss Gate\033[0m", "Diamond Key", "You need a Diamond key to open - Boss Gate"),
+    7 : KeyBlocks("\033[38;5;54m∏\033[0m", "\033[38;5;54mBoss Gate\033[0m", "Boss Key", "You need a Boss Key to open - Boss Gate"),
     8: "\033[34mΩ\033[0m", #Diamond Ore Deposit
     9: "\033[47m \033[0m", #Wall
+    10:"🌳"
 
 }
 #create maps and write a program that cycles through setting position of map to that if spot not empty
 #Create a list with blocks and there (DONEEE)
   
 UpdatedMapGreenland = [
-     [" ", "9","9","9","9","9","9","9"," "," "],
-     [" ", "9","1"," "," "," ","0","9"," "," "],
-     [" ", "9","1","1"," ","0","0","9"," "," "],
-     [" ", "9","1"," "," "," ","0","9"," "," "],
-     [" ", "4"," "," "," "," "," ","4"," "," "],
-     [" ", "9"," "," ","P"," "," ","9"," "," "],
-     [" ", "9"," "," "," "," "," ","9"," "," "],
-     [" ", "9","5"," "," "," ","8","9"," "," "],
-     [" ", "9","5","5"," ","8","8","9"," "," "],
-     [" ", "9","9","9","9","9","9","9"," "," "]
+     [" ", "9","9","9","7","9","9","9","9"," "],
+     [" ", "9","1","1"," "," ","0","0","9"," "],
+     [" ", "9","1","1"," ","0","0","0","9"," "],
+     [" ", "9","1"," "," "," ","0","0","9"," "],
+     [" ", "4"," "," "," "," "," "," ","4"," "],
+     [" ", "9"," "," ","P"," "," "," ","9"," "],
+     [" ", "9"," "," "," "," "," "," ","9"," "],
+     [" ", "9","5","5"," "," ","8"," ","9"," "],
+     [" ", "9","5","5"," ","8","8","8","9"," "],
+     [" ", "9","9","9","9","9","9","9","9"," "]
 ]
 #MapForGreenland
 OldMapG = [

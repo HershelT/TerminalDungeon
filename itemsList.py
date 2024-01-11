@@ -37,7 +37,10 @@ itemInfo = [
     "Furnace" : ": Used to cook food and ore. Needs Fuel Possibly dpening on how i feel", 
     "Crafting Table" : ": Used for crafting complex items",
     
+    #keys
     "Wood Key" : ": Used to open Wood doors",
+    "Diamond Key" : ": Used to open Diamond doors",
+    "Boss Key" : ": Used to open Boss doors",
 
     },
     #wearbles
