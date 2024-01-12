@@ -120,10 +120,10 @@ itemToNumber =  {
     1 : "\033[1;32mΨ\033[0m", # Tree
     2 : "🪦", #Graveyard
     3 : "\033[38;2;218;165;32mⅡ\033[0m", #Wood Wall
-    4 : KeyBlocks("\033[1;33m∏\033[0m", "\033[1;33mWood Gate\033[0m", "\033[1;33mWood Key\033[0m", "You need a Wooden Key to open - Wood Gate"), # locked Wood Door
+    4 : KeyBlocks("\033[1;33m∏\033[0m", "\033[1;33mWood Gate\033[0m", "Wood Key", "You need a Wooden Key to open - Wood Gate","\033[1;33m"), # locked Wood Door
     5 : "\033[90mΩ\033[0m", # Iron Ore deposit
     6 : '\033[31m▓\033[39m', #portal
-    7 : KeyBlocks("\033[38;5;54m∏\033[0m", "\033[38;5;54mBoss Gate\033[0m", "Boss Key", "You need a Boss Key to open - Boss Gate"),
+    7 : KeyBlocks("\033[38;5;54m∏\033[0m", "\033[38;5;54mBoss Gate\033[0m", "Boss Key", "You need a Boss Key to open - Boss Gate", "\033[38;5;54"),
     8: "\033[34mΩ\033[0m", #Diamond Ore Deposit
     9: "\033[47m \033[0m", #Wall
     10:"🌳"

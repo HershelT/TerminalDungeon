@@ -1196,15 +1196,13 @@ def Call():
         if isinstance(getObject[2], KeyBlocks):
             if getObject[2].getKeyLevel() in User["Inventory"]:
                 print("Opening Gate")
-                Call.biMap.setStuffPos(getObject[0], getObject[1], "\u203e\033[0m")#getObject[2].getLook()
+                Call.biMap.setStuffPos(getObject[0], getObject[1], f"{getObject[2].getColor()}\u203e\033[0m")
                 Call.biMap.deleteObject(getObject[0], getObject[1])
-                
-                # del getObject[2].setIsBlocking(False)
                 mapErase(1);loadMap()
-                print(f"Opened {getObject[2].getLook()} with {getObject[2].getKeyLevel()}")
+                print(f"Opened {getObject[2].getLook()} with {getObject[2].getColor()}{getObject[2].getKeyLevel()}\033[0m")
                 del getObject[2]
             else:
-                print(f"\033[0;31mDo Not have required: \033[1;96m({getObject[2].getKeyLevel()}\033[1;96m)\033[0;31m to open gate\033[0m")
+                print(f"\033[0;31mDo Not have required: \033[1;96m({getObject[2].getColor()}{getObject[2].getKeyLevel()}\033[1;96m)\033[0;31m to open gate\033[0m")
             
         else: print("Nothing to open")
 

@@ -21,15 +21,18 @@ def heirarchyCheck(block, itemBreak):
 #Class to make objects in games with special charterstics like display 
 #and message that happens when i run into object or key level required to open
 class KeyBlocks():
-    def __init__(self, look, name, keyOrBombLevel, message):
+    def __init__(self, look, name, keyOrBombLevel, message, color = ""):
         self.look = look
         self.name = name
         self.keyOrBombLevel = keyOrBombLevel
         self.message = message
         self.isBlocking = True
+        self.color = color
         # key_blocks_list.append(self)
     def setIsBlocking(self, isBlocking: bool):
         self.isBlocking = isBlocking
+    def getColor(self):
+        return self.color
     def getLook(self):
         return self.look
     def getName(self):
