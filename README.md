@@ -63,6 +63,7 @@ The commands and steps might slightly vary based on the OS version and the syste
 
    <img src="https://github.com/HershelT/FortniteGXMen-TerminalDungeon/assets/57326155/972f6e39-3dbd-4887-81e0-d004f2b475a6" width="400">  
 
+
    <img src="https://github.com/HershelT/FortniteGXMen-TerminalDungeon/assets/57326155/2cb38075-6997-4aff-a3c7-0122ac255765" width="400">
 
 4) Right click terminal-dungeon folder  
