@@ -80,7 +80,9 @@ The commands and steps might slightly vary based on the OS version and the syste
 
 9) Type `pip3 install -r requirements.txt`
 
-10) Lastly, type `python3 adventureGame.py`
+10) Make sure terminal size is full screen
+
+11) Lastly, type `python3 adventureGame.py`
 
 ## Pictures 📸
 
