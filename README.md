@@ -51,6 +51,7 @@ The commands and steps might slightly vary based on the OS version and the syste
 
 ## **To Download:** 📥
 1) Go to Green Code Box  
+
    <img src="https://github.com/HershelT/TerminalDungeon/assets/57326155/c1046242-1240-439a-b25d-69d22c3de8bb" width="300">
 
 2) Press 'Download Zip'
