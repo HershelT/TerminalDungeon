@@ -1,6 +1,16 @@
 # **Natural Language Processing Terminal Game** 🎮
 2D display game with no graphical package. Everything is created by me for your benefit.
 
+# Table of Contents
+1. [Python Installation Guide](#python-installation-guide)
+   - [For Windows](#for-windows)
+   - [For MacOS](#for-macos)
+   - [For Linux](#for-linux)
+2. [Note](#note)
+3. [To Download](#to-download)
+4. [Pictures](#pictures-📸)
+   -[Combat](#combat)
+
 # Python Installation Guide
 
 This guide will help you install Python on your computer using the terminal.
@@ -58,5 +68,5 @@ The commands and steps might slightly vary based on the OS version and the syste
 12) Lastly, type 'python3 adventureGame.py'
 
 ## **Pictures** 📸
-**Combat**
+## Combat
 ![image](https://github.com/HershelT/FortniteGXMen-TerminalDungeon/assets/57326155/39027df9-d868-42ef-87fc-100c6bb5da7c)
