@@ -74,13 +74,13 @@ The commands and steps might slightly vary based on the OS version and the syste
 
 6) Go to bash or terminal depending on computer
 
-7) Type 'cd' then right click on same line cd is to paste
+7) Type `cd` then right click on same line cd is to paste. Should look something like `cd user/path/to-folder`
 
 8) Press enter
 
-9) Type 'pip3 install -r requirements.txt'
+9) Type `pip3 install -r requirements.txt`
 
-10) Lastly, type 'python3 adventureGame.py'
+10) Lastly, type `python3 adventureGame.py`
 
 ## Pictures 📸
 
