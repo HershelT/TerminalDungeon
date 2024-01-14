@@ -50,6 +50,7 @@ After installation, you can verify the installation by typing `python --version`
 The commands and steps might slightly vary based on the OS version and the system settings. Always refer to the official Python documentation or your OS documentation for the most accurate information.
 
 ## To Download: 📥
+
 1) Go to Green Code Box  
 
    <img src="https://github.com/HershelT/TerminalDungeon/assets/57326155/c1046242-1240-439a-b25d-69d22c3de8bb" width="300">
@@ -81,5 +82,7 @@ The commands and steps might slightly vary based on the OS version and the syste
 10) Lastly, type 'python3 adventureGame.py'
 
 ## Pictures 📸
+
 ## Combat
+
 ![image](https://github.com/HershelT/FortniteGXMen-TerminalDungeon/assets/57326155/39027df9-d868-42ef-87fc-100c6bb5da7c)
