@@ -171,7 +171,7 @@ def Movement():
                     Movement.spotE -= increment[1]
                     Call.biMap.setStuffPos(Movement.spotN,Movement.spotE, Movement.userImage)
                     mapErase(1);loadMap()
-                    print(f"{blockingObject}", colored(f"Blocks Your path On {BoundryLine}ern Side","light_green"))
+                    print(f"{blockingObject}", colored(f"Blocks Your path On {BoundryLine}ern Side","light_red"))
                     return False
                 display1 = User["Current Biome"]; User["Current Biome"] = bObject.getName()
                 display2 = "Entered Biome: {}".format(User["Current Biome"])
@@ -197,7 +197,7 @@ def Movement():
     elif SpotAhead[2] in blockedItems:
         Call.biMap.setStuffPos(Movement.spotN,Movement.spotE,Movement.userImage)
         mapErase(1);loadMap()
-        print(f"{SpotAhead[2]} : {itemDrops[SpotAhead[2]][2]}" + colored(" Blocks Your path","red"))
+        print(f"{SpotAhead[2]} : \033[94m({itemDrops[SpotAhead[2]][2]})" + colored(" Blocks Your path","light_red"))
         return False
     else:
         # objectInFront = lookAhead(True)
@@ -481,8 +481,8 @@ def consume(food):
                 mapErase(1);loadMap()
                 print(colored(f"Consumed {food} and gained {itemBuffs[3][food][0]} health","light_blue"))
                 return 0
-        else: print("Item not in inventory")
-    else: print("Item not in game")
+        else: print(colored("Item not in inventory","light_red"))
+    else: print(colored("Item not in game","light_red"))
     
 
 def mainhand(type,item):
@@ -571,7 +571,7 @@ def takeItem():
                 break
             #12/31 (Have error were map gets rid of door if item spawns under it)
         if itemIsDroped == False:
-            Movement.pre = '\033[31m' + " " + '\033[39m'
+            Movement.pre = Call.biMap.getFloorColor() + " "
         mapErase(1);loadMap()
         print(f"-------PICKING UP--------\n{itemN} added to your inventory!")
         # dropItem.count -= 1
@@ -721,10 +721,12 @@ def craftItem(create, inp): #can Change the whole dynamic where you type in the 
                 User["InventoryCollected"].append(i)
                 itemList.append(i)
             countItemList = sortItemCount(itemList, "None")
-            print(f"|          |--[{name}ING]--|           |\n|          .............              |")
+            print(f"\033[33m|   |--[{name}ING]--|\n|    .............\033[0m")
             time.sleep(0.3)
-            print(f"|          [{name}ED:]                 |")
-            print(f"|       {countItemList} |")
+            print(f"\033[31m|   [Resources Expended]          ")
+            print(f"|{sortItemCount(buildTypes[i], 'count')}\033[0m")
+            print(f"\033[32m|   [{name}ED]")
+            print(f"|{countItemList}\033[0m ")
             findItem.ItemMemory = i
             return 0
         elif ItemArray: #TO DO(Problem is for cooking you have to say final product now what you want to put in, like if i say cook iron axe, it will say cant smelt it, you have to say smelt iron ore)
@@ -834,20 +836,29 @@ def breakItem():
                 return False
             Call.biMap.setStuffPos(directionN,directionE, floor)
             mapErase(1);loadMap()
-            print(f"\033[32mBroke {objectAtSpot} : {itemDrops[objectAtSpot][2]}\033[0m")
+            print(f"\033[32mBroke {objectAtSpot} : \033[94m({itemDrops[objectAtSpot][2]})\033[0m")
             destroyedObject = getItemList(objectAtSpot)
             items = destroyedObject[0]
             countOfItems = destroyedObject[1]
-            lists = [items,countOfItems]
+            lists = [[],[]]
            #Goes through list and adds item counts and items to inv
             for item in items:
-                for x in range(countOfItems[items.index(item)]):
+                if isinstance(countOfItems[items.index(item)],list):
+                    num = dice(countOfItems[items.index(item)][0], countOfItems[items.index(item)][1])
+                else:
+                    num = countOfItems[items.index(item)]
+                if num > 0:
+                    lists[0].append(item)
+                    lists[1].append(num)
+                else: num = 0
+                for x in range(num):
                     User["Inventory"].append(item)
                     User["InventoryCollected"].append(item)
+                
             #Get the item and amount in nice to read string
             sorts = sortItemCount(lists, "count")
-            print("\033[32mAnd collected: \033[0m")
-            print(sorts)
+            print("\033[32mAnd collected: ")
+            print(sorts,"\033[0m")
     else:
         print("Cant break there")
 

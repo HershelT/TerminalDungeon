@@ -125,7 +125,7 @@ itemToNumber =  {
     6 : '\033[31m▓\033[39m', #portal
     7 : KeyBlocks("\033[38;5;54m∏\033[0m", "\033[38;5;54mBoss Gate\033[0m", "Boss Key", "You need a Boss Key to open - Boss Gate", "\033[38;5;54"),
     8: "\033[34mΩ\033[0m", #Diamond Ore Deposit
-    9: "\033[47m \033[0m", #Wall
+    9: "\033[47m \033[0m", #Unbreakbale Wall
     10:"🌳"
 
 }

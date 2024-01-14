@@ -56,19 +56,30 @@ class Blocks():
 #
 #Make a block that can be moved around the board
 
-#"Item" : [["Items"][int(item amount)],"Name", Type of material needed to destroy"]
+#"Item" : [["Items"][int(item amount),[random drop]],"Name", Type of material needed to destroy"]
 itemDrops = {
-    "\033[1;32mΨ\033[0m" : [["Wood Plank", "Stick"],[1, 2],"Tree","Nothing"], #Tree
+    #Tree
+    "\033[1;32mΨ\033[0m" : [["Wood Plank", "Stick", "Apple"],[1, 2, [-3,4]],"Tree","Nothing"], #Tree
+    
+    #Stone Boulder
+    "\033[37m¤\033[0m" : [["Stone","Flint"],[2,[-3,3]], "Boulder","Wood"], 
+    #Wood Door
+    "∏" : [["Wood Door"],[1], "Wood Door", "Nothing"], 
+    #Iron Ore Deposit
+    "\033[90mΩ\033[0m" : [["Iron Ore"],[2], "Iron Ore Deposit", "Stone"], 
+    #Diamond Ore Deposit
+    "\033[34mΩ\033[0m" : [["Diamond"],[1], "Diamond Ore Deposit", "Iron"],
+    #Crafting Table
+    "\033[38;2;101;6733m∏\033[0m":[["Crafting Table"],[1],"Crafting Table", "Nothing"], 
+    #Stone
+    "\033[47m \033[0m" : [[],[], "Unbreakable Wall", "Unbreakable"], #Stone
+    #Wood Wall (Building Block)
+    "\033[38;2;218;165;32mⅡ\033[0m" : [["Wood Wall"],[1],"Wood Wall", "Nothing"],
+
     # "🪨" : [["Stone"],[2], "Boulder","Wood"], #
-    "\033[37m¤\033[0m" : [["Stone"],[2], "Boulder","Wood"], #"Stone Boulder"
     # "🪦" : [["Stone", "Flint"],[1,1], "Grave Yard", "Stone"], Graveyard Emoji
     # "🪵" : [["Crafting Table"],[1],"Crafting Table", "Nothing"], 
-    "\033[38;2;218;165;32mⅡ\033[0m" : [["Wood Wall"],[1],"Wood Wall", "Nothing"],#Wood Wall (Building Block)
-    "∏" : [["Wood Door"],[1], "Wood Door", "Nothing"], #Wood door 
-    "\033[90mΩ\033[0m" : [["Iron Ore"],[2], "Iron Ore Deposit", "Stone"], #Iron Ore Deposit
-    "\033[34mΩ\033[0m" : [["Diamond"],[1], "Diamond Ore Deposit", "Iron"],#Diamond Ore Deposit
-    "\033[38;2;101;6733m∏\033[0m":[["Crafting Table"],[1],"Crafting Table", "Nothing"],  #crafting table
-    "\033[47m \033[0m" : [[],[], "Unbreakable Wall", "Unbrekable"], #Stone
+    
 }
 def getItemList(item : str):
     itemsList = itemDrops[item]
