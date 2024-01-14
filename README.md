@@ -80,6 +80,6 @@ The commands and steps might slightly vary based on the OS version and the syste
 
 10) Lastly, type 'python3 adventureGame.py'
 
-## **Pictures** 📸
+## Pictures 📸
 ## Combat
 ![image](https://github.com/HershelT/FortniteGXMen-TerminalDungeon/assets/57326155/39027df9-d868-42ef-87fc-100c6bb5da7c)
