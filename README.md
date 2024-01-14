@@ -7,8 +7,8 @@
    - [For MacOS](#for-macos)
    - [For Linux](#for-linux)
 2. [Note](#note)
-3. [To Download](#to-download)
-4. [Pictures](#pictures-📸)
+3. [To Download](#to-download-)
+4. [Pictures](#pictures-)
    - [Combat](#combat)
 
 # Python Installation Guide
