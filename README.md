@@ -9,7 +9,7 @@
 2. [Note](#note)
 3. [To Download](#to-download)
 4. [Pictures](#pictures-📸)
-   -[Combat](#combat)
+   - [Combat](#combat)
 
 # Python Installation Guide
 
@@ -50,22 +50,34 @@ After installation, you can verify the installation by typing `python --version`
 The commands and steps might slightly vary based on the OS version and the system settings. Always refer to the official Python documentation or your OS documentation for the most accurate information.
 
 ## **To Download:** 📥
-1) Go to Green Code Box
-   ![image](https://github.com/HershelT/TerminalDungeon/assets/57326155/c1046242-1240-439a-b25d-69d22c3de8bb)
-3) Press 'Download Zip'
-   ![image](https://github.com/HershelT/TerminalDungeon/assets/57326155/9b235f7d-c5fe-4d6b-a1c7-37e301330ded)
+1) Go to Green Code Box  
+   <img src="https://github.com/HershelT/TerminalDungeon/assets/57326155/c1046242-1240-439a-b25d-69d22c3de8bb" width="300">
 
-5) Open zip in folder and extract all
-   ![image](https://github.com/HershelT/FortniteGXMen-TerminalDungeon/assets/57326155/972f6e39-3dbd-4887-81e0-d004f2b475a6)
-   ![image](https://github.com/HershelT/FortniteGXMen-TerminalDungeon/assets/57326155/2cb38075-6997-4aff-a3c7-0122ac255765)
-6) Right click terminal-dungeon folder
-   ![image](https://github.com/HershelT/FortniteGXMen-TerminalDungeon/assets/57326155/ef71e4d4-8f7c-443f-80fd-6a023659725c)
-7) Press copy
-8) Go to bash or terminal depending on computer
-9) Type 'cd' then right click on same line cd is to paste
-10) Press enter
-11) Type 'pip3 install -r requirements.txt'
-12) Lastly, type 'python3 adventureGame.py'
+2) Press 'Download Zip'
+
+   <img src="https://github.com/HershelT/TerminalDungeon/assets/57326155/9b235f7d-c5fe-4d6b-a1c7-37e301330ded" width="300">
+
+3) Open zip in folder and extract all
+
+   <img src="https://github.com/HershelT/FortniteGXMen-TerminalDungeon/assets/57326155/972f6e39-3dbd-4887-81e0-d004f2b475a6" width="400">  
+
+   <img src="https://github.com/HershelT/FortniteGXMen-TerminalDungeon/assets/57326155/2cb38075-6997-4aff-a3c7-0122ac255765" width="400">
+
+4) Right click terminal-dungeon folder  
+
+   <img src="https://github.com/HershelT/FortniteGXMen-TerminalDungeon/assets/57326155/ef71e4d4-8f7c-443f-80fd-6a023659725c" width="400">
+
+5) Press copy
+
+6) Go to bash or terminal depending on computer
+
+7) Type 'cd' then right click on same line cd is to paste
+
+8) Press enter
+
+9) Type 'pip3 install -r requirements.txt'
+
+10) Lastly, type 'python3 adventureGame.py'
 
 ## **Pictures** 📸
 ## Combat
