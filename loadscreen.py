@@ -4,15 +4,12 @@ import sys
 startScreen = """
  _______________________________________________________________________________________________
 |                                                                                               |123
-|                                                                                               |123
 |          _____    ______    _______       ____     ____                                       |123
 |         |_  __|  | _____|  |   ___ ',    /    \   /    \                                      |123
 |           | |    | _____   |  |___|  \  |    _ \_/ _    |   _________                         |123
 |           | |    | _____|  |   _     /  |   | |   | |   |  |_________|                        |123
 |           | |    | _____   |  | ',  '.  |   | |   | |   |                                     |123
 |           |_|    |______|  |__|   |__|  |___| |___| |___|                                     |123
-|                                                                                               |123
-|                                                                                               |123
 |                         ________     ______      ____     ____     ______                     |123
 |                        /  ______|   /  __  \    /    \   /    \   | _____|                    |123
 |                       |  |  ____   |  /__\  |  |    _ \_/ _    |  | _____                     |123
@@ -31,17 +28,16 @@ startScreen = """
 |_______________________________________________________________________________________________|123
 """
 credits = """
-        TERMINAL DUNGEON GAME:     
-         -CREATED BY-HERSHEL THOMAS
-         -TESTED BY JACOB THOMAS  
-         -ART BY Hershel Thomas   
+                                TERMINAL DUNGEON GAME:     
+                                 -CREATED BY-HERSHEL THOMAS
+                                 -TESTED BY JACOB THOMAS  
+                                 -ART BY Hershel Thomas   
 """
 settings = """
-        SETTINGS Before Playing:
-        -Make Sure Screen size is correct size and set to full screen width and height 
-        -Can enlarge the screen using zoom (ctrl - or +)       
-        -enlarge or decrease screen size until number '3' 
-        -is at the furthest right side of the screen
+        Setting Screen Size Before Playing:
+        -Make sure screen size is set to FULL SCREEN            
+        -Zoom in or out by pressing down (ctrl) and (+ or -)      
+        -Zoom in or out until number '3' is at the furthest right side of the screen
         -type in '/clear' at any point during game play to reset screen if messy
 """
 GameLoading = """
@@ -62,11 +58,10 @@ def createArrayinArray(text: str):
     text = [list(row) for row in text.splitlines()]
     return text
 #turns text to 2d arrays
-startScreenArray =createArrayinArray(startScreen)
-creditsArray=createArrayinArray(credits)
 
 #prints given display to screen fast
-def printScreen(screen):
+def printScreen(screen, clear = True):
+    if clear: os.system(clear_command)
     for row in screen:
         print(''.join(row))
 #Adds text to overwrite over main screen
@@ -79,30 +74,22 @@ def addLinesToSreen(lines, screen, rowIndex, color='\033[m'):
 def createEmptyString(screenList : list):
     emptyString = ''.join(' ' if char != '\n' else '\n' for char in screenList)
     return emptyString
-
-printScreen(startScreenArray)
-waitForInput('')
-
-
-
-os.system(clear_command)
-num_rows = len(startScreenArray)
-num_cols = len(startScreenArray[0])
-
-start_row_index = 10  # Replace with the index of the first row you want to copy to
-addLinesToSreen(creditsArray, startScreenArray, start_row_index, '\033[1m\033[90m')
-
-printScreen(startScreenArray)
-waitForInput('')
+#defining starting arrays
+startScreenArray =createArrayinArray(startScreen)
+creditsArray=createArrayinArray(credits)
 settingsArray = createArrayinArray(settings)
 
-addLinesToSreen(createArrayinArray(createEmptyString(credits)), startScreenArray, start_row_index, '\033[0m')
-addLinesToSreen(settingsArray, startScreenArray, start_row_index, '\033[1;31m')
-addLinesToSreen(["    Press 'Enter' To Continue"], startScreenArray, 2, '\033[1;31m')
-os.system(clear_command)    
 printScreen(startScreenArray)
 waitForInput('')
-os.system(clear_command)
 
+start_row_index = 10  # Replace with the index of the first row you want to copy to
+addLinesToSreen(creditsArray, startScreenArray, start_row_index-4, '\033[1m\033[90m')
 printScreen(startScreenArray)
+waitForInput('')
+
+addLinesToSreen(createArrayinArray(createEmptyString(credits)), startScreenArray, start_row_index-4, '\033[0m')
+addLinesToSreen(settingsArray, startScreenArray, start_row_index, '\033[1;31m')
+addLinesToSreen(["    Press 'Enter' To Continue"], startScreenArray, 2, '\033[1;31m')
+printScreen(startScreenArray)
+waitForInput('')
 time.sleep(1)
