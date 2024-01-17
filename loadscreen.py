@@ -2,32 +2,32 @@ import time
 import os
 import sys
 startScreen = """
-                                                                                                |
-                                                                                                |
-           _____    ______    _______       ____     ____                                       |
-          |_  __|  | _____|  |   ___ ',    /    \   /    \                                      |
-            | |    | _____   |  |___|  \  |    _ \_/ _    |   _________                         |
-            | |    | _____|  |   _     /  |   | |   | |   |  |_________|                        |
-            | |    | _____   |  | ',  '.  |   | |   | |   |                                     |
-            |_|    |______|  |__|   |__|  |___| |___| |___|                                     |
-                                                                                                |
-                                                                                                |
-                          ________     ______      ____     ____     ______                     |
-                         /  ______|   /  __  \    /    \   /    \   | _____|                    |
-                        |  |  ____   |  /__\  |  |    _ \_/ _    |  | _____                     |
-                        |  | |__  |  |  |  |  |  |   | |   | |   |  | _____|                    |
-                        |  |____/ /  |  |  |  |  |   | |   | |   |  | _____                     |
-                         \_______/   |__|  |__|  |___| |___| |___|  |______|                    |
-                                                                                                |
-                                                                                                |
-                                                                                                |
-                                                                                                |
-                                                                                                |\033[1m\033[90m
-                                    Press "Enter" To Continue                                   \033[0m|
-                                                                                                |
-                                                                                                |
-                                                                                                |
-                                                                                                |
+                                                                                                |123
+                                                                                                |123
+           _____    ______    _______       ____     ____                                       |123
+          |_  __|  | _____|  |   ___ ',    /    \   /    \                                      |123
+            | |    | _____   |  |___|  \  |    _ \_/ _    |   _________                         |123
+            | |    | _____|  |   _     /  |   | |   | |   |  |_________|                        |123
+            | |    | _____   |  | ',  '.  |   | |   | |   |                                     |123
+            |_|    |______|  |__|   |__|  |___| |___| |___|                                     |123
+                                                                                                |123
+                                                                                                |123
+                          ________     ______      ____     ____     ______                     |123
+                         /  ______|   /  __  \    /    \   /    \   | _____|                    |123
+                        |  |  ____   |  /__\  |  |    _ \_/ _    |  | _____                     |123
+                        |  | |__  |  |  |  |  |  |   | |   | |   |  | _____|                    |123
+                        |  |____/ /  |  |  |  |  |   | |   | |   |  | _____                     |123
+                         \_______/   |__|  |__|  |___| |___| |___|  |______|                    |123
+                                                                                                |123
+                                                                                                |123\033[1;90m
+                                    Press "Enter" To Continue                                   \033[0m|123
+                                                                                                |123
+                                                                                                |123
+                                                                                                |123
+                                                                                                |123
+                                                                                                |123
+                                                                                                |123
+                                                                                                |123
 """
 credits = """
         TERMINAL DUNGEON GAME:     
@@ -36,7 +36,15 @@ credits = """
          -ART BY Hershel Thomas   
 
 """
-
+settings = """
+        SETTINGS Before Playing:
+        -Make Sure Screen size is correct size and set to full screen width and height 
+        -Can enlarge the screen using zoom (ctrl - or +) 
+        -enlarge or decrease screen size until number '3' 
+        -is at the furthest right side of the screen
+        -if screen gets messed up just lower size of screen
+        -type in '/clear' at any point during game play to reset screen if messy
+"""
 GameLoading = """
                          Game Loading
         ██████╗░░█████╗░██████╗░██████╗░░█████╗░██╗░░██╗███████╗██████╗░
@@ -85,8 +93,15 @@ addLinesToSreen(creditsArray, startScreenArray, start_row_index, '\033[1m\033[90
 
 printScreen(startScreenArray)
 waitForInput('')
-addLinesToSreen(createArrayinArray(createEmptyString(credits)), startScreenArray, start_row_index, '\033[0m')
+settingsArray = createArrayinArray(settings)
 
+addLinesToSreen(createArrayinArray(createEmptyString(credits)), startScreenArray, start_row_index, '\033[0m')
+addLinesToSreen(settingsArray, startScreenArray, start_row_index-5, '\033[1;31m')
+addLinesToSreen(createArrayinArray("Press 'Enter' To Continue"), startScreenArray, num_rows-1, '\033[1;31m')
 os.system(clear_command)
+printScreen(startScreenArray)
+waitForInput('')
+
+
 printScreen(startScreenArray)
 time.sleep(1)
