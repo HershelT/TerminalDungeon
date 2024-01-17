@@ -1,5 +1,6 @@
 import time
 import os
+from termcolor import colored
 startScreen = """
                                                                                                 |
                                                                                                 |
@@ -11,26 +12,27 @@ startScreen = """
             |_|    |______|  |__|   |__|  |___| |___| |___|                                     |
                                                                                                 |
                                                                                                 |
-                             ________                  ____     ____     ______                 |
-                            |  ____  \     .----.     /    \   /    \   | _____|                |
-                            | :____: ,'  .'  __  '.  |    _ \_/ _    |  | _____                 |
-                            |  _____/__  |  /__\  |  |   | |   | |   |  | _____|                |
-                            |  _____/ /  |  |  |  |  |   | |   | |   |  | _____                 |
+                             ________      ______      ____     ____     ______                 |
+                            |  ____  \    /  __  \    /    \   /    \   | _____|                |
+                            | |____|  |  |  /__\  |  |    _ \_/ _    |  | _____                 |
+                            |  ______/   |   __   |  |   | |   | |   |  | _____|                |
+                            |  _____.-.  |  |  |  |  |   | |   | |   |  | _____                 |
                             |________/   |__|  |__|  |___| |___| |___|  |______|                |
                                                                                                 |
                                                                                                 |
                                                                                                 |
                                                                                                 |
-                                                                                                |
-                                                                                                |
+                                                                                                |\033[1m\033[90m
+                                    Press "Enter" To Continue                                   \033[0m|
                                                                                                 |
                                                                                                 |
                                                                                                 |
                                                                                                 |
 """
-credits = """
-        BY-HERSHEL THOMAS
-        TESTED BY JACOB THOMAS
+credits = """     
+        CREATED BY-HERSHEL THOMAS
+        TESTED BY JACOB THOMAS  
+        ART BY Hershel Thomas   
 """
 
 os.system('cls')
@@ -53,10 +55,11 @@ os.system('cls')
 num_rows = len(startScreenArray)
 num_cols = len(startScreenArray[0])
 start_row_index = num_rows - 5  # Replace with the index of the first row you want to copy to
-
-for i, row in enumerate(creditsArray):
-    for j, char in enumerate(row):
-        startScreenArray[start_row_index + i][j] = char
+def addLinesToSreen(lines, screen, rowIndex, color):
+    for i, row in enumerate(lines):
+        for j, char in enumerate(row):
+            screen[rowIndex + i][j] = color + char + '\033[0m'
+addLinesToSreen(creditsArray, startScreenArray, start_row_index, '\033[1m\033[90m')
 for i,row in enumerate(startScreenArray):
     print(''.join(row))
 waitForInput('')
