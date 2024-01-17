@@ -2,43 +2,43 @@ import time
 import os
 import sys
 startScreen = """
- _______________________________________________________________________________________________
-|                                                                                               |123
-|          _____    ______    _______       ____     ____                                       |123
-|         |_  __|  | _____|  |   ___ ',    /    \   /    \                                      |123
-|           | |    | _____   |  |___|  \  |    _ \_/ _    |   _________                         |123
-|           | |    | _____|  |   _     /  |   | |   | |   |  |_________|                        |123
-|           | |    | _____   |  | ',  '.  |   | |   | |   |                                     |123
-|           |_|    |______|  |__|   |__|  |___| |___| |___|                                     |123
-|                         ________     ______      ____     ____     ______                     |123
-|                        /  ______|   /  __  \    /    \   /    \   | _____|                    |123
-|                       |  |  ____   |  /__\  |  |    _ \_/ _    |  | _____                     |123
-|                       |  | |__  |  |  |  |  |  |   | |   | |   |  | _____|                    |123
-|                       |  |____/ /  |  |  |  |  |   | |   | |   |  | _____                     |123
-|                        \_______/   |__|  |__|  |___| |___| |___|  |______|                    |123
-|                                                                                               |123
-|                                                                                               |123
-|                                  Press "Enter" To Continue                                    |123
-|                                                                                               |123
-|                                                                                               |123
-|                                                                                               |123
-|                                                                                               |123
-|                                                                                               |123
-|                                                                                               |123
-|_______________________________________________________________________________________________|123
+     _______________________________________________________________________________________________ 
+    |                                                                                               |
+    |          _____    ______    _______       ____     ____                                       |
+    |         |_  __|  | _____|  |   ___ ',    /    \   /    \                                      |
+    |           | |    | _____   |  |___|  \  |    _ \_/ _    |   _________                         |
+    |           | |    | _____|  |   _     /  |   | |   | |   |  |_________|                        |
+    |           | |    | _____   |  | ',  '.  |   | |   | |   |                                     |
+    |           |_|    |______|  |__|   |__|  |___| |___| |___|                                     |
+    |                         ________     ______      ____     ____     ______                     |
+    |                        /  ______|   /  __  \    /    \   /    \   | _____|                    |
+    |                       |  |  ____   |  /__\  |  |    _ \_/ _    |  | _____                     |
+    |                       |  | |__  |  |  |  |  |  |   | |   | |   |  | _____|                    |
+    |                       |  |____/ /  |  |  |  |  |   | |   | |   |  | _____                     |
+    |                        \_______/   |__|  |__|  |___| |___| |___|  |______|                    |
+    |                                                                                               |
+    |                                                                                               |
+    |                                  Press "Enter" To Continue                                    |
+    |                                                                                               |
+    |                                                                                               |
+    |                                                                                               |
+    |                                                                                               |
+    |                                                                                               |
+    |                                                                                               |
+    |_______________________________________________________________________________________________|
 """
 credits = """
-                                TERMINAL DUNGEON GAME:     
-                                 -CREATED BY-HERSHEL THOMAS
-                                 -TESTED BY JACOB THOMAS  
-                                 -ART BY Hershel Thomas   
+                                    TERMINAL DUNGEON GAME:     
+                                     -CREATED BY-HERSHEL THOMAS
+                                     -TESTED BY JACOB THOMAS  
+                                     -ART BY Hershel Thomas   
 """
 settings = """
-        Setting Screen Size Before Playing:
-        -Make sure screen size is set to FULL SCREEN            
-        -Zoom in or out by pressing down (ctrl) and (+ or -)      
-        -Zoom in or out until number '3' is at the furthest right side of the screen
-        -type in '/clear' at any point during game play to reset screen if messy
+            Setting Screen Size Before Playing:
+            -Make sure screen size is set to FULL SCREEN            
+            -Zoom in or out by pressing down (ctrl) and (+ or -)      
+            -Zoom in or out until edge of map ('|') is at the furthest right side of the screen
+            -type in '/clear' at any point during game play to reset screen if messy
 """
 GameLoading = """
                          Game Loading
@@ -68,7 +68,7 @@ def printScreen(screen, clear = True):
 def addLinesToSreen(lines, screen, rowIndex, color='\033[m'):
     for i, row in enumerate(lines):
         for j, char in enumerate(row):
-            if j !=0:
+            if j !=4:
                 screen[len(screen) - rowIndex+i][j] = color + char + '\033[0m'
                 
 def createEmptyString(screenList : list):
@@ -89,7 +89,7 @@ waitForInput('')
 
 addLinesToSreen(createArrayinArray(createEmptyString(credits)), startScreenArray, start_row_index-4, '\033[0m')
 addLinesToSreen(settingsArray, startScreenArray, start_row_index, '\033[1;31m')
-addLinesToSreen(["    Press 'Enter' To Continue"], startScreenArray, 2, '\033[1;31m')
+addLinesToSreen(["          Press 'Enter' To Continue"], startScreenArray, 2, '\033[1;31m')
 printScreen(startScreenArray)
 waitForInput('')
 time.sleep(1)
