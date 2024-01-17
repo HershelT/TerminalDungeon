@@ -1,5 +1,69 @@
+import time
+import os
+startScreen = """
+                                                                                                |
+                                                                                                |
+           _____    ______    _______       ____     ____                                       |
+          |_  __|  | _____|  |   ___ ',    /    \   /    \                                      |
+            | |    | _____   |  |___|  \  |    _ \_/ _    |   _________                         |
+            | |    | _____|  |   _     /  |   | |   | |   |  |_________|                        |
+            | |    | _____   |  | ',  '.  |   | |   | |   |                                     |
+            |_|    |______|  |__|   |__|  |___| |___| |___|                                     |
+                                                                                                |
+                                                                                                |
+                             ________                  ____     ____     ______                 |
+                            |  ____  \     .----.     /    \   /    \   | _____|                |
+                            | :____: ,'  .'  __  '.  |    _ \_/ _    |  | _____                 |
+                            |  _____/__  |  /__\  |  |   | |   | |   |  | _____|                |
+                            |  _____/ /  |  |  |  |  |   | |   | |   |  | _____                 |
+                            |________/   |__|  |__|  |___| |___| |___|  |______|                |
+                                                                                                |
+                                                                                                |
+                                                                                                |
+                                                                                                |
+                                                                                                |
+                                                                                                |
+                                                                                                |
+                                                                                                |
+                                                                                                |
+                                                                                                |
+"""
+credits = """
+        BY-HERSHEL THOMAS
+        TESTED BY JACOB THOMAS
+"""
 
+os.system('cls')
+def waitForInput(char):
+    user_input = None
+    while (user_input != char):
+        user_input = input()
+row_index_to_color_red = 3
 
+startScreenArray = startScreen.splitlines()
+startScreenArray = [list(row) for row in startScreenArray]
+
+creditsArray=credits.splitlines()
+creditsArray = [list(row) for row in credits.splitlines()]
+
+for row in startScreenArray:
+    print(''.join(row))
+waitForInput('')
+os.system('cls')
+num_rows = len(startScreenArray)
+num_cols = len(startScreenArray[0])
+start_row_index = num_rows - 5  # Replace with the index of the first row you want to copy to
+
+for i, row in enumerate(creditsArray):
+    for j, char in enumerate(row):
+        startScreenArray[start_row_index + i][j] = char
+for i,row in enumerate(startScreenArray):
+    print(''.join(row))
+waitForInput('')
+time.sleep(1)
+
+import adventureGame
+# adventureGame.main()
 
 
 
