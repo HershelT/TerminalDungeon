@@ -1298,18 +1298,7 @@ def Input():
     Call()
 Call.biMap = mapGreenland
 try:
-    # os.system(clear_command)
     mess = ""
-    # numList = ["⓪","➀","➁","➂","➃","➄","➅","➆","➇","➈","➉","⑪","⑫","⑬","⑭","⑮","⑯","⑰","⑱","⑲","⑳,"㉑","㉒","㉓","㉔","㉕","㉖","㉗","㉘","㉙","㉚","㉛","㉜","㉝","㉞","㉟","㊱","㊲","㊳","㊴","㊵","㊶","㊷","㊸","㊹","㊺","㊻","㊼","㊽","㊾","㊿"]
-    # print(numList)
-    Call.inits = True
-    # while True:
-    #     os.system(clear_command)
-    #     type = input("\nAre you running this on Command Prompt or similar?\n(Windows CMD or Mac OS)\nBreaks game if given incorrect answer!!!!\n->")
-    #     mess = type.lower()
-    #     if "y" == mess or "yes" in mess: inits = True; Call.inits = True; break
-    #     elif "n" == mess or "no" in mess: inits = False; break
-    # if Call.inits == True: print("Running init")
     clear_command = 'cls' if os.name == 'nt' else 'clear'
     os.system(clear_command); storyLevel.skip = False;  help.ran = False; dropItem.count = 1
     Call.level = "Beginning"; Call.thing = True; Call.direction = True; Call.message = False; Input.f = True
