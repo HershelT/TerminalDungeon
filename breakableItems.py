@@ -59,7 +59,7 @@ class Blocks():
 #"Item" : [["Items"][int(item amount),[random drop]],"Name", Type of material needed to destroy"]
 itemDrops = {
     #Tree
-    "\033[1;32mΨ\033[0m" : [["Wood Plank", "Stick", "Apple"],[1, 2, [-3,4]],"Tree","Nothing"], #Tree
+    "\033[1;32mΨ\033[0m" : [["Wood Plank", "Stick", "Apple"],[1, 2, [0,4]],"Tree","Nothing"], #Tree
     
     #Stone Boulder
     "\033[37m¤\033[0m" : [["Stone","Flint"],[2,[-3,3]], "Boulder","Wood"], 
