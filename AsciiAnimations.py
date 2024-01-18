@@ -43,7 +43,7 @@ startScreen = """
     |                        \_______/   |__|  |__|  |___| |___| |___|  |______|                    |
     |                                                                                               |
     |                                                                                               |
-    |                                  Press "Enter" To Continue                                    |
+    |                                                                                               |
     |                                                                                               |
     |                                                                                               |
     |                                                                                               |
@@ -55,31 +55,37 @@ startScreen = """
 
 #words to display on screen
 credits = """
-TERMINAL DUNGEON GAME:     
+TERMINAL DUNGEON GAME: 
  -CREATED BY-HERSHEL THOMAS
- -TESTED BY JACOB THOMAS  
- -ART BY Hershel Thomas   
+ -TESTED BY JACOB THOMAS
+ -ART BY Hershel Thomas
 """
 settings = """
-Setting Screen Size Before Playing:                           
+Setting Screen Size Before Playing:
 -Make sure screen size is set to FULL SCREEN
--Zoom in or out by pressing down (ctrl) and (+ or -)      
+-Zoom in or out by pressing down (ctrl) and (+ or -)
 -Zoom in or out until edge of map ('|') is at the furthest right side of the screen
 -type in '/clear' at any point during game play to reset screen if messy
 """
+#movement message
 arrowKeysMessage = """Use Arrow Keys to move the Charcter Around Map"""
+
+#loading Game mechanics
+pressEnter="Press 'Enter' To Continue"
+loadGame = "Loading Game:"
+prepAssets = "Preparing Assets:"
+prepGraphics = "Preparing Graphics:"
+loadBar = "#"
 
 #Entity animations
 ManWalking = """
-  ,.,     
- (* *) ○
+  ,.,
+ (* *) ◙
 ___|___|
    |   |
   / \  |
 """
-manTwo="""
->
-"""
+testOneByOne=">"
 ascii_chars = [
     "☺", "☻", "♥", "♦", "♣", "♠", "•", "◘", "○", 
     "◙", "♂", "♀", "♪", "♫", "☼", "►", "◄", "↕", 

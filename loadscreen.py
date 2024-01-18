@@ -28,6 +28,7 @@ def printScreen(screen, clear = True):
     if clear: os.system(clear_command)
     for row in screen:
         print(''.join(row),flush=True)
+    # print('\033[?25h', end='')
 
 #Adds text to overwrite over main screen with a specific row from most bottom of text being rowIndex from bottom of screen and column from left
 def addLinesToSreen(lines, screen, rowIndex=0, colIndex=0, color='\033[m'):
@@ -84,6 +85,10 @@ def moveLeftorRight(entity:str,fullScreen, rowIndex, colIndex, stepMoveBy, jumpM
     listener.stop()
     del key_listener
 
+#hides the cursor in the begining from screen
+print('\033[?25l', end='')
+
+
 #defining full screens
 startScreenArray =createArrayinArray(startScreen)
 clearScreenArray= createArrayinArray(clearScreen)
@@ -94,6 +99,7 @@ clearScreenArray= createArrayinArray(clearScreen)
 # ManWalkingArray = createArrayinArray(ManWalking)
 
 #initlizes the startscreen
+addLinesToSreen(pressEnter, startScreenArray, 8, 36, '\033[1m\033[90m')
 printScreen(startScreenArray)
 waitForInput('')
 
@@ -101,26 +107,49 @@ waitForInput('')
 addLinesToSreen(credits, startScreenArray, 1, 36, '\033[1m\033[90m')
 printScreen(startScreenArray)
 waitForInput('')
-#Add settings index to allow users to set their screen size
+
+#Add settings index and erase previously written extra writings to allow users to set their screen size
 addLinesToSreen(createEmptyString(credits), startScreenArray, 1, 36, '\033[0m')
+addLinesToSreen(createEmptyString(pressEnter), startScreenArray, 8, 36, '\033[1m\033[90m')
 addLinesToSreen(settings, startScreenArray, 3, 12, '\033[1;31m')
 addLinesToSreen("Press 'Enter' To Continue", startScreenArray, 1, colIndex=8, color='\033[1;31m')
 printScreen(startScreenArray)
 waitForInput('')
 
 
-#Charcter appears to move
+#set charcter position and establish movement
 manCol = 50
 addLinesToSreen(arrowKeysMessage, clearScreenArray, rowIndex=12, colIndex=manCol-20, color='\033[90m')
 moveLeftorRight(ManWalking, clearScreenArray, 1, manCol,stepMoveBy=5,jumpMoveBy=3,color='\033[0m')
 
+#reset screen
+startScreenArray =createArrayinArray(startScreen)
+addLinesToSreen(loadGame, startScreenArray, 7, 36, '\033[33m')
+sleepTime = 0.3
+for i in range(1,40):
+    addLinesToSreen(loadGame, startScreenArray, 7, 36, '\033[33m')
+    addLinesToSreen(createEmptyString(loadBar), startScreenArray, 4, 25, '\033[0m')
+    if i == 10: loadGame = prepAssets;sleepTime=0.2
+    elif i == 20: loadGame = prepGraphics; sleepTime=0.1
+    addLinesToSreen(loadBar, startScreenArray, 4, 26, '\033[1;31m')
+    loadBar += "#"
+    printScreen(startScreenArray)
+    time.sleep(sleepTime)
+addLinesToSreen("Game is Starting!  ", startScreenArray, 7, 36, '\033[33m')
+printScreen(startScreenArray)
+time.sleep(2)
 
-clearScreenArray = createArrayinArray(clearScreen)
-addLinesToSreen(arrowKeysMessage, clearScreenArray, rowIndex=12, colIndex=manCol-20, color='\033[33m')
-moveLeftorRight(manTwo, clearScreenArray, 10, 30,stepMoveBy=1,jumpMoveBy=1,color='\033[0m')
+#reprints cursor
+print('\033[?25h', end='')
+
+#debugger to test a one by one charcter for bounding
+# clearScreenArray = createArrayinArray(clearScreen)
+# addLinesToSreen(arrowKeysMessage, clearScreenArray, rowIndex=12, colIndex=manCol-20, color='\033[33m')
+# moveLeftorRight(testOneByOne, clearScreenArray, 10, 30,stepMoveBy=1,jumpMoveBy=1,color='\033[0m')
+
 # debugger to get length of entity and screen
 # os.system(clear_command)
-# print(len(createArrayinArray(manTwo)), len(createArrayinArray(clearScreen)))
+# print(len(createArrayinArray(TestOneByOne)), len(createArrayinArray(clearScreen)))
 # time.sleep(5)
 
 
@@ -130,5 +159,5 @@ moveLeftorRight(manTwo, clearScreenArray, 10, 30,stepMoveBy=1,jumpMoveBy=1,color
 # waitForInput('')
 
 
-time.sleep(1)
+
 
