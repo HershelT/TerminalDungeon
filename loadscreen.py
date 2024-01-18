@@ -50,6 +50,8 @@ def moveLeftorRight(entity:str,fullScreen, rowIndex, colIndex, stepMoveBy, jumpM
     listener.start()
     keyboard.Controller().release(keyboard.Key.enter)
     longest_row=len(max(createArrayinArray(entity), key=len))
+    addLinesToSreen(entity, fullScreen, rowIndex, colIndex, color)
+    printScreen(fullScreen)
     while not key_listener.is_enter_pressed():
         if key_listener.is_right_arrow_pressed() and (colIndex+longest_row)<(len(fullScreen[2])-1):
             addLinesToSreen(createEmptyString(entity), fullScreen, rowIndex, colIndex, color='\033[0m')
@@ -114,11 +116,11 @@ manCol = 50
 # time.sleep(5)
 # lenghtManWalking = len(ManWalking.split('\n')[3])
 addLinesToSreen(arrowKeysMessage, clearScreenArray, rowIndex=12, colIndex=manCol-20, color='\033[90m')
-addLinesToSreen(ManWalking, clearScreenArray, rowIndex=0, colIndex=manCol, color='\033[0m')
-printScreen(clearScreenArray)
+# addLinesToSreen(ManWalking, clearScreenArray, rowIndex=0, colIndex=manCol, color='\033[0m')
+# printScreen(clearScreenArray)
 # print(manCol, lenghtManWalking, len(clearScreenArray[2]))
 # time.sleep(5)
-moveLeftorRight(ManWalking, clearScreenArray, 0, manCol,stepMoveBy=5,jumpMoveBy=3,color='\033[0m')
+moveLeftorRight(ManWalking, clearScreenArray, 1, manCol,stepMoveBy=5,jumpMoveBy=3,color='\033[0m')
 
 clearScreenArray = createArrayinArray(clearScreen)
 
