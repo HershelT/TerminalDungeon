@@ -9,6 +9,8 @@
 2. [Note](#note)
 3. [To Download](#to-download-)
 4. [Pictures](#pictures-)
+   - [Graphics](#graphics)
+   - [Mining/Building](#miningbuilding)
    - [Combat](#combat)
 
 # Python Installation Guide
@@ -85,6 +87,13 @@ The commands and steps might slightly vary based on the OS version and the syste
 11) Lastly, type `python3 adventureGame.py`
 
 ## Pictures 📸
+
+## Graphics
+![Alt text](image.png)
+
+## Mining/Building
+
+
 
 ## Combat
 
