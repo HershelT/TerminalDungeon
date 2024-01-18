@@ -1,5 +1,4 @@
 import traceback
-import loadscreen
 from typing import Any
 from termcolor import *
 # from json import load
@@ -556,23 +555,21 @@ def takeItem():
             gridNum.pop(x)
             gridIt.pop(x);
         if item in itemDrop:
+            Movement.pre = Call.biMap.getFloorColor() + " "
             itemDrop.pop(item)
         gridItems[User["Current Biome"]] = [gridIt, gridNum]
         specItemInfo(itemN)
         findItem.ItemMemory = itemN; findItem.era = 3
-        # if Movement.pre == "D" and itemIsDroped:
-        #     n = (space[0]) % 10; e = space[1] % 10
-        #     map[9-n][e] = Movement.userImage
         itemIsDroped = False
         for drop in itemDrop:
             listDrop = itemDrop[drop]
             if space == listDrop[0]:
-                Movement.pre = drop[0]
-                itemIsDroped = True
+                Movement.pre =drop[0]
+                # itemIsDroped = True
                 break
-            #12/31 (Have error were map gets rid of door if item spawns under it)
-        if itemIsDroped == False:
-            Movement.pre = Call.biMap.getFloorColor() + " "
+            #12/31 (Have error were map gets rid of door if item spawns under it) (1/18/2024-FIXED)
+        # if itemIsDroped == False:
+        #     Movement.pre = Call.biMap.getFloorColor() + " "
         mapErase(1);loadMap()
         print(f"-------PICKING UP--------\n{itemN} added to your inventory!")
         # dropItem.count -= 1
@@ -616,11 +613,6 @@ def scatterItem(t, envir, nS, nE, eS, eE, scatter : bool):
                     itemLoc[drops] = spot[0]
                     n = (spotList[0]) % leMap
                     e = spotList[1] % wiMap
-                    # if "Wall" in drops: Call.biMap.setStuffPos((leMap-1)-n,e,"\033[38;2;218;165;32m" + "Ⅱ" + "\033[0m")
-                    #                                            #Add mechanic to destory walls. Make it so instead
-                    # elif "Door" in drops: Call.biMap.setStuffPos((leMap-1)-n,e,"∏") #OF checking with each name make an array with all the names
-                    #                                         #then make it so theres another array or in same 2d array it has picyure to place down
-                    # elif "Crafting Table" in drops: Call.biMap.setStuffPos((leMap-1)-n,e,"🪵")
                     Call.biMap.setStuffPos((leMap-1)-n,e,str(drops[0]))
                     if spotList == space:
                         Movement.pre = str(drops[0])
@@ -1298,6 +1290,9 @@ def Input():
     Call()
 Call.biMap = mapGreenland
 try:
+    debugging = True
+    if not debugging:
+        import loadscreen
     mess = ""
     clear_command = 'cls' if os.name == 'nt' else 'clear'
     os.system(clear_command); storyLevel.skip = False;  help.ran = False; dropItem.count = 1

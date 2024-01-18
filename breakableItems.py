@@ -21,7 +21,7 @@ def heirarchyCheck(block, itemBreak):
 #Class to make objects in games with special charterstics like display 
 #and message that happens when i run into object or key level required to open
 class KeyBlocks():
-    def __init__(self, look, name, keyOrBombLevel, message, color = ""):
+    def __init__(self, look, name, keyOrBombLevel, message, color = "\033[0m"):
         self.look = look
         self.name = name
         self.keyOrBombLevel = keyOrBombLevel
