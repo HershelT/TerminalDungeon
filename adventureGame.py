@@ -882,6 +882,9 @@ def dropItem(said):
     elif it not in User["Inventory"]:
         print("Item not in Inventory")
         return False
+    if Movement.pre  != Call.biMap.getFloorColor() + " ":
+        print("\033[31mCan't drop item here!\033[0m")
+        return False
     if it in User["Main Hand"]: User["Main Hand"] = "";takeItem.mainhand = int(itemBuffs[2][User['Main Hand']][0])
     elif it in User["Wearing"]: User["Wearing"] = "";monsterAttacks.armor = itemBuffs[1][User['Wearing']][0];
     gridList = gridItems[User["Current Biome"]]
