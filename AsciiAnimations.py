@@ -67,7 +67,7 @@ Setting Screen Size Before Playing:
 -Zoom in or out until edge of map ('|') is at the furthest right side of the screen
 -type in '/clear' at any point during game play to reset screen if messy
 """
-arrowKeysMessage = """Press Arrow Keys to move the Charcter"""
+arrowKeysMessage = """Use Arrow Keys to move the Charcter Around Map"""
 
 #Entity animations
 ManWalking = """

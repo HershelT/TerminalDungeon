@@ -53,28 +53,28 @@ def moveLeftorRight(entity:str,fullScreen, rowIndex, colIndex, stepMoveBy, jumpM
     addLinesToSreen(entity, fullScreen, rowIndex, colIndex, color)
     printScreen(fullScreen)
     while not key_listener.is_enter_pressed():
-        if key_listener.is_right_arrow_pressed() and (colIndex+longest_row)<(len(fullScreen[2])-1):
+        if key_listener.is_right_arrow_pressed() and (colIndex+longest_row+stepMoveBy)<=(len(fullScreen[2])-1):
             addLinesToSreen(createEmptyString(entity), fullScreen, rowIndex, colIndex, color='\033[0m')
             colIndex += stepMoveBy
             addLinesToSreen(entity, fullScreen, rowIndex, colIndex, color)
             key_listener.keys_pressed.discard(all); 
             printScreen(fullScreen)
             time.sleep(0.15)
-        elif key_listener.is_left_arrow_pressed() and (colIndex>5):
+        elif key_listener.is_left_arrow_pressed() and (colIndex-stepMoveBy>=5):
             addLinesToSreen(createEmptyString(entity), fullScreen, rowIndex, colIndex, color='\033[0m')
             colIndex -= stepMoveBy
             addLinesToSreen(entity, fullScreen, rowIndex, colIndex, color)
             key_listener.keys_pressed.discard(all); 
             printScreen(fullScreen)
             time.sleep(0.15)
-        elif key_listener.is_up_arrow_pressed() and (rowIndex+len(entity.split('\n'))-1)<(len(fullScreen)):
+        elif key_listener.is_up_arrow_pressed() and (rowIndex+len(createArrayinArray(entity))+jumpMoveBy)<(len(fullScreen)):
             addLinesToSreen(createEmptyString(entity), fullScreen, rowIndex, colIndex, color='\033[0m')
             rowIndex += jumpMoveBy
             addLinesToSreen(entity, fullScreen, rowIndex, colIndex, color)
             key_listener.keys_pressed.discard(all); 
             printScreen(fullScreen)
             time.sleep(0.15)
-        elif key_listener.is_down_arrow_pressed() and (rowIndex>0):
+        elif key_listener.is_down_arrow_pressed() and (rowIndex-jumpMoveBy>0):
             addLinesToSreen(createEmptyString(entity), fullScreen, rowIndex, colIndex, color='\033[0m')
             rowIndex -= jumpMoveBy
             addLinesToSreen(entity, fullScreen, rowIndex, colIndex, color)
@@ -111,23 +111,18 @@ waitForInput('')
 
 #Charcter appears to move
 manCol = 50
-# os.system(clear_command)
-# print(len(ManWalking.split('\n')), len(createArrayinArray(clearScreen)))
-# time.sleep(5)
-# lenghtManWalking = len(ManWalking.split('\n')[3])
 addLinesToSreen(arrowKeysMessage, clearScreenArray, rowIndex=12, colIndex=manCol-20, color='\033[90m')
-# addLinesToSreen(ManWalking, clearScreenArray, rowIndex=0, colIndex=manCol, color='\033[0m')
-# printScreen(clearScreenArray)
-# print(manCol, lenghtManWalking, len(clearScreenArray[2]))
-# time.sleep(5)
 moveLeftorRight(ManWalking, clearScreenArray, 1, manCol,stepMoveBy=5,jumpMoveBy=3,color='\033[0m')
 
-clearScreenArray = createArrayinArray(clearScreen)
 
-# addLinesToSreen(arrowKeysMessage, clearScreenArray, rowIndex=12, colIndex=manCol-20, color='\033[90m')
-# addLinesToSreen(manTwo, clearScreenArray, rowIndex=10, colIndex=30, color='\033[90m')
-# printScreen(clearScreenArray)
-# moveLeftorRight(manTwo, clearScreenArray, 10, 30,stepMoveBy=1,jumpMoveBy=1,color='\033[0m')
+clearScreenArray = createArrayinArray(clearScreen)
+addLinesToSreen(arrowKeysMessage, clearScreenArray, rowIndex=12, colIndex=manCol-20, color='\033[33m')
+moveLeftorRight(manTwo, clearScreenArray, 10, 30,stepMoveBy=1,jumpMoveBy=1,color='\033[0m')
+# debugger to get length of entity and screen
+# os.system(clear_command)
+# print(len(createArrayinArray(manTwo)), len(createArrayinArray(clearScreen)))
+# time.sleep(5)
+
 
 #charcter moves right
 
