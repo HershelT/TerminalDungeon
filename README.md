@@ -89,9 +89,13 @@ The commands and steps might slightly vary based on the OS version and the syste
 ## Pictures 📸
 
 ## Graphics
-![Alt text](image.png)
+![image](https://github.com/HershelT/FortniteGXMen-TerminalDungeon/assets/57326155/6155d5c9-bfb4-47b2-b1dd-a6076e063f8c)
 
 ## Mining/Building
+![image](https://github.com/HershelT/FortniteGXMen-TerminalDungeon/assets/57326155/b92d3f3b-1e1f-42f5-ade2-560bf256bb8a)
+![image](https://github.com/HershelT/FortniteGXMen-TerminalDungeon/assets/57326155/3fe65a6d-a6a0-441f-9313-3fbae15999d8)
+![image](https://github.com/HershelT/FortniteGXMen-TerminalDungeon/assets/57326155/be9fde81-a15a-4075-9d7c-57cb5396dea7)
+
 
 
 
