@@ -1293,7 +1293,7 @@ def Input():
     Call()
 Call.biMap = mapGreenland
 try:
-    debugging = True
+    debugging = False
     if not debugging:
         import loadscreen
     mess = ""
