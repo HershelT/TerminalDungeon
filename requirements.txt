@@ -1,3 +1,5 @@
 termcolor==2.4.0
 colorama==0.4.6
 pynput==1.7.6
+Pillow == 7.2.0
+

@@ -11,3 +11,7 @@ __pycache__/adventureGame.cpython-311.pyc
 __pycache__/AsciiAnimations.cpython-311.pyc
 __pycache__/keyboardListener.cpython-311.pyc
 __pycache__/loadscreen.cpython-311.pyc
+ImageReader/__pycache__/__init__.cpython-311.pyc
+__pycache__/loadscreen.cpython-311.pyc
+ImageReader/__pycache__/importImage.cpython-311.pyc
+ImageReader/PythonTerminalSprites/__pycache__/__init__.cpython-311.pyc
