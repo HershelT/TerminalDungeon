@@ -1,6 +1,7 @@
 # Import the Pillow library
 # from PythonTerminalSprites import *
 from PIL import Image
+import os
 import re
 reset = "\033[0m"
 black = "\033[30m"
@@ -146,21 +147,30 @@ def printOutImage(drawing : list):
 # Convert the 2D array to a string
 
 #heart 
-heart = Image.open('ImageReader\\PythonTerminalSprites\\TestSprite.png')
+
+# Check if the operating system is Windows
+is_windows = os.name == 'nt'
+dir_sep = '\\' if is_windows else '/'
+
+
+heart = Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}TestSprite.png')
 heartColors = getPixelInImage(heart)
 convertedHeart = convertPixeltoArray(heartColors, True)
 
-surlColors = getPixelInImage(Image.open('ImageReader\\PythonTerminalSprites\\Surl.png'))
+surlColors = getPixelInImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Surl.png'))
 convertedSurl = convertPixeltoArray(surlColors, True)
 
-SlugThing = getPixelInImage(Image.open('ImageReader\\PythonTerminalSprites\\SlugThing1.png'))
+SlugThing = getPixelInImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}SlugThing1.png'))
 convertedSlugThing = convertPixeltoArray(SlugThing, True)
 
-HumanIdle = getPixelInImage(Image.open('ImageReader\\PythonTerminalSprites\\Human1.png'))
-HumanWalkRight = getPixelInImage(Image.open('ImageReader\\PythonTerminalSprites\\Human2.png'))
-HumanWalkLeft = getPixelInImage(Image.open('ImageReader\\PythonTerminalSprites\\Human3.png'))
-HumanDown = getPixelInImage(Image.open('ImageReader\\PythonTerminalSprites\\Human4.png'))
-HumanJump = getPixelInImage(Image.open('ImageReader\\PythonTerminalSprites\\Human5.png'))
+
+HumanIdle = getPixelInImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}HumanBig1.png'))
+HumanWalkRight = getPixelInImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}HumanBig2.png'))
+HumanWalkLeft = getPixelInImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}HumanBig3.png'))
+HumanDown = getPixelInImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}HumanBig4.png'))
+HumanJump = getPixelInImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}HumanBig5.png'))
+
+
 convertedHumanIdle = convertPixeltoArray(HumanIdle, True)
 convertedHumanWalkRight = convertPixeltoArray(HumanWalkRight, True)
 convertedHumanWalkLeft = convertPixeltoArray(HumanWalkLeft, True)

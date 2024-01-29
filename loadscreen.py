@@ -16,12 +16,34 @@ def waitForInput(char):
         user_input = input()
 
 #prints given display to screen fast
-def printScreen(screen, clear = True):
-    if clear: os.system(clear_command)
-    for row in screen:
-        print(''.join(row),flush=True)
-    sys.stdout.flush()
+# def printScreen(screen, clear = True):
+#     if clear: 
+#         os.system(clear_command)
+
+#     for row in screen:
+#         print(''.join(row),flush=True)
+#         sys.stdout.flush()
     # print('\033[?25h', end='')
+import io
+import os
+def printScreen(screen, clear = True):
+    # Create an off-screen buffer
+    buffer = io.StringIO()
+
+    for row in screen:
+        # Write to the buffer instead of directly to the screen
+        buffer.write(''.join(row) + '\n')
+
+    if clear:
+        # Move the cursor to the top of the terminal
+        sys.stdout.write('\033[H\033[?25l')
+
+    # Swap the buffer with the screen
+    sys.stdout.write(buffer.getvalue())
+    sys.stdout.flush()
+
+    # Clear the buffer for the next frame
+    buffer.close()
 
 #Adds text to overwrite over main screen with a specific row from most bottom of text being rowIndex from bottom of screen and column from left
 def addLinesToSreen(lines, screen, rowIndex=0, colIndex=0, color='\033[m', createArray = True):
@@ -43,7 +65,8 @@ def check_keys():
         key_listener.check_keys()
         time.sleep(0.1)
     keyboard.Controller().release(keyboard.Key.enter)
-def moveLeftorRight(entity,fullScreen, rowIndex, colIndex, stepMoveBy, jumpMoveBy, color='\033[0m', ArrayCreate = True):
+def MoveAllDirection(entity,fullScreen, rowIndex, colIndex, stepMoveBy, jumpMoveBy, color='\033[0m', ArrayCreate = True):
+    os.system(clear_command)
     key_listener = MyKeyListener()
     listener = keyboard.Listener(
         on_press=key_listener.on_press,
@@ -92,6 +115,8 @@ def moveLeftorRight(entity,fullScreen, rowIndex, colIndex, stepMoveBy, jumpMoveB
             time.sleep(0.15)
     listener.stop()
     del key_listener
+    os.system(clear_command)
+
 
 #hides the cursor in the begining from screen
 print('\033[?25l', end='')
@@ -100,6 +125,7 @@ print('\033[?25l', end='')
 #defining full screens
 startScreenArray =createArrayinArray(startScreen)
 clearScreenArray= createArrayinArray(clearScreen)
+fullScreenArray = createArrayinArray(bigScreen)
 
 #defining things to add (deprecated)
 # creditsArray=createArrayinArray(credits)
@@ -126,23 +152,24 @@ addLinesToSreen("Press {Bb}'Enter'{0} To Continue", startScreenArray, 1, colInde
 printScreen(startScreenArray)
 waitForInput('')
 
-# moveLeftorRight(convertedHuman, clearScreenArray, 1, 5,stepMoveBy=4,jumpMoveBy=1,color='\033[0m',ArrayCreate=False)
+# MoveAllDirection(convertedHuman, clearScreenArray, 1, 5,stepMoveBy=4,jumpMoveBy=1,color='\033[0m',ArrayCreate=False)
 # clearScreenArray =createArrayinArray(clearScreen)
-def DrawLeftRight(idle, right, left, jump, down, fullScreen, rowIndex, colIndex, stepMoveBy, jumpMoveBy, color='\033[0m', ArrayCreate = True):
+def MovePixelEntity(idle, right, left, jump, down, fullScreen, rowIndex, colIndex, stepMoveBy, jumpMoveBy, color='\033[0m', ArrayCreate = False):
+    os.system(clear_command)
     key_listener = MyKeyListener()
     listener = keyboard.Listener(
         on_press=key_listener.on_press,
         on_release=key_listener.on_release)
     listener.start()
     keyboard.Controller().release(keyboard.Key.enter)
-    if ArrayCreate:
-        longest_row=len(max(createArrayinArray(idle), key=len))
-        howManyRows = len(createArrayinArray(idle))
-        emptyString = createEmptyString(idle)
-    else: 
-        longest_row=len(max(idle, key=len))
-        howManyRows = len(idle)
-        emptyString = convert_2d_array_to_empty_strings(idle)
+    # if ArrayCreate:
+    #     longest_row=len(max(createArrayinArray(idle), key=len))
+    #     howManyRows = len(createArrayinArray(idle))
+    #     emptyString = createEmptyString(idle)
+    # else: 
+    longest_row = len(max(idle, key=len))
+    howManyRows = len(idle)
+    emptyString = convert_2d_array_to_empty_strings(idle)
     addLinesToSreen(idle, fullScreen, rowIndex, colIndex, color, ArrayCreate)
     printScreen(fullScreen)
     currentDrawing = idle
@@ -159,9 +186,6 @@ def DrawLeftRight(idle, right, left, jump, down, fullScreen, rowIndex, colIndex,
             key_listener.keys_pressed.discard(all); 
             printScreen(fullScreen)
             time.sleep(0.15)
-            
-            
-
         elif key_listener.is_left_arrow_pressed() and (colIndex-stepMoveBy>=5):
             if currentDrawing != left and currentDrawing != idle:
                 addLinesToSreen(idle, fullScreen, rowIndex, colIndex, color='\033[0m',createArray=ArrayCreate)
@@ -174,8 +198,6 @@ def DrawLeftRight(idle, right, left, jump, down, fullScreen, rowIndex, colIndex,
             key_listener.keys_pressed.discard(all); 
             printScreen(fullScreen)
             time.sleep(0.15)
-            
-            
         elif key_listener.is_up_arrow_pressed() and (rowIndex+howManyRows+jumpMoveBy)<(len(fullScreen)):
             addLinesToSreen(down, fullScreen, rowIndex, colIndex, color='\033[0m',createArray=ArrayCreate)
             printScreen(fullScreen)
@@ -206,14 +228,16 @@ def DrawLeftRight(idle, right, left, jump, down, fullScreen, rowIndex, colIndex,
             currentDrawing = down
     listener.stop()
     del key_listener
-DrawLeftRight(convertedHumanIdle, convertedHumanWalkRight, convertedHumanWalkLeft, convertedHumanJump, convertedHumanDown, clearScreenArray, 1, 5,stepMoveBy=4,jumpMoveBy=4,color='\033[0m',ArrayCreate=False)
+    os.system(clear_command)
 
+# MovePixelEntity(convertedHumanIdle, convertedHumanWalkRight, convertedHumanWalkLeft, convertedHumanJump, convertedHumanDown, fullScreenArray, 1, 5,stepMoveBy=20,jumpMoveBy=25,color='\033[0m',ArrayCreate=False)
 
 
 #set charcter position and establish movement
 manCol = 50+2
+os.system(clear_command)
 addLinesToSreen(characterDesigner, clearScreenArray, 16, 25, color=bright_blue)
-addLinesToSreen("Choose Your {Gb}Hair{0} color, \nPress 'Enter' to go to next body pary", clearScreenArray, 14, 25, color=bright_yellow)
+addLinesToSreen("Choose Your {Gb}Hair{0} color\nPress 'Tab' to advance to next body pary", clearScreenArray, 14, 25, color=bright_yellow)
 addLinesToSreen(ManWalkingClass.getPixelizedEntity(), clearScreenArray, 7, 40, color='\033[0m',createArray=False)
 addLinesToSreen(convertedHeart, clearScreenArray, 1, 67, color='\033[0m',createArray=False)
 # addLinesToSreen(heartClass.getPixelizedEntity(), clearScreenArray, 8, 50, color='\033[0m',createArray=False)
@@ -222,62 +246,58 @@ printScreen(clearScreenArray)
 
 
 user_input = None
+def characterSelection(patternList : list):
+    SelectedValue = 0
+    keyboard.Controller().release(keyboard.Key.enter)
+    while (not key_listener.is_enter_pressed()):
+        if key_listener.is_tab_pressed():
+            SelectedValue += 1
+            if SelectedValue > 4: 
+                SelectedValue = 0
+            addLinesToSreen(f"Choose Your {patternList[SelectedValue][0]} color      ", clearScreenArray, 15, 25, color=bright_yellow)
+            characterSelection.pattern = patternList[SelectedValue][1]
+            printScreen(clearScreenArray)
+        key_listener.keys_pressed.discard(all)
+        key_listener.check_keys()
+        time.sleep(0.15)
 
+    
 #selects hair color
-pattern = ",.,"
+characterSelection.pattern = ",.,"
 key_actions = {
-    "'r'": lambda: [ManWalkingClass.replaceString(pattern,pattern, red),addLinesToSreen(ManWalkingClass.getPixelizedEntity(), clearScreenArray, 7, 40, color='\033[0m',createArray=False),key_listener.keys_pressed.discard(all),printScreen(clearScreenArray)],
-    "'g'": lambda: [ManWalkingClass.replaceString(pattern,pattern, green),addLinesToSreen(ManWalkingClass.getPixelizedEntity(), clearScreenArray, 7, 40, color='\033[0m',createArray=False),key_listener.keys_pressed.discard(all),printScreen(clearScreenArray)],
-    "'b'": lambda: [ManWalkingClass.replaceString(pattern,pattern, blue),addLinesToSreen(ManWalkingClass.getPixelizedEntity(), clearScreenArray, 7, 40, color='\033[0m',createArray=False),key_listener.keys_pressed.discard(all),printScreen(clearScreenArray)],
-    "'y'": lambda: [ManWalkingClass.replaceString(pattern,pattern, yellow),addLinesToSreen(ManWalkingClass.getPixelizedEntity(), clearScreenArray, 7, 40, color='\033[0m',createArray=False),key_listener.keys_pressed.discard(all),printScreen(clearScreenArray)],
-    "'m'": lambda: [ManWalkingClass.replaceString(pattern,pattern, magenta),addLinesToSreen(ManWalkingClass.getPixelizedEntity(), clearScreenArray, 7, 40, color='\033[0m',createArray=False),key_listener.keys_pressed.discard(all),printScreen(clearScreenArray)],
-    "'c'": lambda: [ManWalkingClass.replaceString(pattern,pattern, cyan),addLinesToSreen(ManWalkingClass.getPixelizedEntity(), clearScreenArray, 7, 40, color='\033[0m',createArray=False),key_listener.keys_pressed.discard(all),printScreen(clearScreenArray)],
-    "'w'": lambda: [ManWalkingClass.replaceString(pattern,pattern, white),addLinesToSreen(ManWalkingClass.getPixelizedEntity(), clearScreenArray, 7, 40, color='\033[0m',createArray=False),key_listener.keys_pressed.discard(all),printScreen(clearScreenArray)],
-    "'0'": lambda: [ManWalkingClass.replaceString(pattern,pattern, reset),addLinesToSreen(ManWalkingClass.getPixelizedEntity(), clearScreenArray, 87, 40, color='\033[0m',createArray=False),key_listener.keys_pressed.discard(all),printScreen(clearScreenArray)],
+    "'r'": lambda: [ManWalkingClass.replaceString(characterSelection.pattern,characterSelection.pattern, red),addLinesToSreen(ManWalkingClass.getPixelizedEntity(), clearScreenArray, 7, 40, color='\033[0m',createArray=False),key_listener.keys_pressed.discard(all),printScreen(clearScreenArray)],
+    "'g'": lambda: [ManWalkingClass.replaceString(characterSelection.pattern,characterSelection.pattern, green),addLinesToSreen(ManWalkingClass.getPixelizedEntity(), clearScreenArray, 7, 40, color='\033[0m',createArray=False),key_listener.keys_pressed.discard(all),printScreen(clearScreenArray)],
+    "'b'": lambda: [ManWalkingClass.replaceString(characterSelection.pattern,characterSelection.pattern, blue),addLinesToSreen(ManWalkingClass.getPixelizedEntity(), clearScreenArray, 7, 40, color='\033[0m',createArray=False),key_listener.keys_pressed.discard(all),printScreen(clearScreenArray)],
+    "'y'": lambda: [ManWalkingClass.replaceString(characterSelection.pattern,characterSelection.pattern, yellow),addLinesToSreen(ManWalkingClass.getPixelizedEntity(), clearScreenArray, 7, 40, color='\033[0m',createArray=False),key_listener.keys_pressed.discard(all),printScreen(clearScreenArray)],
+    "'m'": lambda: [ManWalkingClass.replaceString(characterSelection.pattern,characterSelection.pattern, magenta),addLinesToSreen(ManWalkingClass.getPixelizedEntity(), clearScreenArray, 7, 40, color='\033[0m',createArray=False),key_listener.keys_pressed.discard(all),printScreen(clearScreenArray)],
+    "'c'": lambda: [ManWalkingClass.replaceString(characterSelection.pattern,characterSelection.pattern, cyan),addLinesToSreen(ManWalkingClass.getPixelizedEntity(), clearScreenArray, 7, 40, color='\033[0m',createArray=False),key_listener.keys_pressed.discard(all),printScreen(clearScreenArray)],
+    "'w'": lambda: [ManWalkingClass.replaceString(characterSelection.pattern,characterSelection.pattern, white),addLinesToSreen(ManWalkingClass.getPixelizedEntity(), clearScreenArray, 7, 40, color='\033[0m',createArray=False),key_listener.keys_pressed.discard(all),printScreen(clearScreenArray)],
+    "'0'": lambda: [ManWalkingClass.replaceString(characterSelection.pattern,characterSelection.pattern, reset),addLinesToSreen(ManWalkingClass.getPixelizedEntity(), clearScreenArray, 87, 40, color='\033[0m',createArray=False),key_listener.keys_pressed.discard(all),printScreen(clearScreenArray)],
     "'\\n'": lambda: setattr(key_listener, 'user_input', '')
 }
+
+#patterns for charcter selection
+patternList = [
+    ["{Gb}Hair{0}" , ",.,"],
+    ["{Rb}Eyes{0}" , "* *"],
+    ["{Mb}Sceptor{0}" , "◙"],
+    ["{Bb}Shirt{0}" , "_|_"],
+    ["{Gb}Shoe{0}" , "/ \\"],
+]
+#Create the character selection screen
 key_listener = MyKeyListener(key_actions)
 listener = keyboard.Listener(
         on_press=key_listener.on_press,
-        on_release=key_listener.on_release)
+    on_release=key_listener.on_release)
 listener.start()
-keyboard.Controller().release(keyboard.Key.enter)
-
-check_keys()
-#Selects eye color
-
-pattern = "* *"
-addLinesToSreen("Choose Your {Rb}Eyes{0} color      ", clearScreenArray, 15, 25, color=bright_yellow)
-printScreen(clearScreenArray)
-# while (not key_listener.is_enter_pressed()):
-#     key_listener.check_keys()
-check_keys()
-
-#Sceptor color
-pattern = "◙"
-addLinesToSreen("Choose Your {Mb}Sceptor{0} color       ", clearScreenArray, 15, 25, color=bright_yellow)
-printScreen(clearScreenArray)
-check_keys()
-
-#Shirt color
-pattern = "_|_"
-addLinesToSreen("Choose Your {Bb}Shirt{0} color     ", clearScreenArray, 15, 25, color=bright_yellow)
-printScreen(clearScreenArray)
-check_keys()
-
-#Pants color
-pattern = "/ \\"
-addLinesToSreen("Choose Your {Gb}Shoe{0} color     ", clearScreenArray, 15, 25, color=bright_yellow)
-printScreen(clearScreenArray)
-check_keys()
-
-
+characterSelection(patternList)
 listener.stop()
 del key_listener
 
+
 clearScreenArray = createArrayinArray(clearScreen)
 addLinesToSreen(arrowKeysMessage, clearScreenArray, rowIndex=12, colIndex=manCol-20, color='\033[90m')
-moveLeftorRight(ManWalkingClass.getPixelizedEntity(), clearScreenArray, 1, manCol,stepMoveBy=5,jumpMoveBy=3,color='\033[0m',ArrayCreate=False)
+MoveAllDirection(ManWalkingClass.getPixelizedEntity(), clearScreenArray, 1, manCol,stepMoveBy=5,jumpMoveBy=3,color='\033[0m',ArrayCreate=False)
 # printScreen(clearScreenArray)
 #reset screen
 startScreenArray =createArrayinArray(startScreen)
@@ -302,7 +322,7 @@ print('\033[?25h', end='')
 #debugger to test a one by one charcter for bounding
 # clearScreenArray = createArrayinArray(clearScreen)
 # addLinesToSreen(arrowKeysMessage, clearScreenArray, rowIndex=12, colIndex=manCol-20, color='\033[33m')
-# moveLeftorRight(testOneByOne, clearScreenArray, 10, 30,stepMoveBy=1,jumpMoveBy=1,color='\033[0m')
+# MoveAllDirection(testOneByOne, clearScreenArray, 10, 30,stepMoveBy=1,jumpMoveBy=1,color='\033[0m')
 
 # debugger to get length of entity and screen
 # os.system(clear_command)
