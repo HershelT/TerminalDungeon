@@ -117,6 +117,7 @@ addLinesToSreen(credits, startScreenArray, 1, 36, '\033[1m\033[90m')
 printScreen(startScreenArray)
 waitForInput('')
 
+
 #Add settings index and erase previously written extra writings to allow users to set their screen size
 addLinesToSreen(createEmptyString(credits), startScreenArray, 1, 36, '\033[0m')
 addLinesToSreen(createEmptyString(pressEnter), startScreenArray, 8, 36, '\033[1m\033[90m')
@@ -127,6 +128,87 @@ waitForInput('')
 
 # moveLeftorRight(convertedHuman, clearScreenArray, 1, 5,stepMoveBy=4,jumpMoveBy=1,color='\033[0m',ArrayCreate=False)
 # clearScreenArray =createArrayinArray(clearScreen)
+def DrawLeftRight(idle, right, left, jump, down, fullScreen, rowIndex, colIndex, stepMoveBy, jumpMoveBy, color='\033[0m', ArrayCreate = True):
+    key_listener = MyKeyListener()
+    listener = keyboard.Listener(
+        on_press=key_listener.on_press,
+        on_release=key_listener.on_release)
+    listener.start()
+    keyboard.Controller().release(keyboard.Key.enter)
+    if ArrayCreate:
+        longest_row=len(max(createArrayinArray(idle), key=len))
+        howManyRows = len(createArrayinArray(idle))
+        emptyString = createEmptyString(idle)
+    else: 
+        longest_row=len(max(idle, key=len))
+        howManyRows = len(idle)
+        emptyString = convert_2d_array_to_empty_strings(idle)
+    addLinesToSreen(idle, fullScreen, rowIndex, colIndex, color, ArrayCreate)
+    printScreen(fullScreen)
+    currentDrawing = idle
+    while not key_listener.is_enter_pressed():
+        if key_listener.is_right_arrow_pressed() and (colIndex+longest_row+stepMoveBy)<=(len(fullScreen[2])-1):
+            if currentDrawing != right and currentDrawing != idle:
+                addLinesToSreen(idle, fullScreen, rowIndex, colIndex, color='\033[0m',createArray=ArrayCreate)
+                printScreen(fullScreen)
+                time.sleep(0.3)
+            currentDrawing = right
+            addLinesToSreen(emptyString, fullScreen, rowIndex, colIndex, color='\033[0m', createArray=ArrayCreate)
+            colIndex += stepMoveBy
+            addLinesToSreen(currentDrawing, fullScreen, rowIndex, colIndex, color,ArrayCreate)
+            key_listener.keys_pressed.discard(all); 
+            printScreen(fullScreen)
+            time.sleep(0.15)
+            
+            
+
+        elif key_listener.is_left_arrow_pressed() and (colIndex-stepMoveBy>=5):
+            if currentDrawing != left and currentDrawing != idle:
+                addLinesToSreen(idle, fullScreen, rowIndex, colIndex, color='\033[0m',createArray=ArrayCreate)
+                printScreen(fullScreen)
+                time.sleep(0.3)
+            currentDrawing = left
+            addLinesToSreen(emptyString, fullScreen, rowIndex, colIndex, color='\033[0m',createArray=ArrayCreate)
+            colIndex -= stepMoveBy
+            addLinesToSreen(currentDrawing, fullScreen, rowIndex, colIndex, color,ArrayCreate)
+            key_listener.keys_pressed.discard(all); 
+            printScreen(fullScreen)
+            time.sleep(0.15)
+            
+            
+        elif key_listener.is_up_arrow_pressed() and (rowIndex+howManyRows+jumpMoveBy)<(len(fullScreen)):
+            addLinesToSreen(down, fullScreen, rowIndex, colIndex, color='\033[0m',createArray=ArrayCreate)
+            printScreen(fullScreen)
+            time.sleep(0.3)
+            addLinesToSreen(idle, fullScreen, rowIndex, colIndex, color='\033[0m',createArray=ArrayCreate)
+            printScreen(fullScreen)
+            time.sleep(0.3)
+            addLinesToSreen(emptyString, fullScreen, rowIndex, colIndex, color='\033[0m',createArray=ArrayCreate)
+            rowIndex += jumpMoveBy
+            addLinesToSreen(jump, fullScreen, rowIndex, colIndex, color,ArrayCreate)
+            printScreen(fullScreen)
+            time.sleep(0.3)
+            addLinesToSreen(emptyString, fullScreen, rowIndex, colIndex, color='\033[0m',createArray=ArrayCreate)
+            rowIndex -= jumpMoveBy
+            addLinesToSreen(idle, fullScreen, rowIndex, colIndex, color,ArrayCreate)
+            key_listener.keys_pressed.discard(all); 
+            printScreen(fullScreen)
+            time.sleep(0.15)
+            currentDrawing = idle
+        elif key_listener.is_down_arrow_pressed() and currentDrawing != down:# and (rowIndex-jumpMoveBy>0):
+            
+            addLinesToSreen(down, fullScreen, rowIndex, colIndex, color='\033[0m',createArray=ArrayCreate)
+            # rowIndex -= jumpMoveBy
+            # addLinesToSreen(idle, fullScreen, rowIndex, colIndex, color,ArrayCreate)
+            # key_listener.keys_pressed.discard(all); 
+            printScreen(fullScreen)
+            time.sleep(0.15)
+            currentDrawing = down
+    listener.stop()
+    del key_listener
+DrawLeftRight(convertedHumanIdle, convertedHumanWalkRight, convertedHumanWalkLeft, convertedHumanJump, convertedHumanDown, clearScreenArray, 1, 5,stepMoveBy=4,jumpMoveBy=4,color='\033[0m',ArrayCreate=False)
+
+
 
 #set charcter position and establish movement
 manCol = 50+2

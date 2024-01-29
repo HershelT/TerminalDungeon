@@ -156,8 +156,16 @@ convertedSurl = convertPixeltoArray(surlColors, True)
 SlugThing = getPixelInImage(Image.open('ImageReader\\PythonTerminalSprites\\SlugThing1.png'))
 convertedSlugThing = convertPixeltoArray(SlugThing, True)
 
-Human = getPixelInImage(Image.open('ImageReader\\PythonTerminalSprites\\Human.png'))
-convertedHuman = convertPixeltoArray(Human, True)
+HumanIdle = getPixelInImage(Image.open('ImageReader\\PythonTerminalSprites\\Human1.png'))
+HumanWalkRight = getPixelInImage(Image.open('ImageReader\\PythonTerminalSprites\\Human2.png'))
+HumanWalkLeft = getPixelInImage(Image.open('ImageReader\\PythonTerminalSprites\\Human3.png'))
+HumanDown = getPixelInImage(Image.open('ImageReader\\PythonTerminalSprites\\Human4.png'))
+HumanJump = getPixelInImage(Image.open('ImageReader\\PythonTerminalSprites\\Human5.png'))
+convertedHumanIdle = convertPixeltoArray(HumanIdle, True)
+convertedHumanWalkRight = convertPixeltoArray(HumanWalkRight, True)
+convertedHumanWalkLeft = convertPixeltoArray(HumanWalkLeft, True)
+convertedHumanJump = convertPixeltoArray(HumanJump, True)
+convertedHumanDown = convertPixeltoArray(HumanDown, True)
 
 # Print the heart to the terminal
 # printOutImage(convertedHeart)
