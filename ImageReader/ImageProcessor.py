@@ -164,11 +164,11 @@ SlugThing = getPixelInImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprit
 convertedSlugThing = convertPixeltoArray(SlugThing, True)
 
 
-HumanIdle = getPixelInImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}HumanBig1.png'))
-HumanWalkRight = getPixelInImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}HumanBig2.png'))
-HumanWalkLeft = getPixelInImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}HumanBig3.png'))
-HumanDown = getPixelInImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}HumanBig4.png'))
-HumanJump = getPixelInImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}HumanBig5.png'))
+HumanIdle = getPixelInImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human1.png'))
+HumanWalkRight = getPixelInImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human2.png'))
+HumanWalkLeft = getPixelInImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human3.png'))
+HumanDown = getPixelInImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human4.png'))
+HumanJump = getPixelInImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human5.png'))
 
 
 convertedHumanIdle = convertPixeltoArray(HumanIdle, True)

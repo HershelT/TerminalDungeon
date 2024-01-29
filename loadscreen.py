@@ -204,7 +204,7 @@ def MovePixelEntity(idle, right, left, jump, down, fullScreen, rowIndex, colInde
             time.sleep(0.3)
             addLinesToSreen(idle, fullScreen, rowIndex, colIndex, color='\033[0m',createArray=ArrayCreate)
             printScreen(fullScreen)
-            time.sleep(0.3)
+            time.sleep(0.15)
             addLinesToSreen(emptyString, fullScreen, rowIndex, colIndex, color='\033[0m',createArray=ArrayCreate)
             rowIndex += jumpMoveBy
             addLinesToSreen(jump, fullScreen, rowIndex, colIndex, color,ArrayCreate)
@@ -230,8 +230,8 @@ def MovePixelEntity(idle, right, left, jump, down, fullScreen, rowIndex, colInde
     del key_listener
     os.system(clear_command)
 
-# MovePixelEntity(convertedHumanIdle, convertedHumanWalkRight, convertedHumanWalkLeft, convertedHumanJump, convertedHumanDown, fullScreenArray, 1, 5,stepMoveBy=20,jumpMoveBy=25,color='\033[0m',ArrayCreate=False)
-
+MovePixelEntity(convertedHumanIdle, convertedHumanWalkRight, convertedHumanWalkLeft, convertedHumanJump, convertedHumanDown, clearScreenArray, 1, 5,stepMoveBy=3,jumpMoveBy=4,color='\033[0m',ArrayCreate=False)
+clearScreenArray = createArrayinArray(clearScreen)
 
 #set charcter position and establish movement
 manCol = 50+2
