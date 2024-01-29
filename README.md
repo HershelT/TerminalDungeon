@@ -53,7 +53,7 @@ The commands and steps might slightly vary based on the OS version and the syste
 
 ## To Download: 📥
 
-1) Go to Green Code Box  
+1) Go to Green Code Box on Top of the Page
 
    <img src="https://github.com/HershelT/TerminalDungeon/assets/57326155/c1046242-1240-439a-b25d-69d22c3de8bb" width="300">
 
@@ -76,7 +76,7 @@ The commands and steps might slightly vary based on the OS version and the syste
 
 6) Go to bash or terminal depending on computer
 
-7) Type `cd` then right click on same line cd is to paste. Should look something like `cd user/path/to-folder`
+7) Type `cd` then right click on same line cd is on to paste. Should look something like `cd user/path/to-folder`
 
 8) Press enter
 
