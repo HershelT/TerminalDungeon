@@ -1,5 +1,6 @@
 import time
 import os, sys
+import io
 from AsciiAnimations import *
 from keyboardListener import *
 
@@ -24,10 +25,10 @@ def waitForInput(char):
 #         print(''.join(row),flush=True)
 #         sys.stdout.flush()
     # print('\033[?25h', end='')
-import io
-import os
 def printScreen(screen, clear = True):
     # Create an off-screen buffer
+    
+
     buffer = io.StringIO()
 
     for row in screen:
@@ -35,6 +36,7 @@ def printScreen(screen, clear = True):
         buffer.write(''.join(row) + '\n')
 
     if clear:
+        sys.stdout.write('\033[?25l')
         # Move the cursor to the top of the terminal
         sys.stdout.write('\033[H\033[?25l')
 
@@ -123,8 +125,8 @@ print('\033[?25l', end='')
 
 
 #defining full screens
-startScreenArray =createArrayinArray(startScreen)
-clearScreenArray= createArrayinArray(clearScreen)
+startScreenArray =createArrayinArray(WiderStartScreen)
+clearScreenArray= createArrayinArray(WiderClearScreen)
 fullScreenArray = createArrayinArray(bigScreen)
 
 #defining things to add (deprecated)
@@ -154,7 +156,7 @@ waitForInput('')
 
 # MoveAllDirection(convertedHuman, clearScreenArray, 1, 5,stepMoveBy=4,jumpMoveBy=1,color='\033[0m',ArrayCreate=False)
 # clearScreenArray =createArrayinArray(clearScreen)
-def MovePixelEntity(idle, right, left, jump, down, fullScreen, rowIndex, colIndex, stepMoveBy, jumpMoveBy, color='\033[0m', ArrayCreate = False):
+def MovePixelEntity(idle, right, left, jump, down, rAttack, lAttack, fullScreen, rowIndex, colIndex, stepMoveBy, jumpMoveBy, color='\033[0m', ArrayCreate = False):
     os.system(clear_command)
     key_listener = MyKeyListener()
     listener = keyboard.Listener(
@@ -186,7 +188,7 @@ def MovePixelEntity(idle, right, left, jump, down, fullScreen, rowIndex, colInde
             key_listener.keys_pressed.discard(all); 
             printScreen(fullScreen)
             time.sleep(0.15)
-        elif key_listener.is_left_arrow_pressed() and (colIndex-stepMoveBy>=5):
+        if key_listener.is_left_arrow_pressed() and (colIndex-stepMoveBy>=5):
             if currentDrawing != left and currentDrawing != idle:
                 addLinesToSreen(idle, fullScreen, rowIndex, colIndex, color='\033[0m',createArray=ArrayCreate)
                 printScreen(fullScreen)
@@ -198,7 +200,8 @@ def MovePixelEntity(idle, right, left, jump, down, fullScreen, rowIndex, colInde
             key_listener.keys_pressed.discard(all); 
             printScreen(fullScreen)
             time.sleep(0.15)
-        elif key_listener.is_up_arrow_pressed() and (rowIndex+howManyRows+jumpMoveBy)<(len(fullScreen)):
+        if key_listener.is_up_arrow_pressed() and (rowIndex+howManyRows+jumpMoveBy)<(len(fullScreen)):
+            addLinesToSreen(emptyString, fullScreen, rowIndex, colIndex, color='\033[0m',createArray=ArrayCreate)
             addLinesToSreen(down, fullScreen, rowIndex, colIndex, color='\033[0m',createArray=ArrayCreate)
             printScreen(fullScreen)
             time.sleep(0.3)
@@ -217,8 +220,8 @@ def MovePixelEntity(idle, right, left, jump, down, fullScreen, rowIndex, colInde
             printScreen(fullScreen)
             time.sleep(0.15)
             currentDrawing = idle
-        elif key_listener.is_down_arrow_pressed() and currentDrawing != down:# and (rowIndex-jumpMoveBy>0):
-            
+        if key_listener.is_down_arrow_pressed() and currentDrawing != down:# and (rowIndex-jumpMoveBy>0):
+            addLinesToSreen(emptyString, fullScreen, rowIndex, colIndex, color='\033[0m',createArray=ArrayCreate)
             addLinesToSreen(down, fullScreen, rowIndex, colIndex, color='\033[0m',createArray=ArrayCreate)
             # rowIndex -= jumpMoveBy
             # addLinesToSreen(idle, fullScreen, rowIndex, colIndex, color,ArrayCreate)
@@ -226,12 +229,20 @@ def MovePixelEntity(idle, right, left, jump, down, fullScreen, rowIndex, colInde
             printScreen(fullScreen)
             time.sleep(0.15)
             currentDrawing = down
+        if key_listener.is_space_pressed():
+            addLinesToSreen(emptyString, fullScreen, rowIndex, colIndex, color='\033[0m',createArray=ArrayCreate)
+            if currentDrawing == right and currentDrawing != rAttack:
+                addLinesToSreen(rAttack, fullScreen, rowIndex, colIndex, color,ArrayCreate)
+                printScreen(fullScreen)
+            elif currentDrawing == left and currentDrawing != lAttack:
+                addLinesToSreen(lAttack, fullScreen, rowIndex, colIndex, color,ArrayCreate)
+                printScreen(fullScreen)
     listener.stop()
     del key_listener
     os.system(clear_command)
-
-MovePixelEntity(convertedHumanIdle, convertedHumanWalkRight, convertedHumanWalkLeft, convertedHumanJump, convertedHumanDown, clearScreenArray, 1, 5,stepMoveBy=3,jumpMoveBy=4,color='\033[0m',ArrayCreate=False)
-clearScreenArray = createArrayinArray(clearScreen)
+# MovePixelEntity(convertedZarnDog, convertedZarnDog, convertedZarnDog, convertedZarnDog, convertedZarnDog, clearScreenArray, 1, 5,stepMoveBy=3,jumpMoveBy=4,color='\033[0m',ArrayCreate=False)
+MovePixelEntity(convertedHumanIdle, convertedHumanWalkRight, convertedHumanWalkLeft, convertedHumanJump, convertedHumanDown, convertedHumanRightAttack, convertedHumanLeftAttack, clearScreenArray, 1, 5,stepMoveBy=3,jumpMoveBy=4,color='\033[0m',ArrayCreate=False)
+clearScreenArray = createArrayinArray(WiderClearScreen)
 
 #set charcter position and establish movement
 manCol = 50+2
@@ -295,12 +306,12 @@ listener.stop()
 del key_listener
 
 
-clearScreenArray = createArrayinArray(clearScreen)
+clearScreenArray = createArrayinArray(WiderClearScreen)
 addLinesToSreen(arrowKeysMessage, clearScreenArray, rowIndex=12, colIndex=manCol-20, color='\033[90m')
 MoveAllDirection(ManWalkingClass.getPixelizedEntity(), clearScreenArray, 1, manCol,stepMoveBy=5,jumpMoveBy=3,color='\033[0m',ArrayCreate=False)
 # printScreen(clearScreenArray)
 #reset screen
-startScreenArray =createArrayinArray(startScreen)
+startScreenArray =createArrayinArray(WiderStartScreen)
 addLinesToSreen(loadGame, startScreenArray, 7, 36, '\033[33m')
 sleepTime = 0.3
 for i in range(1,40):
@@ -320,13 +331,13 @@ time.sleep(2)
 print('\033[?25h', end='')
 
 #debugger to test a one by one charcter for bounding
-# clearScreenArray = createArrayinArray(clearScreen)
+# clearScreenArray = createArrayinArray(WiderClearScreen)
 # addLinesToSreen(arrowKeysMessage, clearScreenArray, rowIndex=12, colIndex=manCol-20, color='\033[33m')
 # MoveAllDirection(testOneByOne, clearScreenArray, 10, 30,stepMoveBy=1,jumpMoveBy=1,color='\033[0m')
 
 # debugger to get length of entity and screen
 # os.system(clear_command)
-# print(len(createArrayinArray(TestOneByOne)), len(createArrayinArray(clearScreen)))
+# print(len(createArrayinArray(TestOneByOne)), len(createArrayinArray(WiderClearScreen)))
 # time.sleep(5)
 
 

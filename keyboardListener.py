@@ -54,6 +54,8 @@ class MyKeyListener:
         return "Key.enter" in self.keys_pressed
     def is_tab_pressed(self):
         return "Key.tab" in self.keys_pressed
+    def is_space_pressed(self):
+        return "Key.space" in self.keys_pressed
     
     
     
