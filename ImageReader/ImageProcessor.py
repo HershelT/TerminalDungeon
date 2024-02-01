@@ -117,6 +117,13 @@ HumanDown      = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprit
 HumanJump      = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human5.png'))
 HumanRightAttack = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human6.png'))
 HumanLeftAttack = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human7.png'))
+HumanForceFieldStage1 = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human8.png'))
+HumanForceFieldStage2 = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human9.png'))
+HumanForceFieldStage3 = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human10.png'))
+HumanForceFieldStage4 = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human11.png'))
+bulletRight = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Bullet1.png'))
+bulletLeft = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Bullet2.png'))
+
 ZarnDog        = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ZarnDog.png'), True)
 
 
@@ -130,6 +137,13 @@ convertedHumanDown      = HumanDown.getPixelArray()
 convertedHumanJump      = HumanJump.getPixelArray()
 convertedHumanRightAttack = HumanRightAttack.getPixelArray()
 convertedHumanLeftAttack = HumanLeftAttack.getPixelArray()
+convertedHumanForceFieldStage1 = HumanForceFieldStage1.getPixelArray()
+convertedHumanForceFieldStage2 = HumanForceFieldStage2.getPixelArray()
+convertedHumanForceFieldStage3 = HumanForceFieldStage3.getPixelArray()
+convertedHumanForceFieldStage4 = HumanForceFieldStage4.getPixelArray()
+
+convertedBulletRight = bulletRight.getPixelArray()
+convertedBulletLeft = bulletLeft.getPixelArray()
 
 convertedZarnDog        = ZarnDog.getPixelArray()
 

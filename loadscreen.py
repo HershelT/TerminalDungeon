@@ -156,7 +156,7 @@ waitForInput('')
 
 # MoveAllDirection(convertedHuman, clearScreenArray, 1, 5,stepMoveBy=4,jumpMoveBy=1,color='\033[0m',ArrayCreate=False)
 # clearScreenArray =createArrayinArray(clearScreen)
-def MovePixelEntity(idle, right, left, jump, down, rAttack, lAttack, fullScreen, rowIndex, colIndex, stepMoveBy, jumpMoveBy, color='\033[0m', ArrayCreate = False):
+def MovePixelEntity(idle, right, left, jump, down, rAttack, lAttack, power, power1, power2, power3, shotRight,shotLeft, fullScreen, rowIndex, colIndex, stepMoveBy, jumpMoveBy, color='\033[0m', ArrayCreate = False):
     os.system(clear_command)
     key_listener = MyKeyListener()
     listener = keyboard.Listener(
@@ -175,39 +175,53 @@ def MovePixelEntity(idle, right, left, jump, down, rAttack, lAttack, fullScreen,
     addLinesToSreen(idle, fullScreen, rowIndex, colIndex, color, ArrayCreate)
     printScreen(fullScreen)
     currentDrawing = idle
+    moveBy = 0
     while not key_listener.is_enter_pressed():
         if key_listener.is_right_arrow_pressed() and (colIndex+longest_row+stepMoveBy)<=(len(fullScreen[2])-1):
             if currentDrawing != right and currentDrawing != idle:
+                addLinesToSreen(emptyString, fullScreen, rowIndex, colIndex, color='\033[0m', createArray=ArrayCreate)
+                if currentDrawing == power: colIndex += moveBy
                 addLinesToSreen(idle, fullScreen, rowIndex, colIndex, color='\033[0m',createArray=ArrayCreate)
+                emptyString = convert_2d_array_to_empty_strings(idle)
                 printScreen(fullScreen)
                 time.sleep(0.3)
             currentDrawing = right
+            emptyString = convert_2d_array_to_empty_strings(right)
             addLinesToSreen(emptyString, fullScreen, rowIndex, colIndex, color='\033[0m', createArray=ArrayCreate)
             colIndex += stepMoveBy
             addLinesToSreen(currentDrawing, fullScreen, rowIndex, colIndex, color,ArrayCreate)
             key_listener.keys_pressed.discard(all); 
             printScreen(fullScreen)
             time.sleep(0.15)
+            emptyString = convert_2d_array_to_empty_strings(idle)
         if key_listener.is_left_arrow_pressed() and (colIndex-stepMoveBy>=5):
             if currentDrawing != left and currentDrawing != idle:
+                addLinesToSreen(emptyString, fullScreen, rowIndex, colIndex, color='\033[0m', createArray=ArrayCreate)
+                if currentDrawing == power: colIndex += moveBy
                 addLinesToSreen(idle, fullScreen, rowIndex, colIndex, color='\033[0m',createArray=ArrayCreate)
                 printScreen(fullScreen)
+                emptyString = convert_2d_array_to_empty_strings(idle)
                 time.sleep(0.3)
             currentDrawing = left
+            
             addLinesToSreen(emptyString, fullScreen, rowIndex, colIndex, color='\033[0m',createArray=ArrayCreate)
             colIndex -= stepMoveBy
             addLinesToSreen(currentDrawing, fullScreen, rowIndex, colIndex, color,ArrayCreate)
             key_listener.keys_pressed.discard(all); 
             printScreen(fullScreen)
             time.sleep(0.15)
+            emptyString = convert_2d_array_to_empty_strings(left)
+
         if key_listener.is_up_arrow_pressed() and (rowIndex+howManyRows+jumpMoveBy)<(len(fullScreen)):
             addLinesToSreen(emptyString, fullScreen, rowIndex, colIndex, color='\033[0m',createArray=ArrayCreate)
+            if currentDrawing == power: colIndex += moveBy
             addLinesToSreen(down, fullScreen, rowIndex, colIndex, color='\033[0m',createArray=ArrayCreate)
             printScreen(fullScreen)
             time.sleep(0.3)
             addLinesToSreen(idle, fullScreen, rowIndex, colIndex, color='\033[0m',createArray=ArrayCreate)
             printScreen(fullScreen)
             time.sleep(0.15)
+            emptyString = convert_2d_array_to_empty_strings(idle)
             addLinesToSreen(emptyString, fullScreen, rowIndex, colIndex, color='\033[0m',createArray=ArrayCreate)
             rowIndex += jumpMoveBy
             addLinesToSreen(jump, fullScreen, rowIndex, colIndex, color,ArrayCreate)
@@ -222,6 +236,7 @@ def MovePixelEntity(idle, right, left, jump, down, rAttack, lAttack, fullScreen,
             currentDrawing = idle
         if key_listener.is_down_arrow_pressed() and currentDrawing != down:# and (rowIndex-jumpMoveBy>0):
             addLinesToSreen(emptyString, fullScreen, rowIndex, colIndex, color='\033[0m',createArray=ArrayCreate)
+            if currentDrawing == power: colIndex += moveBy
             addLinesToSreen(down, fullScreen, rowIndex, colIndex, color='\033[0m',createArray=ArrayCreate)
             # rowIndex -= jumpMoveBy
             # addLinesToSreen(idle, fullScreen, rowIndex, colIndex, color,ArrayCreate)
@@ -229,19 +244,78 @@ def MovePixelEntity(idle, right, left, jump, down, rAttack, lAttack, fullScreen,
             printScreen(fullScreen)
             time.sleep(0.15)
             currentDrawing = down
+            emptyString = convert_2d_array_to_empty_strings(down)
         if key_listener.is_space_pressed():
-            addLinesToSreen(emptyString, fullScreen, rowIndex, colIndex, color='\033[0m',createArray=ArrayCreate)
-            if currentDrawing == right and currentDrawing != rAttack:
+            if currentDrawing == right:
+                addLinesToSreen(emptyString, fullScreen, rowIndex, colIndex, color='\033[0m',createArray=ArrayCreate)
                 addLinesToSreen(rAttack, fullScreen, rowIndex, colIndex, color,ArrayCreate)
                 printScreen(fullScreen)
-            elif currentDrawing == left and currentDrawing != lAttack:
+                currentDrawing = rAttack
+            elif currentDrawing == rAttack or currentDrawing == lAttack:
+                    if currentDrawing == rAttack:
+                        shot = shotRight
+                        shotLen = (len(shot[0]))
+                        newCol = colIndex + shotLen + 2
+                    else:
+                        shot = shotLeft
+                        shotLen = -(len(shot[0]))
+                        newCol = colIndex - len(shot[0]) - 2
+                    newRow = rowIndex + int(len(shot))
+                    emptyShot = convert_2d_array_to_empty_strings(shot)
+                    try:
+                        while (newCol + len(shot)) < (len(fullScreen[2])-1) and newCol - len(shot[0]) >= 5:
+                            addLinesToSreen(shot, fullScreen, newRow, newCol, color,ArrayCreate)
+                            printScreen(fullScreen)
+                            time.sleep(0.15)
+                            addLinesToSreen(emptyShot, fullScreen, newRow, newCol, color='\033[0m',createArray=ArrayCreate)
+                            newCol += shotLen
+                        printScreen(fullScreen)
+                        # addLinesToSreen(emptyShot, fullScreen, newRow, newCol, color='\033[0m',createArray=ArrayCreate)
+                    except:
+                        printScreen(fullScreen)
+                        continue
+            elif currentDrawing == left:
+                addLinesToSreen(emptyString, fullScreen, rowIndex, colIndex, color='\033[0m',createArray=ArrayCreate)
                 addLinesToSreen(lAttack, fullScreen, rowIndex, colIndex, color,ArrayCreate)
                 printScreen(fullScreen)
+                currentDrawing = lAttack
+            elif currentDrawing == idle and currentDrawing != power:
+                try:
+
+                    
+                    moveBy = abs(int((len(power[0])-(len(idle[0])))/2))
+                    
+                    if colIndex-moveBy>=5 and (colIndex+len(power[0])-moveBy)<=(len(fullScreen[2])-1):
+                        colIndex -= moveBy
+                        addLinesToSreen(emptyString, fullScreen, rowIndex, colIndex, color='\033[0m',createArray=ArrayCreate)
+                        addLinesToSreen(power, fullScreen, rowIndex, colIndex, color,ArrayCreate)
+                        printScreen(fullScreen)
+                        time.sleep(0.2)
+                        addLinesToSreen(power1, fullScreen, rowIndex, colIndex, color,ArrayCreate)
+                        printScreen(fullScreen)
+                        time.sleep(0.2)
+                        addLinesToSreen(power2, fullScreen, rowIndex, colIndex, color,ArrayCreate)
+                        printScreen(fullScreen)
+                        time.sleep(0.2)
+                        addLinesToSreen(power3, fullScreen, rowIndex, colIndex, color,ArrayCreate)
+                        printScreen(fullScreen)
+                        emptyString = convert_2d_array_to_empty_strings(power)
+                        time.sleep(0.4)
+                        addLinesToSreen(emptyString, fullScreen, rowIndex, colIndex, color='\033[0m',createArray=ArrayCreate)
+                        colIndex += moveBy
+                        addLinesToSreen(idle, fullScreen, rowIndex, colIndex, color,ArrayCreate)
+                        printScreen(fullScreen)
+                        
+                        currentDrawing = idle
+                        emptyString = convert_2d_array_to_empty_strings(idle)
+
+                except:
+                    continue
     listener.stop()
     del key_listener
     os.system(clear_command)
 # MovePixelEntity(convertedZarnDog, convertedZarnDog, convertedZarnDog, convertedZarnDog, convertedZarnDog, clearScreenArray, 1, 5,stepMoveBy=3,jumpMoveBy=4,color='\033[0m',ArrayCreate=False)
-MovePixelEntity(convertedHumanIdle, convertedHumanWalkRight, convertedHumanWalkLeft, convertedHumanJump, convertedHumanDown, convertedHumanRightAttack, convertedHumanLeftAttack, clearScreenArray, 1, 5,stepMoveBy=3,jumpMoveBy=4,color='\033[0m',ArrayCreate=False)
+MovePixelEntity(convertedHumanIdle, convertedHumanWalkRight, convertedHumanWalkLeft, convertedHumanJump, convertedHumanDown, convertedHumanRightAttack, convertedHumanLeftAttack, convertedHumanForceFieldStage1,convertedHumanForceFieldStage2,convertedHumanForceFieldStage3, convertedHumanForceFieldStage4, convertedBulletRight, convertedBulletRight, clearScreenArray, 1, 5,stepMoveBy=3,jumpMoveBy=4,color='\033[0m',ArrayCreate=False )
 clearScreenArray = createArrayinArray(WiderClearScreen)
 
 #set charcter position and establish movement
