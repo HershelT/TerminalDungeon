@@ -315,7 +315,7 @@ def MovePixelEntity(idle, right, left, jump, down, rAttack, lAttack, power, powe
     del key_listener
     os.system(clear_command)
 # MovePixelEntity(convertedZarnDog, convertedZarnDog, convertedZarnDog, convertedZarnDog, convertedZarnDog, clearScreenArray, 1, 5,stepMoveBy=3,jumpMoveBy=4,color='\033[0m',ArrayCreate=False)
-MovePixelEntity(convertedHumanIdle, convertedHumanWalkRight, convertedHumanWalkLeft, convertedHumanJump, convertedHumanDown, convertedHumanRightAttack, convertedHumanLeftAttack, convertedHumanForceFieldStage1,convertedHumanForceFieldStage2,convertedHumanForceFieldStage3, convertedHumanForceFieldStage4, convertedBulletRight, convertedBulletRight, clearScreenArray, 1, 5,stepMoveBy=3,jumpMoveBy=4,color='\033[0m',ArrayCreate=False )
+MovePixelEntity(convertedHumanIdle, convertedHumanWalkRight, convertedHumanWalkLeft, convertedHumanJump, convertedHumanDown, convertedHumanRightAttack, convertedHumanLeftAttack, convertedHumanForceFieldStage1,convertedHumanForceFieldStage2,convertedHumanForceFieldStage3, convertedHumanForceFieldStage4, convertedBulletRight, convertedBulletLeft, clearScreenArray, 1, 5,stepMoveBy=3,jumpMoveBy=4,color='\033[0m',ArrayCreate=False )
 clearScreenArray = createArrayinArray(WiderClearScreen)
 
 #set charcter position and establish movement
