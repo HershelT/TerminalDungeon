@@ -53,13 +53,21 @@ class pixelImage:
             img = img.crop(bbox)
 
         return img
-    def __init__(self, img : Image, scaleRatio = False):
-        self.img = self.trim_image(img)
-        self.width, self.height = self.img.size
-        self.colors = self.getPixelToAnscii(scaleRatio)
-
-    def size(self):
-        return self.width, self.height
+    def __init__(self, img : list , scaleRatio = False):
+        imageList = []
+        self.ImageAnscii = []
+        for image in img:
+            imageList.append(self.trim_image(Image.open(image)))
+        for rgb in imageList:
+            self.ImageAnscii.append(self.getPixelToAnscii(rgb, scaleRatio))
+        # self.img = self.trim_image(img)
+        # self.width, self.height = self.img.size
+        # self.colors = self.getPixelToAnscii(scaleRatio)
+    def getAnsciiList(self):
+        return self.ImageAnscii
+    def size(self, image):
+        width, height = image.size
+        return width, height
     def rgb_to_anscii(self, r, g, b):
         def distance(c1, c2):
             return sum((x1-x2)**2 for x1,x2 in zip(c1, c2))
@@ -68,7 +76,7 @@ class pixelImage:
         closest_color = min(range(len(ansi_colors)), key=lambda index: distance(rgb_color, ansi_colors[index]))
         # Return the ANSI color code
         return "\033[48;5;{}m".format(closest_color)
-    def getPixelToAnscii(self, scaleRatio = False):
+    def getPixelToAnscii(self, image, scaleRatio = False):
         # Convert the image to RGB
         # img = self.img.convert('RGB')
         # width, height = img.size
@@ -76,11 +84,12 @@ class pixelImage:
         # Get the data from the image and convert it to a list of pixels
         # pixels = list(self.img.getdata())
         # Use map to convert each pixel to an ANSI code
+        sizes = self.size(image)
         ansi_codes = []
-        for x in range(self.height):
+        for x in range(sizes[1]):
             row = []
-            for y in range(self.width):
-                r, g, b = self.img.getpixel((y, x))
+            for y in range(sizes[0]):
+                r, g, b = image.getpixel((y, x))
                 row.append(self.rgb_to_anscii(*(r,g,b)) + ' ')
                 if scaleRatio:
                     row.append(self.rgb_to_anscii(*(r,g,b)) + ' ')
@@ -90,13 +99,13 @@ class pixelImage:
         return ansi_codes
         # return [ansi_codes[i*width:(i+1)*width] for i in range(height)]
         # return np.array(ansi_codes).reshape(img.size[1], img.size[0])
-    def printOutImage(self):
+    def printOutImage(self, imageAnscii : list):
         # drawing = self.colors.tolist()  
-        print('\033[0m\n'.join(''.join(row) for row in self.colors), end=reset)
-    def printOutNumpy(self):
-        print(np.array(self.colors))
-    def getPixelArray(self):
-        return self.colors
+        print('\033[0m\n'.join(''.join(row) for row in imageAnscii), end=reset)
+    def printOutNumpy(self, imageAnscii : list):
+        print(np.array(imageAnscii))
+    def getPixelArray(self, imageAtSpot):
+        return self.ImageAnscii[imageAtSpot]
 
 # Convert the 2D array to a string
 
@@ -107,45 +116,67 @@ is_windows = os.name == 'nt'
 dir_sep = '\\' if is_windows else '/'
 
 #declare all the images
-Heart          = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Heart.png'),True)
-SurlColors     = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Surl.png'), True)
-SlugThing      = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}SlugThing1.png'), True)
-HumanIdle      = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human1.png'))
-HumanWalkRight = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human2.png'))
-HumanWalkLeft  = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human3.png'))
-HumanDown      = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human4.png'))
-HumanJump      = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human5.png'))
-HumanRightAttack = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human6.png'))
-HumanLeftAttack = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human7.png'))
-HumanForceFieldStage1 = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human8.png'))
-HumanForceFieldStage2 = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human9.png'))
-HumanForceFieldStage3 = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human10.png'))
-HumanForceFieldStage4 = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human11.png'))
-bulletRight = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Bullet1.png'))
-bulletLeft = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Bullet2.png'))
-
-ZarnDog        = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ZarnDog.png'), True)
+humanList = [f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human1.png',
+f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human2.png',
+f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human3.png',
+f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human4.png',
+f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human5.png',
+f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human6.png',
+f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human7.png',
+f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human8.png',
+f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human9.png',
+f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human10.png',
+f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human11.png']
+bulletList = [f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Bullet1.png',
+f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Bullet2.png']
+heartList = [f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Heart.png']
+healthList = [f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Health1.png',
+              f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Health2.png',]
 
 
-convertedHeart          = Heart.getPixelArray()
-convertedSurlColors     = SurlColors.getPixelArray()
-convertedSlugThing      = SlugThing.getPixelArray()
-convertedHumanIdle      = HumanIdle.getPixelArray()
-convertedHumanWalkRight = HumanWalkRight.getPixelArray()
-convertedHumanWalkLeft  = HumanWalkLeft.getPixelArray()
-convertedHumanDown      = HumanDown.getPixelArray()
-convertedHumanJump      = HumanJump.getPixelArray()
-convertedHumanRightAttack = HumanRightAttack.getPixelArray()
-convertedHumanLeftAttack = HumanLeftAttack.getPixelArray()
-convertedHumanForceFieldStage1 = HumanForceFieldStage1.getPixelArray()
-convertedHumanForceFieldStage2 = HumanForceFieldStage2.getPixelArray()
-convertedHumanForceFieldStage3 = HumanForceFieldStage3.getPixelArray()
-convertedHumanForceFieldStage4 = HumanForceFieldStage4.getPixelArray()
+Human  = pixelImage(humanList, True)
+Bullet = pixelImage(bulletList, True)
+Heart  = pixelImage(heartList,True)
+Health = pixelImage(healthList,True)
 
-convertedBulletRight = bulletRight.getPixelArray()
-convertedBulletLeft = bulletLeft.getPixelArray()
+# SurlColors     = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Surl.png'), True)
+# SlugThing      = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}SlugThing1.png'), True)
+# HumanIdle      = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human1.png'))
+# HumanWalkRight = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human2.png'))
+# HumanWalkLeft  = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human3.png'))
+# HumanDown      = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human4.png'))
+# HumanJump      = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human5.png'))
+# HumanRightAttack = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human6.png'))
+# HumanLeftAttack = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human7.png'))
+# HumanForceFieldStage1 = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human8.png'))
+# HumanForceFieldStage2 = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human9.png'))
+# HumanForceFieldStage3 = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human10.png'))
+# HumanForceFieldStage4 = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human11.png'))
+# bulletRight = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Bullet1.png'))
+# bulletLeft = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Bullet2.png'))
 
-convertedZarnDog        = ZarnDog.getPixelArray()
+# ZarnDog        = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}ZarnDog.png'), True)
+
+
+
+# convertedSurlColors     = SurlColors.getPixelArray()
+# convertedSlugThing      = SlugThing.getPixelArray()
+# convertedHumanIdle      = HumanIdle.getPixelArray()
+# convertedHumanWalkRight = HumanWalkRight.getPixelArray()
+# convertedHumanWalkLeft  = HumanWalkLeft.getPixelArray()
+# convertedHumanDown      = HumanDown.getPixelArray()
+# convertedHumanJump      = HumanJump.getPixelArray()
+# convertedHumanRightAttack = HumanRightAttack.getPixelArray()
+# convertedHumanLeftAttack = HumanLeftAttack.getPixelArray()
+# convertedHumanForceFieldStage1 = HumanForceFieldStage1.getPixelArray()
+# convertedHumanForceFieldStage2 = HumanForceFieldStage2.getPixelArray()
+# convertedHumanForceFieldStage3 = HumanForceFieldStage3.getPixelArray()
+# convertedHumanForceFieldStage4 = HumanForceFieldStage4.getPixelArray()
+
+# convertedBulletRight = bulletRight.getPixelArray()
+# convertedBulletLeft = bulletLeft.getPixelArray()
+
+# convertedZarnDog        = ZarnDog.getPixelArray()
 
 
 # HumanIdle.printOutImage()
