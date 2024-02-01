@@ -1,5 +1,5 @@
 from pynput import keyboard
-
+import sys
 # Define a key listener
 class MyKeyListener:
     def __init__(self, key_actions={}):
@@ -56,6 +56,10 @@ class MyKeyListener:
         return "Key.tab" in self.keys_pressed
     def is_space_pressed(self):
         return "Key.space" in self.keys_pressed
+    def is_esc_pressed(self):
+        if "Key.esc" in self.keys_pressed:
+            print("You have exited the program")
+            sys.exit()
     
     
     
@@ -63,6 +67,7 @@ class MyKeyListener:
         for key in list(self.keys_pressed):  # Create a copy of self.keys_pressed
             if key in self.key_actions:
                 self.key_actions[key]()
+        self.is_esc_pressed()
         
 
 #when getting keyboard input type in:

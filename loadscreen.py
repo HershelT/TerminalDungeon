@@ -166,11 +166,6 @@ def MovePixelEntity(images : list, shots : list, fullScreen, rowIndex, colIndex,
         on_release=key_listener.on_release)
     listener.start()
     keyboard.Controller().release(keyboard.Key.enter)
-    # if ArrayCreate:
-    #     longest_row=len(max(createArrayinArray(idle), key=len))
-    #     howManyRows = len(createArrayinArray(idle))
-    #     emptyString = createEmptyString(idle)
-    # else: 
     longest_row = len(max(images[0], key=len))
     howManyRows = len(images[0])
     emptyString = convert_2d_array_to_empty_strings(images[0])
@@ -179,6 +174,8 @@ def MovePixelEntity(images : list, shots : list, fullScreen, rowIndex, colIndex,
     currentDrawing = images[0]
     moveBy = 0
     while not key_listener.is_enter_pressed():
+        if key_listener.is_esc_pressed():
+            sys.exit()
         if key_listener.is_right_arrow_pressed() and (colIndex+longest_row+stepMoveBy)<=(len(fullScreen[2])-1):
             if currentDrawing != images[1] and currentDrawing != images[0]:
                 addLinesToSreen(emptyString, fullScreen, rowIndex, colIndex, color='\033[0m', createArray=ArrayCreate)
@@ -321,7 +318,7 @@ def MovePixelEntity(images : list, shots : list, fullScreen, rowIndex, colIndex,
 # MovePixelEntity(convertedZarnDog, convertedZarnDog, convertedZarnDog, convertedZarnDog, convertedZarnDog, clearScreenArray, 1, 5,stepMoveBy=3,jumpMoveBy=4,color='\033[0m',ArrayCreate=False)
 
 addLinesToSreen(Health.getPixelArray(0), clearScreenArray, (len(clearScreenArray)-len(Health.getPixelArray(0))-1), 7, color='\033[0m',createArray=False)
-addLinesToSreen(Health.getPixelArray(1), clearScreenArray, (len(clearScreenArray)-len(Health.getPixelArray(1))-1), 7+len(Health.getPixelArray(0)[0])+1, color='\033[0m',createArray=False)
+addLinesToSreen(Health.getPixelArray(2), clearScreenArray, (len(clearScreenArray)-len(Health.getPixelArray(1))-1), 7+len(Health.getPixelArray(0)[0])+1, color='\033[0m',createArray=False)
 MovePixelEntity(Human.getAnsciiList(), Bullet.getAnsciiList(), clearScreenArray, 1, 5,stepMoveBy=3,jumpMoveBy=4,color='\033[0m',ArrayCreate=False )
 clearScreenArray = createArrayinArray(WiderClearScreen)
 

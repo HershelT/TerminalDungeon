@@ -131,7 +131,8 @@ bulletList = [f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Bullet1.png',
 f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Bullet2.png']
 heartList = [f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Heart.png']
 healthList = [f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Health1.png',
-              f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Health2.png',]
+              f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Health2.png',
+              f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Health3.png',]
 
 
 Human  = pixelImage(humanList, True)
