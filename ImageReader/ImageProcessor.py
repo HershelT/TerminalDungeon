@@ -30,7 +30,7 @@ ansi_colors = generate_ansi_colors()
 #     for rgb in ansi_colors:
 #         file.write(f"{rgb[0]} {rgb[1]} {rgb[2]} Color\n")
 # Loop through each pixel in the image to get the rgb value
-
+pixel_to_ansicode = {}
 class pixelImage:
     @staticmethod
     def trim_image(img):
@@ -56,7 +56,6 @@ class pixelImage:
     def __init__(self, img : list , scaleRatio = False):
         imageList = []
         self.ImageAnscii = []
-        self.pixel_to_ansicode = {}
         for image in img:
             imageList.append(self.trim_image(Image.open(image)))
             # imageList.append(Image.open(image))
@@ -75,7 +74,7 @@ class pixelImage:
         # Find the index of the closest color in the ansi_colors list
         closest_color = min(range(len(ansi_colors)), key=lambda index: distance(rgb_color, ansi_colors[index]))
         # Return the ANSI color code
-        self.pixel_to_ansicode[rgb_color] = "\033[48;5;{}m".format(closest_color)
+        pixel_to_ansicode[rgb_color] = "\033[48;5;{}m".format(closest_color)
         return "\033[48;5;{}m".format(closest_color)
     def getPixelToAnscii(self, image, scaleRatio = False):
         # Convert the image to RGB if it's not already
@@ -87,10 +86,10 @@ class pixelImage:
             row = []
             for y in range(sizes[0]):
                 r, g, b = image.getpixel((y, x))
-                if (r,g,b) in self.pixel_to_ansicode:
-                    row.append(self.pixel_to_ansicode[(r,g,b)] + ' ')
+                if (r,g,b) in pixel_to_ansicode:
+                    row.append(pixel_to_ansicode[(r,g,b)] + ' ')
                     if scaleRatio:
-                        row.append(self.rgb_to_anscii(*(r,g,b)) + ' ')
+                        row.append(pixel_to_ansicode[(r,g,b)] + ' ')
                 else:
                     row.append(self.rgb_to_anscii(*(r,g,b)) + ' ')
                     if scaleRatio:
