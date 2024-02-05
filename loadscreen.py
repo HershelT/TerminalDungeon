@@ -128,6 +128,8 @@ print('\033[?25l', end='')
 startScreenArray =createArrayinArray(WiderStartScreen)
 clearScreenArray= createArrayinArray(WiderClearScreen)
 fullScreenArray = createArrayinArray(bigScreen)
+# print(len(clearScreenArray), len(clearScreenArray[0]))
+# time.sleep(5)
 
 #defining things to add (deprecated)
 # creditsArray=createArrayinArray(credits)
@@ -316,7 +318,7 @@ def MovePixelEntity(images : list, shots : list, fullScreen, rowIndex, colIndex,
     del key_listener
     os.system(clear_command)
 # MovePixelEntity(convertedZarnDog, convertedZarnDog, convertedZarnDog, convertedZarnDog, convertedZarnDog, clearScreenArray, 1, 5,stepMoveBy=3,jumpMoveBy=4,color='\033[0m',ArrayCreate=False)
-
+addLinesToSreen(Background.getPixelArray(0), clearScreenArray, 0, 4, color='\033[0m',createArray=False)
 addLinesToSreen(Health.getPixelArray(0), clearScreenArray, (len(clearScreenArray)-len(Health.getPixelArray(0))-1), 7, color='\033[0m',createArray=False)
 addLinesToSreen(Health.getPixelArray(2), clearScreenArray, (len(clearScreenArray)-len(Health.getPixelArray(1))-1), 7+len(Health.getPixelArray(0)[0])+1, color='\033[0m',createArray=False)
 MovePixelEntity(Human.getAnsciiList(), Bullet.getAnsciiList(), clearScreenArray, 1, 5,stepMoveBy=3,jumpMoveBy=4,color='\033[0m',ArrayCreate=False )

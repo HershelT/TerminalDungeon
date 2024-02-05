@@ -56,13 +56,13 @@ class pixelImage:
     def __init__(self, img : list , scaleRatio = False):
         imageList = []
         self.ImageAnscii = []
+        self.pixel_to_ansicode = {}
         for image in img:
             imageList.append(self.trim_image(Image.open(image)))
+            # imageList.append(Image.open(image))
         for rgb in imageList:
             self.ImageAnscii.append(self.getPixelToAnscii(rgb, scaleRatio))
-        # self.img = self.trim_image(img)
-        # self.width, self.height = self.img.size
-        # self.colors = self.getPixelToAnscii(scaleRatio)
+
     def getAnsciiList(self):
         return self.ImageAnscii
     def size(self, image):
@@ -75,24 +75,26 @@ class pixelImage:
         # Find the index of the closest color in the ansi_colors list
         closest_color = min(range(len(ansi_colors)), key=lambda index: distance(rgb_color, ansi_colors[index]))
         # Return the ANSI color code
+        self.pixel_to_ansicode[rgb_color] = "\033[48;5;{}m".format(closest_color)
         return "\033[48;5;{}m".format(closest_color)
     def getPixelToAnscii(self, image, scaleRatio = False):
-        # Convert the image to RGB
-        # img = self.img.convert('RGB')
-        # width, height = img.size
-        # width = width * (2 if scaleRatio else 1)
-        # Get the data from the image and convert it to a list of pixels
-        # pixels = list(self.img.getdata())
-        # Use map to convert each pixel to an ANSI code
+        # Convert the image to RGB if it's not already
+        if image.mode != 'RGB':
+            image = image.convert('RGB')
         sizes = self.size(image)
         ansi_codes = []
         for x in range(sizes[1]):
             row = []
             for y in range(sizes[0]):
                 r, g, b = image.getpixel((y, x))
-                row.append(self.rgb_to_anscii(*(r,g,b)) + ' ')
-                if scaleRatio:
+                if (r,g,b) in self.pixel_to_ansicode:
+                    row.append(self.pixel_to_ansicode[(r,g,b)] + ' ')
+                    if scaleRatio:
+                        row.append(self.rgb_to_anscii(*(r,g,b)) + ' ')
+                else:
                     row.append(self.rgb_to_anscii(*(r,g,b)) + ' ')
+                    if scaleRatio:
+                        row.append(self.rgb_to_anscii(*(r,g,b)) + ' ')
             ansi_codes.append(row)
         # ansi_codes = list(map(lambda pixel: (self.rgb_to_anscii(*pixel) + ' ') *(2 if scaleRatio else 1), pixels))
         # Convert the list of ANSI codes to a 2D numpy array and return it
@@ -133,12 +135,13 @@ heartList = [f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Heart.png']
 healthList = [f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Health1.png',
               f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Health2.png',
               f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Health3.png',]
-
+BackgroundList = [f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Background.png']
 
 Human  = pixelImage(humanList, True)
 Bullet = pixelImage(bulletList, True)
 Heart  = pixelImage(heartList,True)
 Health = pixelImage(healthList,True)
+Background = pixelImage(BackgroundList,False)
 
 # SurlColors     = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Surl.png'), True)
 # SlugThing      = pixelImage(Image.open(f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}SlugThing1.png'), True)
