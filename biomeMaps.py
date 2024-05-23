@@ -3,6 +3,7 @@
 #Make a system that can create a map of any height 
 # But can also place walls in specific spots
 from breakableItems import *
+from store import *
 
 buildList = []
 class world: #Allows automatic adding of terrain to environment without manuel
@@ -32,7 +33,7 @@ class setMap:#add location on map (n, n, e, e)
         PythonAdventure.addToWorld(self)
     def setStuffPos(self, row, col, stuff):
         self.mapType[row][col] = stuff
-    def setObj(self, row, col, stuff:KeyBlocks):
+    def setObj(self, row, col, stuff:object):
         self.objects[str(row) + "," + str(col)] = stuff
         self.mapType[row][col] = stuff.getLook()
     def setFloorColor(self, color):
@@ -93,7 +94,7 @@ def loadingMap(map : setMap, mapPulledFrom : list):
             else:
                 block = itemToNumber[int(c)]
                 #checks if i want to place an object with a property or just a block
-                if isinstance(block, KeyBlocks):
+                if isinstance(block, KeyBlocks) or isinstance(block, StoreKeeper):
                     map.setObj(row,col,block)
                 else:
                     map.setStuffPos(row,col,block)
@@ -118,7 +119,7 @@ blankMap = [
 itemToNumber =  {
     0 : "\033[37m¤\033[0m", # Stone Block/Boulder
     1 : "\033[1;32mΨ\033[0m", # Tree
-    2 : "🪦", #Graveyard
+    2: bob, #implement the store keeper later
     3 : "\033[38;2;218;165;32mⅡ\033[0m", #Wood Wall
     4 : KeyBlocks("\033[1;33m∏\033[0m", "\033[1;33mWood Gate\033[0m", "Wood Key", "You need a Wooden Key to open - Wood Gate","\033[1;33m"), # locked Wood Door
     5 : "\033[90mΩ\033[0m", # Iron Ore deposit
@@ -126,7 +127,8 @@ itemToNumber =  {
     7 : KeyBlocks("\033[38;5;54m∏\033[0m", "\033[38;5;54mBoss Gate\033[0m", "Boss Key", "You need a Boss Key to open - Boss Gate", "\033[38;5;54m"),
     8: "\033[34mΩ\033[0m", #Diamond Ore Deposit
     9: "\033[47m \033[0m", #Unbreakbale Wall
-    10:"🌳"
+    10 : "🪦", #Graveyard
+    11: "🌳",
 
 }
 #create maps and write a program that cycles through setting position of map to that if spot not empty
@@ -136,7 +138,7 @@ GreenlandMap = [
      ["9", "9","9","9","7","9","9","9","9","9"],
      ["9", "1","1","1"," ","0","0","0"," ","9"],
      ["9", "1","1","1"," ","0","0","0"," ","9"],
-     ["9", "1","1"," "," "," "," ","0"," ","9"],
+     ["9", "1","1"," ","2"," "," ","0"," ","9"],
      ["4", " "," "," "," "," "," "," "," ","4"],
      ["9", " "," "," ","P"," "," "," "," ","9"],
      ["9", " ","5"," "," "," "," "," "," ","9"],

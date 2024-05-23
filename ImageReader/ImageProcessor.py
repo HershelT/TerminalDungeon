@@ -31,7 +31,34 @@ ansi_colors = generate_ansi_colors()
 #         file.write(f"{rgb[0]} {rgb[1]} {rgb[2]} Color\n")
 # Loop through each pixel in the image to get the rgb value
 pixel_to_ansicode = {}
+import copy
+class Pixel: 
+    def __init__(self, image: list):
+        self.image = image
+    def get(self):
+        return self.image
+    def getCopy(self, image):
+        return Pixel(copy.deepcopy(image))
+    def getPixel(self, row, col):
+        return self.image[row][col]
+    def setPixel(self, row, col, color):
+        self.image[row][col] = color
+    def replaceAllPixels(self, newColor):
+        for row in range(len(self.image)):
+            for col in range(len(self.image[row])):
+                self.image[row][col] = newColor
+    def replacePixels(self, oldColor, newColor):
+        for row in range(len(self.image)):
+            for col in range(len(self.image[row])):
+                if self.image[row][col] == oldColor:
+                    self.image[row][col] = newColor
+    def getColorAtSpot(self, row, col):
+        return self.image[row][col]
+    
+    
+
 class pixelImage:
+    
     @staticmethod
     def trim_image(img):
     # Convert the image to RGB if it's not already
@@ -55,12 +82,14 @@ class pixelImage:
         return img
     def __init__(self, img : list , scaleRatio = False):
         imageList = []
+
         self.ImageAnscii = []
         for image in img:
             imageList.append(self.trim_image(Image.open(image)))
             # imageList.append(Image.open(image))
         for rgb in imageList:
-            self.ImageAnscii.append(self.getPixelToAnscii(rgb, scaleRatio))
+            pixel = self.getPixelToAnscii(rgb, scaleRatio)
+            self.ImageAnscii.append(Pixel(pixel))
 
     def getAnsciiList(self):
         return self.ImageAnscii
@@ -105,8 +134,12 @@ class pixelImage:
         print('\033[0m\n'.join(''.join(row) for row in imageAnscii), end=reset)
     def printOutNumpy(self, imageAnscii : list):
         print(np.array(imageAnscii))
-    def getPixelArray(self, imageAtSpot):
-        return self.ImageAnscii[imageAtSpot]
+    def getPixel(self, index) -> Pixel:
+        return self.ImageAnscii[index]
+    def getPixelArray(self, index):
+        array : Pixel = self.ImageAnscii[index]
+        return array.get()
+    
 
 # Convert the 2D array to a string
 
@@ -118,18 +151,18 @@ dir_sep = '\\' if is_windows else '/'
 
 #declare all the images
 humanList = [f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human1.png',
-f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human2.png',
-f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human3.png',
-f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human4.png',
-f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human5.png',
-f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human6.png',
-f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human7.png',
-f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human8.png',
-f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human9.png',
-f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human10.png',
-f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human11.png']
+            f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human2.png',
+            f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human3.png',
+            f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human4.png',
+            f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human5.png',
+            f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human6.png',
+            f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human7.png',
+            f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human8.png',
+            f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human9.png',
+            f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human10.png',
+            f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Human11.png']
 bulletList = [f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Bullet1.png',
-f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Bullet2.png']
+            f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Bullet2.png']
 heartList = [f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Heart.png']
 healthList = [f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Health1.png',
               f'ImageReader{dir_sep}PythonTerminalSprites{dir_sep}Health2.png',

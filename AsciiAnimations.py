@@ -507,6 +507,7 @@ def createArrayinArray(text: str):
                 row.extend([current_color + char for char in segment])
         newText.append(row)
     return newText
+# This class is used to create a pixelated version of the entity
 class PixelDesigner:
     def __init__(self, entity : str) -> None:
         self.entity = entity

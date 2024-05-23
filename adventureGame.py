@@ -1,6 +1,7 @@
 import traceback
-from typing import Any
+# from typing import Any
 from termcolor import *
+from AsciiAnimations import *
 # from json import load
 # import turtle; from tkinter import *; 
 from Data import *; from itemsList import *; from storyAdventure import *; from monsterList import *
@@ -74,6 +75,7 @@ def loadMap(biome = False):
         counterM = 0; ends = "\033[0m"; starts = " "*65; lineMark = "\033[94m|\033[0m"
         lengthC+=1; rowCount += 1
     print(" "*63,"\033[94m","\033[94m\u203e"*(int(biome.getWidth()*1.2)) + "\033[0m", "\033[K", flush= True)
+    print(" "*63, yellow + "Gold: " + reset, flush= True)
     # print(" "*64,f" \033[033mLvL: {User['LVL']}", "\33[94m\u203e"*(int(Call.biMap.getWidth()*2.1)),end = "\33[0m\033[K", flush= True)
     print("\033[?25h", end="",flush=True)
     mapErase(12)
@@ -206,6 +208,12 @@ def Movement():
             Call.biMap.setStuffPos(Movement.spotN,Movement.spotE, Movement.userImage)
             mapErase(1);loadMap()
             print(f"{SpotAhead[2].getLook()} : {SpotAhead[2].getName()} " + colored(f"Blocks Your Path\n{SpotAhead[2].getMessage()}","red"))
+            return False
+        elif isinstance(SpotAhead[2], StoreKeeper): #Work on later after finals only if you pass
+            Call.biMap.setStuffPos(Movement.spotN,Movement.spotE, Movement.userImage)
+            mapErase(1);loadMap()
+            print(yellow, f"{SpotAhead[2].getName()} Wants to shop with you", reset)
+            print(SpotAhead[2].getItemsAndPrices())
             return False
         else:
             Call.biMap.setStuffPos(Movement.spotN,Movement.spotE,Movement.pre)
@@ -1293,7 +1301,7 @@ def Input():
     Call()
 Call.biMap = mapGreenland
 try:
-    debugging = False
+    debugging = True
     if not debugging:
         import loadscreen
     mess = ""
